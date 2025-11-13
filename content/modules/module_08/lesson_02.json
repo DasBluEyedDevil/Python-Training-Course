@@ -1,0 +1,130 @@
+{
+  "lesson_id": "08_02",
+  "title": "Try/Except/Finally Blocks - Complete Error Handling",
+  "module_id": 8,
+  "order_index": 2,
+  "description": "Master the complete error handling structure: try, except, else, and finally. Learn when to use each part and how to handle cleanup code that must run no matter what.",
+  "estimated_minutes": 30,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: The Complete Safety Protocol",
+      "content": "Imagine you're a lab scientist handling dangerous chemicals:\n\n**TRY:** You attempt the experiment (risky operation)\n**EXCEPT:** If something goes wrong (chemical spills), you have specific protocols for each type of emergency (fire = fire extinguisher, spill = neutralizer)\n**ELSE:** If the experiment succeeds without incident, you record the successful results\n**FINALLY:** No matter what happened (success or disaster), you ALWAYS wash your hands, turn off equipment, and lock the lab before leaving\n\nThe **finally block** is the key new concept here. It runs NO MATTER WHAT - whether the try succeeded, failed, or even if you return early. It's for cleanup code that MUST happen.\n\n**Real-world scenarios:**\n- Opening a file: Finally block ensures the file is closed, even if reading fails\n- Database connection: Finally ensures disconnection, even if query fails\n- Network request: Finally ensures connection is closed properly\n\nThink of finally as the \"no matter what\" code - code so important it runs even if the program is about to crash or return."
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: The Complete Structure",
+      "code": "# Example 1: File handling with finally\nprint(\"=== File Handling Example ===\")\n\nfile_opened = False\ntry:\n    print(\"Attempting to read file...\")\n    # Simulating file operations\n    filename = \"data.txt\"\n    print(f\"Opening {filename}\")\n    file_opened = True\n    \n    # Simulate processing - this might fail!\n    # Uncomment next line to simulate an error:\n    # raise ValueError(\"Data format error!\")\n    \n    print(\"Processing file data...\")\n    print(\"File processed successfully!\")\n    \nexcept FileNotFoundError:\n    print(\"ERROR: File not found!\")\n    print(\"Please check the filename and try again.\")\n    \nexcept ValueError as e:\n    print(f\"ERROR: Invalid data in file: {e}\")\n    print(\"File may be corrupted.\")\n    \nelse:\n    # This runs ONLY if NO exception occurred\n    print(\"SUCCESS: All operations completed without errors!\")\n    print(\"Ready to use the data.\")\n    \nfinally:\n    # This runs NO MATTER WHAT - success, error, or return\n    print(\"\\n--- CLEANUP (Finally block) ---\")\n    if file_opened:\n        print(\"Closing file...\")\n        print(\"File closed successfully.\")\n    print(\"Cleanup complete!\")\n    print(\"--- End of operation ---\\n\")\n\n# Example 2: Division with complete error handling\nprint(\"=== Division Calculator ===\")\n\ndef safe_divide(a, b):\n    result = None\n    try:\n        print(f\"Attempting to divide {a} by {b}\")\n        result = a / b\n        \n    except ZeroDivisionError:\n        print(\"ERROR: Cannot divide by zero!\")\n        return None\n        \n    except TypeError:\n        print(\"ERROR: Both values must be numbers!\")\n        return None\n        \n    else:\n        # Runs only if division succeeded\n        print(f\"Division successful: {a} / {b} = {result}\")\n        \n    finally:\n        # Runs no matter what - even if we returned early!\n        print(\"[Finally: Logging this operation to system]\")\n        \n    return result\n\n# Test cases\nprint(\"Test 1: Normal division\")\nresult1 = safe_divide(10, 2)\nprint(f\"Result: {result1}\\n\")\n\nprint(\"Test 2: Division by zero\")\nresult2 = safe_divide(10, 0)\nprint(f\"Result: {result2}\\n\")\n\nprint(\"Test 3: Invalid type\")\nresult3 = safe_divide(10, \"two\")\nprint(f\"Result: {result3}\")",
+      "explanation": "The complete structure:\n1. **try**: Attempt the risky operation\n2. **except**: Handle specific errors (can have multiple except blocks)\n3. **else**: Runs ONLY if no exception occurred (optional)\n4. **finally**: Runs NO MATTER WHAT - even if there's a return statement (optional but powerful)\n\nNotice how finally runs even when we return early in the except blocks!",
+      "output": "=== File Handling Example ===\nAttempting to read file...\nOpening data.txt\nProcessing file data...\nFile processed successfully!\nSUCCESS: All operations completed without errors!\nReady to use the data.\n\n--- CLEANUP (Finally block) ---\nClosing file...\nFile closed successfully.\nCleanup complete!\n--- End of operation ---\n\n=== Division Calculator ===\nTest 1: Normal division\nAttempting to divide 10 by 2\nDivision successful: 10 / 2 = 5.0\n[Finally: Logging this operation to system]\nResult: 5.0\n\nTest 2: Division by zero\nAttempting to divide 10 by 0\nERROR: Cannot divide by zero!\n[Finally: Logging this operation to system]\nResult: None\n\nTest 3: Invalid type\nAttempting to divide 10 by two\nERROR: Both values must be numbers!\n[Finally: Logging this operation to system]\nResult: None"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown: The Four Parts",
+      "content": "**Complete try/except/else/finally structure:**\n```python\ntry:\n    # Risky code that might fail\n    risky_operation()\n    \nexcept SpecificError1:\n    # Handle this specific error\n    handle_error_1()\n    \nexcept SpecificError2:\n    # Handle a different error\n    handle_error_2()\n    \nelse:\n    # Runs ONLY if NO exception occurred\n    success_operations()\n    \nfinally:\n    # Runs NO MATTER WHAT\n    cleanup_code()\n```\n\n**When each part runs:**\n\n**try block:**\n- ALWAYS runs first\n- Stops at the first exception\n\n**except blocks:**\n- Run ONLY if an exception occurs in try\n- Python checks each except block in order\n- Only the FIRST matching except runs\n- Can have multiple except blocks for different errors\n\n**else block (optional):**\n- Runs ONLY if try completed WITHOUT any exception\n- Doesn't run if an exception occurred\n- Good for \"success-only\" code\n- Must come after except blocks, before finally\n\n**finally block (optional):**\n- Runs NO MATTER WHAT happens\n- Runs after try succeeds\n- Runs after except handles error\n- Runs even if there's a return statement\n- Runs even if a new exception occurs\n- Perfect for cleanup: closing files, releasing resources, logging\n\n**Multiple except blocks syntax:**\n```python\nexcept ValueError:\n    # Handle ValueError\n    \nexcept ZeroDivisionError:\n    # Handle ZeroDivisionError\n    \nexcept (TypeError, KeyError):  # Multiple in one block\n    # Handle either TypeError or KeyError\n```\n\n**Capturing the exception object:**\n```python\nexcept ValueError as e:\n    print(f\"Error details: {e}\")\n    # 'e' contains the exception object with error info\n```"
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise: Build a Safe List Accessor",
+      "instruction": "Create a function that safely accesses a list element by index. Handle multiple types of errors:\n- IndexError if index is out of range\n- TypeError if index is not an integer\n- Use else block to print success message\n- Use finally block to log the attempt\n\n**Your task:**\n1. Create a try block that accesses the list at the given index\n2. Add except block for IndexError\n3. Add except block for TypeError\n4. Add else block for successful access\n5. Add finally block to log the attempt\n\n**Test with:** my_list = [10, 20, 30, 40, 50]\n\n**Starter code:**",
+      "starter_code": "def safe_get_item(items, index):\n    result = None\n    \n    # TODO: Add try block\n    # TODO: Try to access items[index]\n    \n    # TODO: Add except IndexError block\n    # Print error message and return None\n    \n    # TODO: Add except TypeError block\n    # Print error message and return None\n    \n    # TODO: Add else block\n    # Print success message\n    \n    # TODO: Add finally block\n    # Print log message about the attempt\n    \n    return result\n\n# Test cases\nmy_list = [10, 20, 30, 40, 50]\nprint(safe_get_item(my_list, 2))   # Valid index\nprint(safe_get_item(my_list, 10))  # Out of range\nprint(safe_get_item(my_list, \"a\")) # Wrong type",
+      "hint": "Structure: try → access items[index] → except IndexError → except TypeError → else → finally. Remember to set result in the try block!"
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution & Common Mistakes",
+      "solution_code": "def safe_get_item(items, index):\n    \"\"\"Safely access a list item with comprehensive error handling.\"\"\"\n    result = None\n    \n    try:\n        # Try to access the item\n        result = items[index]\n        \n    except IndexError:\n        # Index is out of range\n        print(f\"ERROR: Index {index} is out of range.\")\n        print(f\"List has {len(items)} items (valid indices: 0-{len(items)-1})\")\n        return None\n        \n    except TypeError:\n        # Index is not an integer\n        print(f\"ERROR: Index must be an integer, not {type(index).__name__}\")\n        return None\n        \n    else:\n        # Runs only if no exception occurred\n        print(f\"SUCCESS: Retrieved items[{index}] = {result}\")\n        \n    finally:\n        # Runs no matter what - even with early returns!\n        print(f\"[Finally: Logged access attempt for index {index}]\\n\")\n        \n    return result\n\n# Test cases\nprint(\"=== Test Cases ===\")\n\nmy_list = [10, 20, 30, 40, 50]\n\nprint(\"Test 1: Valid index (2)\")\nresult1 = safe_get_item(my_list, 2)\nprint(f\"Returned: {result1}\\n\")\n\nprint(\"Test 2: Out of range index (10)\")\nresult2 = safe_get_item(my_list, 10)\nprint(f\"Returned: {result2}\\n\")\n\nprint(\"Test 3: Invalid type ('a')\")\nresult3 = safe_get_item(my_list, \"a\")\nprint(f\"Returned: {result3}\\n\")\n\nprint(\"Test 4: Negative index (-1, which IS valid in Python!)\")\nresult4 = safe_get_item(my_list, -1)\nprint(f\"Returned: {result4}\")",
+      "explanation": "The function demonstrates the complete error handling flow:\n1. **try** attempts list access\n2. **except IndexError** catches out-of-range indices\n3. **except TypeError** catches non-integer indices  \n4. **else** runs only on successful access\n5. **finally** ALWAYS logs the attempt, even when returning early\n\nNotice that finally runs even when we return in the except blocks!",
+      "output": "=== Test Cases ===\nTest 1: Valid index (2)\nSUCCESS: Retrieved items[2] = 30\n[Finally: Logged access attempt for index 2]\n\nReturned: 30\n\nTest 2: Out of range index (10)\nERROR: Index 10 is out of range.\nList has 5 items (valid indices: 0-4)\n[Finally: Logged access attempt for index 10]\n\nReturned: None\n\nTest 3: Invalid type ('a')\nERROR: Index must be an integer, not str\n[Finally: Logged access attempt for index a]\n\nReturned: None\n\nTest 4: Negative index (-1, which IS valid in Python!)\nSUCCESS: Retrieved items[-1] = 50\n[Finally: Logged access attempt for index -1]\n\nReturned: 50",
+      "common_mistakes": [
+        {
+          "mistake": "Putting else before except blocks",
+          "wrong_code": "try:\n    result = items[index]\nelse:\n    print(\"Success!\")\nexcept IndexError:\n    print(\"Error!\")",
+          "correct_code": "try:\n    result = items[index]\nexcept IndexError:\n    print(\"Error!\")\nelse:\n    print(\"Success!\")",
+          "explanation": "Order matters! Must be: try → except(s) → else → finally. Python will give a SyntaxError if you put else before except."
+        },
+        {
+          "mistake": "Thinking finally only runs on success",
+          "wrong_code": "try:\n    risky_op()\nfinally:\n    # Thinking this only runs if try succeeded",
+          "correct_code": "try:\n    risky_op()\nexcept SomeError:\n    handle_error()\nfinally:\n    # This runs SUCCESS or FAILURE",
+          "explanation": "Finally runs NO MATTER WHAT - success, error, return, break, continue. It's guaranteed to run. Use it for cleanup that MUST happen."
+        },
+        {
+          "mistake": "Not setting result in try block before accessing it",
+          "wrong_code": "def get_item(items, index):\n    try:\n        items[index]  # Result not captured!\n    except IndexError:\n        return None\n    return result  # result not defined!",
+          "correct_code": "def get_item(items, index):\n    result = None  # Initialize\n    try:\n        result = items[index]  # Capture\n    except IndexError:\n        return None\n    return result",
+          "explanation": "Always initialize variables before try block and assign in try. Otherwise, if exception occurs before assignment, variable won't exist."
+        },
+        {
+          "mistake": "Catching the wrong exception type",
+          "wrong_code": "try:\n    result = items[index]\nexcept ValueError:  # Wrong!\n    print(\"Out of range\")",
+          "correct_code": "try:\n    result = items[index]\nexcept IndexError:  # Correct!\n    print(\"Out of range\")",
+          "explanation": "List access raises IndexError (not ValueError) when index is out of range. Always catch the specific exception that code actually raises. Test your code to see what exceptions occur!"
+        },
+        {
+          "mistake": "Putting return in finally block",
+          "wrong_code": "try:\n    result = risky_op()\n    return result\nfinally:\n    return None  # BAD: Overrides try return!",
+          "correct_code": "try:\n    result = risky_op()\n    return result\nfinally:\n    cleanup()  # Good: cleanup only",
+          "explanation": "Return in finally overrides any return in try/except blocks. Finally is for cleanup, not returning values. This is confusing and should be avoided."
+        }
+      ]
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Complete structure order:** try → except(s) → else (optional) → finally (optional). This order is mandatory.",
+        "**Multiple except blocks** let you handle different exceptions differently. Python checks them in order and runs the first match.",
+        "**else block** runs ONLY if try completed without any exception. Perfect for 'success-only' operations.",
+        "**finally block** runs NO MATTER WHAT - success, error, return, break, or continue. Guaranteed to execute.",
+        "**Use finally for cleanup:** Closing files, releasing resources, logging, disconnecting from databases - anything that MUST happen.",
+        "**Capture exception details** with 'as': except ValueError as e: lets you access the error message and details.",
+        "**Finally runs even with return:** If you return in try or except, finally still runs before the function actually returns.",
+        "**Common exception types:** IndexError (list index out of range), TypeError (wrong type), ValueError (wrong value), FileNotFoundError (file doesn't exist)."
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "When does the finally block execute?",
+        "options": [
+          "Only if the try block succeeds",
+          "Only if an exception occurs",
+          "Only if there's a return statement",
+          "Always, no matter what happens"
+        ],
+        "correct_answer": 3,
+        "explanation": "The finally block ALWAYS executes, regardless of whether the try succeeds, an exception occurs, or there's a return statement. It's guaranteed to run, making it perfect for cleanup code like closing files or releasing resources."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "What is the correct order for try/except/else/finally?",
+        "options": [
+          "try → else → except → finally",
+          "try → except → finally → else",
+          "try → except → else → finally",
+          "The order doesn't matter"
+        ],
+        "correct_answer": 2,
+        "explanation": "The mandatory order is: try → except(s) → else (optional) → finally (optional). Python enforces this order - any other arrangement will cause a SyntaxError."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "When does the else block run?",
+        "options": [
+          "Always, no matter what",
+          "Only if an exception occurs",
+          "Only if NO exception occurs in the try block",
+          "Only if finally runs"
+        ],
+        "correct_answer": 2,
+        "explanation": "The else block runs ONLY if the try block completes successfully without any exception. If any exception occurs, the else block is skipped. It's useful for code that should only run on success."
+      }
+    ]
+  }
+}

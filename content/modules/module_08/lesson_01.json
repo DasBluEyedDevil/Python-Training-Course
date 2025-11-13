@@ -1,0 +1,123 @@
+{
+  "lesson_id": "08_01",
+  "title": "Introduction to Exceptions and Error Handling",
+  "module_id": 8,
+  "order_index": 1,
+  "description": "Understanding what exceptions are, why programs crash, and how to handle errors gracefully instead of letting your program explode.",
+  "estimated_minutes": 25,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: Catching a Falling Vase",
+      "content": "Imagine you're juggling expensive vases. Without preparation, if you drop one, it SHATTERS on the floor and the show ends. But what if you placed soft pillows on the floor? The vase might still fall (error happens), but instead of shattering (program crash), it lands safely on the pillow (error is caught and handled), and you can keep juggling (program continues).\n\nThis is **error handling**. Errors WILL happen (users type wrong input, files don't exist, networks fail). The question is: does your program crash spectacularly, or does it catch the error gracefully and continue?\n\n**Real-world scenario:** You're running an ATM program. A user types 'abc' instead of a number for withdrawal amount. Without error handling, the ATM crashes and displays a cryptic error. WITH error handling, it shows \"Please enter a valid number\" and lets them try again. Which would you prefer?"
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: The Crash vs. The Catch",
+      "code": "# WITHOUT ERROR HANDLING - Program crashes!\nprint(\"=== Without Error Handling ===\")\nprint(\"Enter your age:\")\n# If user types 'twenty' instead of 20, this crashes:\n# age = int(input())  # Commented to prevent crash in example\n# print(f\"You are {age} years old\")\nprint(\"Program would crash here if user typed 'twenty'\\n\")\n\n# WITH ERROR HANDLING - Program handles it gracefully!\nprint(\"=== With Error Handling ===\")\nprint(\"Enter your age:\")\n\ntry:\n    # This is the \"risky\" code that might fail\n    age_input = \"twenty\"  # Simulating user typing 'twenty'\n    age = int(age_input)  # This will cause an error!\n    print(f\"You are {age} years old\")\nexcept ValueError:\n    # This code runs if the error happens\n    print(\"Oops! That's not a valid number.\")\n    print(\"Please enter your age as a number (e.g., 25)\")\n    age = 25  # Set a default or ask again\n\nprint(\"Program continues running!\")\nprint(f\"Age set to: {age}\")\n\n# Another example: Division by zero\nprint(\"\\n=== Division Example ===\")\n\ntry:\n    result = 10 / 0  # This will cause a ZeroDivisionError!\n    print(f\"Result: {result}\")\nexcept ZeroDivisionError:\n    print(\"Cannot divide by zero!\")\n    print(\"Setting result to 0\")\n    result = 0\n\nprint(f\"Final result: {result}\")\nprint(\"Program finished successfully!\")",
+      "explanation": "The try block contains code that might fail. If an error occurs, instead of crashing, Python jumps to the matching except block and runs that code instead. The program continues after the except block!",
+      "output": "=== Without Error Handling ===\nEnter your age:\nProgram would crash here if user typed 'twenty'\n\n=== With Error Handling ===\nEnter your age:\nOops! That's not a valid number.\nPlease enter your age as a number (e.g., 25)\nProgram continues running!\nAge set to: 25\n\n=== Division Example ===\nCannot divide by zero!\nSetting result to 0\nFinal result: 0\nProgram finished successfully!"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown: The Safety Net Structure",
+      "content": "**Basic try/except structure:**\n```\ntry:\n    # Code that might cause an error\n    risky_operation()\nexcept ErrorType:\n    # Code that runs if that specific error happens\n    handle_the_error()\n```\n\n**The flow:**\n1. Python tries to run code in the `try` block\n2. If NO error: except block is skipped, program continues\n3. If error happens: Python immediately jumps to the matching `except` block\n4. After except block finishes: program continues normally\n\n**Key terms explained:**\n- **Exception:** Python's technical term for an error that happens while the program runs (not a syntax error)\n- **ValueError:** A type of exception that happens when you try to convert invalid data (like \"abc\" to an integer)\n- **ZeroDivisionError:** Exception when dividing by zero\n- **try block:** The \"risky\" code you want to protect\n- **except block:** The \"safety net\" that catches the error\n\n**Syntax errors vs. Exceptions:**\n- **Syntax Error:** Code written wrong (missing colon, wrong indentation). Python won't even start running.\n- **Exception:** Code is written correctly, but something goes wrong during execution (file doesn't exist, network fails, wrong data type). This is what try/except handles.\n\n**Example:**\n```python\nif True  # Syntax error - missing colon, won't run at all\n\nint(\"abc\")  # Valid syntax, but raises ValueError exception when it runs\n```"
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise: Build a Safe Number Converter",
+      "instruction": "Create a program that asks the user for a number and converts it safely. If they enter invalid input, give them a friendly message and use a default value of 0.\n\n**Your task:**\n1. Create a try/except block\n2. Try to convert user input to an integer\n3. If it fails (ValueError), print a helpful message\n4. Use a default value of 0 if conversion fails\n5. Print the final number\n\n**Starter code:**",
+      "starter_code": "# Safe number converter\nprint(\"Enter a number:\")\nuser_input = \"not a number\"  # Simulate user input\n\n# TODO: Add try block here\n# TODO: Try to convert user_input to an integer\nnumber = ???\n\n# TODO: Add except ValueError block here\n# TODO: Print helpful message and set number = 0\n\nprint(f\"The number is: {number}\")",
+      "hint": "Use try: followed by number = int(user_input), then except ValueError: with a friendly message and number = 0."
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution & Common Mistakes",
+      "solution_code": "# Safe number converter\nprint(\"Enter a number:\")\nuser_input = \"not a number\"  # Simulate user input\n\ntry:\n    # Try to convert the input to an integer\n    number = int(user_input)\n    print(\"Conversion successful!\")\nexcept ValueError:\n    # If conversion fails, handle it gracefully\n    print(\"That's not a valid number!\")\n    print(\"Using default value of 0\")\n    number = 0\n\nprint(f\"The number is: {number}\")\n\n# Testing with valid input\nprint(\"\\n=== Testing with valid input ===\")\nuser_input = \"42\"\n\ntry:\n    number = int(user_input)\n    print(\"Conversion successful!\")\nexcept ValueError:\n    print(\"That's not a valid number!\")\n    number = 0\n\nprint(f\"The number is: {number}\")",
+      "explanation": "The try block attempts the risky conversion. If user_input can't be converted to int, Python raises a ValueError. The except block catches it, prints a friendly message, and sets a default value. The program continues without crashing!",
+      "output": "Enter a number:\nThat's not a valid number!\nUsing default value of 0\nThe number is: 0\n\n=== Testing with valid input ===\nConversion successful!\nThe number is: 42",
+      "common_mistakes": [
+        {
+          "mistake": "Forgetting the colon after try and except",
+          "wrong_code": "try\n    number = int(user_input)\nexcept ValueError\n    number = 0",
+          "correct_code": "try:\n    number = int(user_input)\nexcept ValueError:\n    number = 0",
+          "explanation": "Both try and except need colons, just like if statements and loops."
+        },
+        {
+          "mistake": "Not indenting the code inside try/except blocks",
+          "wrong_code": "try:\nnumber = int(user_input)\nexcept ValueError:\nnumber = 0",
+          "correct_code": "try:\n    number = int(user_input)\nexcept ValueError:\n    number = 0",
+          "explanation": "Everything inside try and except blocks MUST be indented (4 spaces or 1 tab)."
+        },
+        {
+          "mistake": "Defining the variable only in the try block",
+          "wrong_code": "try:\n    number = int(user_input)\nexcept ValueError:\n    print(\"Error!\")\n# number might not exist here!",
+          "correct_code": "try:\n    number = int(user_input)\nexcept ValueError:\n    print(\"Error!\")\n    number = 0  # Make sure it's defined\nprint(number)  # Safe to use now",
+          "explanation": "If an exception occurs, code after the error in the try block doesn't run. Always define variables in the except block too if you need them later."
+        },
+        {
+          "mistake": "Using a bare except without specifying the exception type",
+          "wrong_code": "try:\n    number = int(user_input)\nexcept:  # Catches EVERYTHING - too broad!\n    number = 0",
+          "correct_code": "try:\n    number = int(user_input)\nexcept ValueError:  # Specific exception\n    number = 0",
+          "explanation": "Always specify the exception type (ValueError, ZeroDivisionError, etc.). Bare except catches everything, including system errors and keyboard interrupts, which can hide bugs."
+        }
+      ]
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Exceptions are runtime errors** that happen when code runs (not syntax errors). Without handling, they crash your program.",
+        "**try/except blocks** let you catch exceptions and handle them gracefully instead of crashing. The program continues running after the except block.",
+        "**try block** contains risky code that might fail. **except block** contains the code to run if an error occurs.",
+        "**Always specify the exception type** in except blocks (like ValueError, ZeroDivisionError). Don't use bare except: clauses.",
+        "**Common exceptions:** ValueError (invalid data conversion), ZeroDivisionError (dividing by zero), TypeError (wrong data type).",
+        "**Error handling makes programs robust** - they can handle unexpected situations without crashing, providing better user experience.",
+        "**The flow:** Try runs first → if error, jump to except → after except, program continues normally. If no error, except is skipped entirely."
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "What happens when an exception occurs in a try block?",
+        "options": [
+          "The program crashes immediately",
+          "Python jumps to the matching except block",
+          "Python ignores the error and continues",
+          "The try block runs again"
+        ],
+        "correct_answer": 1,
+        "explanation": "When an exception occurs in a try block, Python immediately stops executing the try block and jumps to the matching except block. This prevents the program from crashing and allows you to handle the error gracefully."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "What type of exception does int('abc') raise?",
+        "options": [
+          "TypeError",
+          "ValueError",
+          "ZeroDivisionError",
+          "SyntaxError"
+        ],
+        "correct_answer": 1,
+        "explanation": "int('abc') raises a ValueError because 'abc' cannot be converted to an integer. ValueError is raised when a function receives an argument of the correct type but with an inappropriate value."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "Why should you avoid using bare except: clauses without specifying an exception type?",
+        "options": [
+          "They run slower",
+          "They only catch some errors",
+          "They catch ALL exceptions, including system errors, which can hide bugs",
+          "They don't work in Python 3"
+        ],
+        "correct_answer": 2,
+        "explanation": "Bare except: clauses catch EVERY exception, including KeyboardInterrupt (Ctrl+C) and SystemExit. This can hide bugs and make debugging harder. Always specify the exact exception type you want to catch (like ValueError or ZeroDivisionError)."
+      }
+    ]
+  }
+}

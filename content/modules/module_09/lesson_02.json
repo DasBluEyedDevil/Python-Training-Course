@@ -1,0 +1,132 @@
+{
+  "lesson_id": "09_02",
+  "title": "Context Managers and the with Statement",
+  "module_id": 9,
+  "order_index": 2,
+  "description": "Master Python's context managers using the 'with' statement. Learn why this is the professional way to handle files, automatic resource cleanup, and how to avoid common file handling bugs.",
+  "estimated_minutes": 25,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: The Self-Closing Door",
+      "content": "Remember how you must manually call file.close()? What if you forget? What if an error occurs before you close the file? The file stays open (resource leak)!\n\n**The Problem with Manual Closing:**\n\n```python\nfile = open(\"data.txt\", \"r\")\ncontent = file.read()\n# Oh no! Error here before close()\nfile.close()  # This never runs!\n```\n\nIf an error occurs before close(), the file stays open forever (or until program ends).\n\n**Real-world analogy: Self-Closing Doors**\n\nRegular file handling is like a manual door:\n- You open it\n- You use the room\n- You MUST remember to close it\n- If you forget or something goes wrong, door stays open\n\n**Context managers (with statement)** are like self-closing doors:\n- You open the door (enter the room)\n- You use the room\n- Door AUTOMATICALLY closes when you leave, GUARANTEED\n- Even if you trip and fall (error), door still closes!\n\nThe **with statement** is Python's way of saying: \"Let me handle the cleanup for you.\"\n\n**Old way (manual):**\n```python\nfile = open(\"data.txt\", \"r\")\ntry:\n    content = file.read()\nfinally:\n    file.close()  # Must remember this!\n```\n\n**New way (with statement):**\n```python\nwith open(\"data.txt\", \"r\") as file:\n    content = file.read()\n# File automatically closed here, even if error!\n```\n\n**Benefits of with:**\n1. **Automatic cleanup** - file closes automatically\n2. **Error safe** - closes even if exception occurs\n3. **Cleaner code** - no need for try/finally\n4. **Professional** - this is how Python experts write code\n\n**When to use with:**\n- Files (always!)\n- Database connections\n- Network sockets\n- Locks and semaphores\n- Any resource that needs cleanup\n\nFrom now on, ALWAYS use 'with' for files. It's the Pythonic way!"
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: with Statement in Action",
+      "code": "# Example 1: Basic with statement\nprint(\"=== Basic with Statement ===\")\n\n# Write to file using with\nwith open(\"demo.txt\", \"w\") as file:\n    file.write(\"Line 1\\n\")\n    file.write(\"Line 2\\n\")\n    file.write(\"Line 3\\n\")\n# File automatically closed here!\n\nprint(\"✓ File written and auto-closed\")\n\n# Read from file using with\nwith open(\"demo.txt\", \"r\") as file:\n    content = file.read()\n    print(\"\\nContent:\")\n    print(content)\n# File automatically closed here!\n\nprint(\"✓ File read and auto-closed\\n\")\n\n# Example 2: with handles errors automatically\nprint(\"=== Error Handling with 'with' ===\")\n\ntry:\n    with open(\"demo.txt\", \"r\") as file:\n        print(\"Reading file...\")\n        content = file.read()\n        print(\"File content retrieved\")\n        \n        # Simulate an error\n        raise ValueError(\"Simulated error!\")\n        \n        print(\"This line never runs\")\n        \nexcept ValueError as e:\n    print(f\"Error occurred: {e}\")\n    print(\"But file was STILL closed automatically!\\n\")\n\n# Example 3: Multiple files at once\nprint(\"=== Opening Multiple Files ===\")\n\n# Write source file\nwith open(\"source.txt\", \"w\") as file:\n    file.write(\"This is the source content.\\n\")\n\nprint(\"✓ Source file created\")\n\n# Copy from one file to another\nwith open(\"source.txt\", \"r\") as source, \\\n     open(\"destination.txt\", \"w\") as dest:\n    \n    # Read from source\n    content = source.read()\n    \n    # Write to destination\n    dest.write(content)\n    dest.write(\"This line was added during copy.\\n\")\n\nprint(\"✓ File copied\")\n\n# Verify\nwith open(\"destination.txt\", \"r\") as file:\n    print(\"\\nDestination content:\")\n    print(file.read())\n\n# Example 4: with vs. manual closing comparison\nprint(\"=== Comparison: with vs. Manual ===\")\n\nprint(\"\\nManual way (old, error-prone):\")\ntry:\n    file = open(\"manual.txt\", \"w\")\n    file.write(\"Manual closing\\n\")\nfinally:\n    file.close()\n    print(\"  ✓ Had to remember to close in finally\")\n\nprint(\"\\nWith statement (modern, safe):\")\nwith open(\"with.txt\", \"w\") as file:\n    file.write(\"Automatic closing\\n\")\nprint(\"  ✓ Automatically closed, no finally needed\")\n\n# Example 5: Reading file line by line with 'with'\nprint(\"\\n=== Line-by-Line Reading ===\")\n\n# Create test file\nwith open(\"lines.txt\", \"w\") as file:\n    for i in range(1, 6):\n        file.write(f\"Line {i}: Some content here\\n\")\n\nprint(\"✓ Created test file\")\n\n# Read line by line\nprint(\"\\nReading line by line:\")\nwith open(\"lines.txt\", \"r\") as file:\n    for line_num, line in enumerate(file, 1):\n        print(f\"  {line_num}. {line.strip()}\")\n\nprint(\"\\n✓ File automatically closed after iteration\")\n\n# Example 6: Appending with 'with'\nprint(\"\\n=== Appending to File ===\")\n\nwith open(\"log.txt\", \"w\") as file:\n    file.write(\"Log started\\n\")\n\nprint(\"✓ Log file created\")\n\nwith open(\"log.txt\", \"a\") as file:\n    file.write(\"Entry 1: User logged in\\n\")\n    file.write(\"Entry 2: User viewed dashboard\\n\")\n    file.write(\"Entry 3: User logged out\\n\")\n\nprint(\"✓ Entries appended\")\n\nwith open(\"log.txt\", \"r\") as file:\n    print(\"\\nLog content:\")\n    print(file.read())\n\nprint(\"=== All examples completed ===\")",
+      "explanation": "The with statement provides:\n1. **Automatic resource management** - file closes when block ends\n2. **Exception safety** - file closes even if error occurs\n3. **Cleaner syntax** - no need for try/finally\n4. **Multiple resources** - can open multiple files in one with\n5. **Iteration support** - can iterate over file object directly\n\nThe syntax: with open(filename, mode) as variable: means \"open this file, call it 'variable', and auto-close when done.\"",
+      "output": "=== Basic with Statement ===\n✓ File written and auto-closed\n\nContent:\nLine 1\nLine 2\nLine 3\n\n✓ File read and auto-closed\n\n=== Error Handling with 'with' ===\nReading file...\nFile content retrieved\nError occurred: Simulated error!\nBut file was STILL closed automatically!\n\n=== Opening Multiple Files ===\n✓ Source file created\n✓ File copied\n\nDestination content:\nThis is the source content.\nThis line was added during copy.\n\n=== Comparison: with vs. Manual ===\n\nManual way (old, error-prone):\n  ✓ Had to remember to close in finally\n\nWith statement (modern, safe):\n  ✓ Automatically closed, no finally needed\n\n=== Line-by-Line Reading ===\n✓ Created test file\n\nReading line by line:\n  1. Line 1: Some content here\n  2. Line 2: Some content here\n  3. Line 3: Some content here\n  4. Line 4: Some content here\n  5. Line 5: Some content here\n\n✓ File automatically closed after iteration\n\n=== Appending to File ===\n✓ Log file created\n✓ Entries appended\n\nLog content:\nLog started\nEntry 1: User logged in\nEntry 2: User viewed dashboard\nEntry 3: User logged out\n\n=== All examples completed ==="
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown: The with Statement",
+      "content": "**Basic with syntax:**\n```python\nwith open(filename, mode) as variable_name:\n    # Code that uses the file\n    # File is open inside this indented block\n# File automatically closed here (outside block)\n```\n\n**Reading with 'with':**\n```python\nwith open(\"data.txt\", \"r\") as file:\n    content = file.read()\n    print(content)\n# file.close() called automatically\n```\n\n**Writing with 'with':**\n```python\nwith open(\"output.txt\", \"w\") as file:\n    file.write(\"Hello\\n\")\n    file.write(\"World\\n\")\n# file.close() called automatically\n```\n\n**Appending with 'with':**\n```python\nwith open(\"log.txt\", \"a\") as file:\n    file.write(\"New entry\\n\")\n# file.close() called automatically\n```\n\n**Multiple files:**\n```python\n# Can open multiple files in one with statement\nwith open(\"input.txt\", \"r\") as infile, \\\n     open(\"output.txt\", \"w\") as outfile:\n    content = infile.read()\n    outfile.write(content.upper())\n# Both files closed automatically\n```\n\n**Iterating over lines:**\n```python\n# Most memory-efficient way to read large files\nwith open(\"data.txt\", \"r\") as file:\n    for line in file:  # Reads one line at a time\n        print(line.strip())\n# File closed automatically after loop\n```\n\n**How with works (behind the scenes):**\n\nWhen you write:\n```python\nwith open(\"file.txt\", \"r\") as file:\n    content = file.read()\n```\n\nPython does this:\n```python\nfile = open(\"file.txt\", \"r\")  # __enter__ called\ntry:\n    content = file.read()\nfinally:\n    file.close()  # __exit__ called, even if error\n```\n\nThe with statement:\n1. Calls `__enter__()` method (opens file)\n2. Runs your code in the block\n3. Calls `__exit__()` method (closes file) in finally block\n4. Guarantees cleanup happens!\n\n**Why the name 'context manager'?**\n\n\"Context\" = the environment/setup needed for your code\n\"Manager\" = handles setup and cleanup automatically\n\nopen() is a context manager because it:\n- Sets up context: opens the file\n- Manages cleanup: closes the file\n\n**With vs. Manual Closing:**\n\n**❌ Don't do this (manual closing):**\n```python\nfile = open(\"data.txt\", \"r\")\ncontent = file.read()\nfile.close()  # Might not run if error occurs!\n```\n\n**✅ Do this (with statement):**\n```python\nwith open(\"data.txt\", \"r\") as file:\n    content = file.read()\n# Always closes, even if error\n```\n\n**When is the file actually closed?**\n\nThe file closes IMMEDIATELY when:\n1. The with block ends (normal execution)\n2. An exception occurs (error)\n3. You return from inside the block\n4. You break from a loop in the block\n\nNo matter what, the file WILL close!"
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise: File Copy with Error Handling",
+      "instruction": "Create a file copy function that:\n1. Copies content from source file to destination file\n2. Uses with statement for both files\n3. Handles FileNotFoundError if source doesn't exist\n4. Adds a header line to the copied file: \"--- Copy of [filename] ---\"\n5. Returns True if successful, False if source not found\n\n**Your task:**\nImplement copy_file(source, destination)\n\n**Starter code:**",
+      "starter_code": "def copy_file(source, destination):\n    \"\"\"Copy file with header using context managers.\n    \n    Args:\n        source: Source filename\n        destination: Destination filename\n        \n    Returns:\n        bool: True if successful, False if source not found\n    \"\"\"\n    try:\n        # TODO: Use with to open source file in read mode\n        # TODO: Read all content from source\n        \n        # TODO: Use with to open destination file in write mode\n        # TODO: Write header: \"--- Copy of [source] ---\\n\"\n        # TODO: Write the content from source\n        \n        return True\n    \n    except FileNotFoundError:\n        print(f\"Error: Source file '{source}' not found\")\n        return False\n\n# Test your function\nprint(\"=== Testing File Copy ===\")\n\n# Create source file\nwith open(\"original.txt\", \"w\") as f:\n    f.write(\"This is the original content.\\n\")\n    f.write(\"It has multiple lines.\\n\")\n    f.write(\"All should be copied.\\n\")\n\nprint(\"✓ Created source file\\n\")\n\n# Test 1: Copy existing file\nprint(\"Test 1: Copy existing file\")\nif copy_file(\"original.txt\", \"copy.txt\"):\n    with open(\"copy.txt\", \"r\") as f:\n        print(\"Copied content:\")\n        print(f.read())\n\n# Test 2: Copy non-existent file\nprint(\"\\nTest 2: Copy non-existent file\")\ncopy_file(\"missing.txt\", \"copy2.txt\")",
+      "hint": "Use two separate with statements: first to read source, then to write destination. Or use with open(...) as src, open(...) as dst: for both at once."
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution & Common Mistakes",
+      "solution_code": "def copy_file(source, destination):\n    \"\"\"Copy file with header using context managers.\n    \n    Args:\n        source: Source filename\n        destination: Destination filename\n        \n    Returns:\n        bool: True if successful, False if source not found\n    \"\"\"\n    try:\n        # Open both files with one with statement\n        with open(source, \"r\") as src, \\\n             open(destination, \"w\") as dst:\n            \n            # Read all content from source\n            content = src.read()\n            \n            # Write header\n            dst.write(f\"--- Copy of {source} ---\\n\")\n            dst.write(\"\\n\")\n            \n            # Write original content\n            dst.write(content)\n        \n        # Files automatically closed here\n        return True\n    \n    except FileNotFoundError:\n        print(f\"❌ Error: Source file '{source}' not found\")\n        return False\n\n# Alternative solution: Separate with statements\ndef copy_file_v2(source, destination):\n    \"\"\"Alternative: Use separate with statements.\"\"\"\n    try:\n        # First, read source\n        with open(source, \"r\") as src:\n            content = src.read()\n        # Source automatically closed here\n        \n        # Then, write destination\n        with open(destination, \"w\") as dst:\n            dst.write(f\"--- Copy of {source} ---\\n\\n\")\n            dst.write(content)\n        # Destination automatically closed here\n        \n        return True\n    \n    except FileNotFoundError:\n        print(f\"❌ Error: Source file '{source}' not found\")\n        return False\n\n# Comprehensive testing\nprint(\"=\" * 60)\nprint(\"FILE COPY UTILITY - WITH CONTEXT MANAGERS\")\nprint(\"=\" * 60)\n\n# Create test file\nprint(\"\\nCreating source file...\")\nwith open(\"original.txt\", \"w\") as f:\n    f.write(\"This is the original content.\\n\")\n    f.write(\"It has multiple lines.\\n\")\n    f.write(\"All should be copied.\\n\")\n    f.write(\"With proper formatting!\\n\")\n\nprint(\"✓ Source file created\\n\")\n\n# Test 1: Successful copy\nprint(\"Test 1: Copy existing file\")\nprint(\"-\" * 40)\nif copy_file(\"original.txt\", \"copy.txt\"):\n    print(\"✓ Copy successful!\\n\")\n    print(\"Copied file content:\")\n    with open(\"copy.txt\", \"r\") as f:\n        print(f.read())\nelse:\n    print(\"❌ Copy failed\\n\")\n\n# Test 2: Copy to different name\nprint(\"\\nTest 2: Copy with different name\")\nprint(\"-\" * 40)\nif copy_file(\"original.txt\", \"backup.txt\"):\n    print(\"✓ Backup created!\\n\")\n\n# Test 3: Non-existent source\nprint(\"\\nTest 3: Copy non-existent file\")\nprint(\"-\" * 40)\nresult = copy_file(\"missing.txt\", \"copy2.txt\")\nprint(f\"Result: {result}\\n\")\n\n# Test 4: Using alternative version\nprint(\"\\nTest 4: Using alternative implementation\")\nprint(\"-\" * 40)\nif copy_file_v2(\"original.txt\", \"copy_v2.txt\"):\n    print(\"✓ Copy successful with v2!\")\n\nprint(\"\\n\" + \"=\" * 60)\nprint(\"✓ All tests completed\")\nprint(\"Files are GUARANTEED to be closed (thanks to 'with'!)\")\nprint(\"=\" * 60)",
+      "explanation": "The solution demonstrates:\n\n**Key points:**\n1. **Multiple files in one with:** with open(src) as f1, open(dst) as f2:\n2. **Automatic closing:** Both files close when with block ends\n3. **Exception safety:** Files close even if error occurs\n4. **Error handling:** try/except catches FileNotFoundError\n5. **Alternative approach:** Can use separate with statements (v2)\n\n**Why this is better than manual closing:**\n- No need for try/finally\n- Can't forget to close\n- Cleaner, more readable code\n- Both files guaranteed to close\n- Pythonic and professional",
+      "output": "============================================================\nFILE COPY UTILITY - WITH CONTEXT MANAGERS\n============================================================\n\nCreating source file...\n✓ Source file created\n\nTest 1: Copy existing file\n----------------------------------------\n✓ Copy successful!\n\nCopied file content:\n--- Copy of original.txt ---\n\nThis is the original content.\nIt has multiple lines.\nAll should be copied.\nWith proper formatting!\n\n\nTest 2: Copy with different name\n----------------------------------------\n✓ Backup created!\n\n\nTest 3: Copy non-existent file\n----------------------------------------\n❌ Error: Source file 'missing.txt' not found\nResult: False\n\n\nTest 4: Using alternative implementation\n----------------------------------------\n✓ Copy successful with v2!\n\n============================================================\n✓ All tests completed\nFiles are GUARANTEED to be closed (thanks to 'with'!)\n============================================================",
+      "common_mistakes": [
+        {
+          "mistake": "Not using with statement for files",
+          "wrong_code": "f = open(\"file.txt\", \"r\")\ncontent = f.read()\nf.close()",
+          "correct_code": "with open(\"file.txt\", \"r\") as f:\n    content = f.read()\n# Auto-closed",
+          "explanation": "Always use 'with' for files! It's the professional, Pythonic way. It guarantees the file closes even if errors occur. Manual closing requires try/finally to be safe."
+        },
+        {
+          "mistake": "Trying to use file object after with block",
+          "wrong_code": "with open(\"file.txt\", \"r\") as f:\n    pass\ncontent = f.read()  # Error! File closed!",
+          "correct_code": "with open(\"file.txt\", \"r\") as f:\n    content = f.read()  # Read inside block\n# Now use content outside",
+          "explanation": "File closes IMMEDIATELY when with block ends. You can't use the file object after that. Read/write inside the with block, then use the data outside."
+        },
+        {
+          "mistake": "Incorrect indentation with 'with'",
+          "wrong_code": "with open(\"file.txt\", \"r\") as f:\ncontent = f.read()  # Not indented!\nprint(content)",
+          "correct_code": "with open(\"file.txt\", \"r\") as f:\n    content = f.read()  # Indented\n    print(content)  # Still indented",
+          "explanation": "Everything that should happen while the file is open must be INDENTED inside the with block. When indentation ends, file closes."
+        },
+        {
+          "mistake": "Confusing with and if",
+          "wrong_code": "if open(\"file.txt\", \"r\") as f:  # Wrong!\n    content = f.read()",
+          "correct_code": "with open(\"file.txt\", \"r\") as f:\n    content = f.read()",
+          "explanation": "Use 'with', not 'if'! 'with' is a context manager statement, not a conditional. It's: with open(...) as f:, not if open(...) as f:."
+        },
+        {
+          "mistake": "Trying to manually close in with block",
+          "wrong_code": "with open(\"file.txt\", \"r\") as f:\n    content = f.read()\n    f.close()  # Unnecessary!\n# File closed again (error?)",
+          "correct_code": "with open(\"file.txt\", \"r\") as f:\n    content = f.read()\n# Auto-closes here, no need",
+          "explanation": "Don't manually close() inside a with block! The with statement handles closing automatically. Calling close() manually is redundant and defeats the purpose of using 'with'."
+        }
+      ]
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Always use 'with' for files** - it's the professional, Pythonic way. Guarantees files are closed even if errors occur.",
+        "**Syntax: with open(filename, mode) as variable:** Opens file, assigns to variable, auto-closes when block ends.",
+        "**Automatic cleanup:** File closes IMMEDIATELY when with block ends, no matter what (normal end, error, return, break).",
+        "**Exception safe:** Even if an exception occurs inside the with block, the file WILL close. No need for try/finally.",
+        "**Multiple files:** Can open multiple files in one with: with open(f1) as a, open(f2) as b:",
+        "**File closed after with:** You CANNOT use the file object after the with block ends - it's already closed.",
+        "**Read/write inside with:** All file operations must happen inside the indented with block while file is open.",
+        "**Context managers:** 'with' works with any context manager (files, locks, database connections). Handles setup and cleanup.",
+        "**Memory efficient iteration:** with open(...) as f: for line in f: reads one line at a time (great for huge files).",
+        "**Professional code:** From now on, use 'with' for ALL file operations. It's cleaner, safer, and Pythonic."
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "What is the main benefit of using 'with' statement for file operations?",
+        "options": [
+          "Files open faster",
+          "Files are automatically closed even if errors occur",
+          "You can write more content to the file",
+          "Files can be read and written simultaneously"
+        ],
+        "correct_answer": 1,
+        "explanation": "The main benefit of 'with' is automatic resource cleanup - the file is GUARANTEED to close when the with block ends, even if an exception occurs. This prevents resource leaks and makes code safer than manual closing."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "When does the file close in a 'with' statement?",
+        "options": [
+          "When you call file.close()",
+          "When the program ends",
+          "Immediately when the with block ends (indentation ends)",
+          "When you open another file"
+        ],
+        "correct_answer": 2,
+        "explanation": "The file closes IMMEDIATELY when the with block ends - that is, when the indentation returns to the previous level. This happens whether the block ends normally, via return, via break, or via exception."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "What happens if you try to use a file object after the 'with' block has ended?",
+        "options": [
+          "It works normally",
+          "It re-opens the file automatically",
+          "You get an error because the file is already closed",
+          "The file reopens in read mode"
+        ],
+        "correct_answer": 2,
+        "explanation": "After the with block ends, the file is closed and you cannot use the file object anymore. Trying to read/write will raise a ValueError: I/O operation on closed file. You must perform all file operations inside the with block."
+      }
+    ]
+  }
+}

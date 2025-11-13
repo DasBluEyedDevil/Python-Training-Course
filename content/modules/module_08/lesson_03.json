@@ -1,0 +1,130 @@
+{
+  "lesson_id": "08_03",
+  "title": "Exception Types and Handling Multiple Exceptions",
+  "module_id": 8,
+  "order_index": 3,
+  "description": "Explore Python's built-in exception types, learn to handle multiple exceptions elegantly, and understand the exception hierarchy to catch errors at the right level of specificity.",
+  "estimated_minutes": 30,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: Emergency Response Teams",
+      "content": "Imagine a hospital emergency room with specialized teams:\n\n**Specific Teams (Specific Exceptions):**\n- Heart attack → Cardiology team (ValueError)\n- Broken bone → Orthopedics team (IndexError)\n- Poisoning → Toxicology team (TypeError)\n- Burn → Burn unit (ZeroDivisionError)\n\n**General Team (General Exception):**\n- Unknown emergency → General ER doctors (Exception)\n\nYou want the RIGHT team for each emergency. If someone has a heart attack, you call cardiology (catch ValueError), not the general ER (catch Exception). But if you don't know what's wrong, the general ER can help (catch Exception as a fallback).\n\n**Exception Hierarchy** works like hospital departments:\n- **Exception** is the general ER (catches almost everything)\n- **ValueError, TypeError, IndexError** are specialized teams (catch specific problems)\n\nPython has MANY built-in exception types, each for a specific situation. Using the right one makes your error handling precise and your debugging easier.\n\n**Best practice:** Catch specific exceptions you expect (ValueError, FileNotFoundError), not the general Exception class (except as a last resort)."
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Common Exception Types in Action",
+      "code": "# Demonstrating common Python exception types\nprint(\"=== Common Exception Types ===\")\n\n# 1. ValueError - Wrong value, right type\nprint(\"\\n1. ValueError Example:\")\ntry:\n    number = int(\"not_a_number\")  # String to int, but invalid format\nexcept ValueError as e:\n    print(f\"ValueError caught: {e}\")\n    print(\"Cause: Trying to convert invalid string to integer\\n\")\n\n# 2. TypeError - Wrong type entirely\nprint(\"2. TypeError Example:\")\ntry:\n    result = \"hello\" + 5  # Can't add string and integer\nexcept TypeError as e:\n    print(f\"TypeError caught: {e}\")\n    print(\"Cause: Incompatible types in operation\\n\")\n\n# 3. IndexError - List index out of range\nprint(\"3. IndexError Example:\")\ntry:\n    my_list = [1, 2, 3]\n    item = my_list[10]  # Only indices 0-2 exist\nexcept IndexError as e:\n    print(f\"IndexError caught: {e}\")\n    print(\"Cause: Accessing index that doesn't exist\\n\")\n\n# 4. KeyError - Dictionary key doesn't exist\nprint(\"4. KeyError Example:\")\ntry:\n    person = {\"name\": \"Alice\", \"age\": 25}\n    email = person[\"email\"]  # Key 'email' doesn't exist\nexcept KeyError as e:\n    print(f\"KeyError caught: {e}\")\n    print(\"Cause: Accessing dictionary key that doesn't exist\\n\")\n\n# 5. ZeroDivisionError - Division by zero\nprint(\"5. ZeroDivisionError Example:\")\ntry:\n    result = 10 / 0\nexcept ZeroDivisionError as e:\n    print(f\"ZeroDivisionError caught: {e}\")\n    print(\"Cause: Attempting to divide by zero\\n\")\n\n# 6. FileNotFoundError - File doesn't exist\nprint(\"6. FileNotFoundError Example:\")\ntry:\n    with open(\"nonexistent_file.txt\", \"r\") as f:\n        content = f.read()\nexcept FileNotFoundError as e:\n    print(f\"FileNotFoundError caught: {e}\")\n    print(\"Cause: Trying to open a file that doesn't exist\\n\")\n\n# 7. AttributeError - Object doesn't have that attribute\nprint(\"7. AttributeError Example:\")\ntry:\n    my_list = [1, 2, 3]\n    my_list.append_all([4, 5])  # Method doesn't exist\nexcept AttributeError as e:\n    print(f\"AttributeError caught: {e}\")\n    print(\"Cause: Calling a method/attribute that doesn't exist\\n\")\n\n# Handling MULTIPLE exception types\nprint(\"=== Handling Multiple Exceptions ===\")\n\ndef process_user_input(user_input, index):\n    \"\"\"Process input with multiple exception handling.\"\"\"\n    numbers = [10, 20, 30, 40, 50]\n    \n    try:\n        # Multiple things can go wrong here!\n        num = int(user_input)  # ValueError if input not a number\n        result = numbers[num]  # IndexError if num out of range\n        division = result / index  # ZeroDivisionError if index is 0\n        return division\n        \n    except ValueError:\n        print(f\"Error: '{user_input}' is not a valid number\")\n        return None\n        \n    except IndexError:\n        print(f\"Error: Index {num} out of range (0-{len(numbers)-1})\")\n        return None\n        \n    except ZeroDivisionError:\n        print(\"Error: Cannot divide by zero\")\n        return None\n\nprint(\"\\nTest 1: Valid input\")\nresult1 = process_user_input(\"2\", 5)\nprint(f\"Result: {result1}\\n\")\n\nprint(\"Test 2: Invalid number format\")\nresult2 = process_user_input(\"abc\", 5)\nprint(f\"Result: {result2}\\n\")\n\nprint(\"Test 3: Index out of range\")\nresult3 = process_user_input(\"10\", 5)\nprint(f\"Result: {result3}\\n\")\n\nprint(\"Test 4: Division by zero\")\nresult4 = process_user_input(\"2\", 0)\nprint(f\"Result: {result4}\")",
+      "explanation": "Each exception type represents a specific category of error. By catching specific exceptions, you can provide tailored error messages and recovery strategies. The function demonstrates how a single try block can have multiple except blocks to handle different error scenarios.",
+      "output": "=== Common Exception Types ===\n\n1. ValueError Example:\nValueError caught: invalid literal for int() with base 10: 'not_a_number'\nCause: Trying to convert invalid string to integer\n\n2. TypeError Example:\nTypeError caught: can only concatenate str (not \"int\") to str\nCause: Incompatible types in operation\n\n3. IndexError Example:\nIndexError caught: list index out of range\nCause: Accessing index that doesn't exist\n\n4. KeyError Example:\nKeyError caught: 'email'\nCause: Accessing dictionary key that doesn't exist\n\n5. ZeroDivisionError Example:\nZeroDivisionError caught: division by zero\nCause: Attempting to divide by zero\n\n6. FileNotFoundError Example:\nFileNotFoundError caught: [Errno 2] No such file or directory: 'nonexistent_file.txt'\nCause: Trying to open a file that doesn't exist\n\n7. AttributeError Example:\nAttributeError caught: 'list' object has no attribute 'append_all'\nCause: Calling a method/attribute that doesn't exist\n\n=== Handling Multiple Exceptions ===\n\nTest 1: Valid input\nResult: 6.0\n\nTest 2: Invalid number format\nError: 'abc' is not a valid number\nResult: None\n\nTest 3: Index out of range\nError: Index 10 out of range (0-4)\nResult: None\n\nTest 4: Division by zero\nError: Cannot divide by zero\nResult: None"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown: Exception Handling Patterns",
+      "content": "**Common Built-in Exception Types:**\n\n1. **ValueError:** Correct type, wrong value\n   - int(\"abc\") - can't convert to integer\n   - float(\"not_a_number\")\n   \n2. **TypeError:** Wrong type for operation\n   - \"hello\" + 5 - can't add string and int\n   - len(42) - len() expects iterable, not int\n   \n3. **IndexError:** Sequence index out of range\n   - my_list[100] - index doesn't exist\n   - Works with lists, tuples, strings\n   \n4. **KeyError:** Dictionary key doesn't exist\n   - person[\"email\"] - key not in dict\n   - Use .get() to avoid this\n   \n5. **ZeroDivisionError:** Division or modulo by zero\n   - 10 / 0\n   - 10 % 0\n   \n6. **FileNotFoundError:** File doesn't exist\n   - open(\"missing.txt\")\n   \n7. **AttributeError:** Object lacks attribute/method\n   - \"hello\".non_existent_method()\n   \n8. **NameError:** Variable not defined\n   - print(undefined_variable)\n\n**Handling Multiple Exceptions - Three Patterns:**\n\n**Pattern 1: Separate except blocks (different handling)**\n```python\ntry:\n    risky_code()\nexcept ValueError:\n    handle_value_error()\nexcept TypeError:\n    handle_type_error()\nexcept IndexError:\n    handle_index_error()\n```\n\n**Pattern 2: Multiple exceptions, same handling**\n```python\ntry:\n    risky_code()\nexcept (ValueError, TypeError, IndexError):\n    # Handle all three the same way\n    handle_error()\n```\n\n**Pattern 3: Specific first, general fallback**\n```python\ntry:\n    risky_code()\nexcept ValueError:\n    handle_value_error()  # Specific\nexcept TypeError:\n    handle_type_error()   # Specific\nexcept Exception as e:\n    handle_unknown_error(e)  # General fallback\n```\n\n**Exception Hierarchy (simplified):**\n```\nBaseException\n├── Exception (catch most errors)\n│   ├── ValueError\n│   ├── TypeError\n│   ├── IndexError\n│   ├── KeyError\n│   ├── ZeroDivisionError\n│   ├── FileNotFoundError\n│   ├── AttributeError\n│   └── ... many more\n├── KeyboardInterrupt (Ctrl+C)\n└── SystemExit (sys.exit())\n```\n\n**Best Practices:**\n- Catch SPECIFIC exceptions you expect (ValueError, FileNotFoundError)\n- Order except blocks from SPECIFIC to GENERAL\n- Avoid bare except: (catches everything, even Ctrl+C!)\n- Use Exception as a last-resort fallback, not the primary catch"
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise: Build a Multi-Exception Data Processor",
+      "instruction": "Create a function that processes a dictionary of user data safely. The function should:\n1. Accept a dictionary and a key name\n2. Get the value for that key (might not exist → KeyError)\n3. Convert the value to uppercase (might not be a string → AttributeError)\n4. Extract the first character (might be empty string → IndexError)\n5. Return the character, or None if any error occurs\n\nHandle all three exception types separately with specific error messages.\n\n**Your task:**\n\n**Test data:**\n```python\nuser1 = {\"name\": \"Alice\", \"role\": \"admin\"}\nuser2 = {\"name\": \"Bob\"}  # Missing 'role'\nuser3 = {\"name\": \"Carol\", \"role\": 12345}  # role is int, not string\nuser4 = {\"name\": \"Dave\", \"role\": \"\"}  # Empty string\n```\n\n**Starter code:**",
+      "starter_code": "def get_first_letter(user_dict, key):\n    \"\"\"Safely extract first letter of a dictionary value.\"\"\"\n    \n    # TODO: Add try block\n    # TODO: Get the value from dictionary using user_dict[key]\n    # TODO: Convert to uppercase using .upper()\n    # TODO: Get first character using [0]\n    \n    # TODO: Add except KeyError block\n    # Print message: \"Key not found\"\n    \n    # TODO: Add except AttributeError block\n    # Print message: \"Value is not a string\"\n    \n    # TODO: Add except IndexError block\n    # Print message: \"Value is empty\"\n    \n    # Return None or the character\n    return None\n\n# Test cases\nuser1 = {\"name\": \"Alice\", \"role\": \"admin\"}\nuser2 = {\"name\": \"Bob\"}\nuser3 = {\"name\": \"Carol\", \"role\": 12345}\nuser4 = {\"name\": \"Dave\", \"role\": \"\"}\n\nprint(get_first_letter(user1, \"role\"))  # Should work\nprint(get_first_letter(user2, \"role\"))  # KeyError\nprint(get_first_letter(user3, \"role\"))  # AttributeError\nprint(get_first_letter(user4, \"role\"))  # IndexError",
+      "hint": "Use three separate except blocks: except KeyError, except AttributeError, except IndexError. Each should print a specific message and return None."
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution & Common Mistakes",
+      "solution_code": "def get_first_letter(user_dict, key):\n    \"\"\"Safely extract first letter of a dictionary value.\"\"\"\n    \n    try:\n        # Step 1: Get value from dictionary (KeyError if key missing)\n        value = user_dict[key]\n        \n        # Step 2: Convert to uppercase (AttributeError if not string)\n        uppercase_value = value.upper()\n        \n        # Step 3: Get first character (IndexError if empty string)\n        first_char = uppercase_value[0]\n        \n        return first_char\n        \n    except KeyError:\n        print(f\"ERROR: Key '{key}' not found in dictionary\")\n        print(f\"Available keys: {list(user_dict.keys())}\")\n        return None\n        \n    except AttributeError:\n        print(f\"ERROR: Value for '{key}' is not a string (type: {type(value).__name__})\")\n        print(f\"Cannot call .upper() on {type(value).__name__}\")\n        return None\n        \n    except IndexError:\n        print(f\"ERROR: Value for '{key}' is an empty string\")\n        print(\"Cannot get first character of empty string\")\n        return None\n\n# Comprehensive test cases\nprint(\"=== Test Cases ===\")\n\nuser1 = {\"name\": \"Alice\", \"role\": \"admin\"}\nuser2 = {\"name\": \"Bob\"}  # Missing 'role'\nuser3 = {\"name\": \"Carol\", \"role\": 12345}  # role is int\nuser4 = {\"name\": \"Dave\", \"role\": \"\"}  # Empty string\n\nprint(\"\\nTest 1: Valid string value\")\nresult1 = get_first_letter(user1, \"role\")\nprint(f\"Result: {result1}\\n\")\n\nprint(\"Test 2: Missing key (KeyError)\")\nresult2 = get_first_letter(user2, \"role\")\nprint(f\"Result: {result2}\\n\")\n\nprint(\"Test 3: Non-string value (AttributeError)\")\nresult3 = get_first_letter(user3, \"role\")\nprint(f\"Result: {result3}\\n\")\n\nprint(\"Test 4: Empty string (IndexError)\")\nresult4 = get_first_letter(user4, \"role\")\nprint(f\"Result: {result4}\\n\")\n\n# Bonus: Handling multiple exceptions with same code\nprint(\"=== Bonus: Grouped Exception Handling ===\")\n\ndef get_first_letter_v2(user_dict, key):\n    \"\"\"Version 2: Group exceptions with same handling.\"\"\"\n    try:\n        value = user_dict[key]\n        uppercase_value = value.upper()\n        first_char = uppercase_value[0]\n        return first_char\n        \n    except (KeyError, AttributeError, IndexError) as e:\n        # Handle all three the same way\n        print(f\"ERROR: Could not process key '{key}': {e}\")\n        return None\n\nprint(\"\\nGrouped handling test:\")\nresult = get_first_letter_v2(user2, \"role\")\nprint(f\"Result: {result}\")",
+      "explanation": "The function demonstrates handling three distinct exception types:\n1. **KeyError:** Caught when accessing a non-existent dictionary key\n2. **AttributeError:** Caught when calling .upper() on a non-string (like an integer)\n3. **IndexError:** Caught when accessing [0] on an empty string\n\nEach except block provides specific, helpful error messages. The bonus version shows how to handle multiple exceptions with the same code using tuple syntax.",
+      "output": "=== Test Cases ===\n\nTest 1: Valid string value\nResult: A\n\nTest 2: Missing key (KeyError)\nERROR: Key 'role' not found in dictionary\nAvailable keys: ['name']\nResult: None\n\nTest 3: Non-string value (AttributeError)\nERROR: Value for 'role' is not a string (type: int)\nCannot call .upper() on int\nResult: None\n\nTest 4: Empty string (IndexError)\nERROR: Value for 'role' is an empty string\nCannot get first character of empty string\nResult: None\n\n=== Bonus: Grouped Exception Handling ===\n\nGrouped handling test:\nERROR: Could not process key 'role': 'role'\nResult: None",
+      "common_mistakes": [
+        {
+          "mistake": "Catching exceptions in wrong order (general before specific)",
+          "wrong_code": "try:\n    code()\nexcept Exception:  # Too general first!\n    handle()\nexcept ValueError:  # Never reached!\n    handle_value()",
+          "correct_code": "try:\n    code()\nexcept ValueError:  # Specific first\n    handle_value()\nexcept Exception:  # General last\n    handle()",
+          "explanation": "Python checks except blocks in order. If you catch Exception first (the general parent class), it catches everything, and later specific except blocks never run. Always go from specific to general."
+        },
+        {
+          "mistake": "Forgetting parentheses when catching multiple exceptions",
+          "wrong_code": "except ValueError, TypeError:  # Wrong syntax!",
+          "correct_code": "except (ValueError, TypeError):  # Tuple",
+          "explanation": "To catch multiple exception types in one block, use a TUPLE with parentheses: except (ValueError, TypeError). The comma-without-parentheses syntax is old Python 2 style."
+        },
+        {
+          "mistake": "Catching too broad an exception",
+          "wrong_code": "try:\n    process_data()\nexcept Exception:  # Catches EVERYTHING\n    print(\"Error\")",
+          "correct_code": "try:\n    process_data()\nexcept ValueError:\n    print(\"Invalid value\")\nexcept KeyError:\n    print(\"Key not found\")",
+          "explanation": "Catching Exception catches almost ALL errors, making debugging hard. Catch specific exceptions you expect. Only use Exception as a last-resort fallback after specific catches."
+        },
+        {
+          "mistake": "Not using the exception object when you need details",
+          "wrong_code": "except FileNotFoundError:\n    print(\"File not found\")  # Which file?",
+          "correct_code": "except FileNotFoundError as e:\n    print(f\"File not found: {e}\")",
+          "explanation": "Use 'as e' to capture the exception object, which contains useful details like the error message, filename, etc. This makes debugging much easier."
+        },
+        {
+          "mistake": "Confusing exception types (using wrong one)",
+          "wrong_code": "try:\n    item = my_list[10]\nexcept KeyError:  # Wrong type!\n    print(\"Error\")",
+          "correct_code": "try:\n    item = my_list[10]\nexcept IndexError:  # Correct!\n    print(\"Error\")",
+          "explanation": "Lists raise IndexError, dictionaries raise KeyError. If you catch the wrong type, the exception won't be caught! Know which operations raise which exceptions."
+        }
+      ]
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Common exceptions:** ValueError (wrong value), TypeError (wrong type), IndexError (list index), KeyError (dict key), ZeroDivisionError, FileNotFoundError, AttributeError (missing attribute/method).",
+        "**Catch specific exceptions** you expect, not the generic Exception class. Specific catches make debugging easier and handling more precise.",
+        "**Multiple except blocks:** Use separate blocks for different exception types when you need different handling for each.",
+        "**Group exceptions:** Use except (ValueError, TypeError) when you want the same handling for multiple exception types.",
+        "**Order matters:** Put specific exceptions BEFORE general ones. Python checks except blocks in order and uses the first match.",
+        "**Use 'as e' to capture exception details:** except ValueError as e: lets you access the error message and other useful information.",
+        "**Avoid bare except:** except Exception catches almost everything; except: catches EVERYTHING including Ctrl+C. Both hide bugs and make debugging hard.",
+        "**Exception hierarchy:** Exception is the parent class of most errors. Catching it catches all its children (ValueError, TypeError, etc.)."
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "What exception is raised when you try to access a list index that doesn't exist?",
+        "options": [
+          "KeyError",
+          "IndexError",
+          "ValueError",
+          "AttributeError"
+        ],
+        "correct_answer": 1,
+        "explanation": "IndexError is raised when you try to access a list, tuple, or string index that is out of range. KeyError is for dictionaries, ValueError is for wrong values, and AttributeError is for missing attributes/methods."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "How do you catch multiple exception types with the same handler?",
+        "options": [
+          "except ValueError or TypeError:",
+          "except (ValueError, TypeError):",
+          "except ValueError, TypeError:",
+          "except ValueError and TypeError:"
+        ],
+        "correct_answer": 1,
+        "explanation": "Use a tuple with parentheses: except (ValueError, TypeError):. This catches both ValueError and TypeError with the same handling code. The parentheses are required in Python 3."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "Why should you order except blocks from specific to general?",
+        "options": [
+          "It runs faster",
+          "It's required by Python syntax",
+          "Python checks in order and uses the first match, so general exceptions would catch everything",
+          "It doesn't matter what order you use"
+        ],
+        "correct_answer": 2,
+        "explanation": "Python checks except blocks in order and uses the first match. If you put except Exception: first (general), it catches all exceptions, and specific blocks below it never run. Always put specific exceptions first, general ones last."
+      }
+    ]
+  }
+}
