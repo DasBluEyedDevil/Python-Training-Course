@@ -1,0 +1,270 @@
+{
+  "title": "Module 9 Quiz: File I/O & Data Persistence",
+  "module_id": 9,
+  "passing_score": 70,
+  "description": "Test your mastery of file operations: reading/writing files, context managers, CSV/JSON handling, path operations, and real-world file processing. You need 14/20 correct (70%) to pass.",
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": "What's the difference between 'w' and 'a' file modes?",
+      "options": [
+        "They're the same",
+        "'w' overwrites existing content, 'a' adds to the end without erasing",
+        "'w' is for Windows, 'a' is for all systems",
+        "'a' is faster than 'w'"
+      ],
+      "correct_answer": 1,
+      "explanation": "'w' (write) mode OVERWRITES - it erases all existing content and starts fresh. 'a' (append) mode ADDS to the end without erasing existing content. Choose 'w' to replace, 'a' to add. Both create the file if it doesn't exist."
+    },
+    {
+      "id": 2,
+      "type": "multiple_choice",
+      "question": "What happens if you don't close a file after opening it?",
+      "options": [
+        "Nothing - Python closes it automatically",
+        "Changes might not be saved and the file remains locked",
+        "The program crashes",
+        "The file gets deleted"
+      ],
+      "correct_answer": 1,
+      "explanation": "If you don't close a file, changes might not be saved (buffered data isn't flushed to disk), and the file remains locked, preventing other programs from accessing it. Always call file.close() or use 'with' statement (which auto-closes)."
+    },
+    {
+      "id": 3,
+      "type": "multiple_choice",
+      "question": "What is the main benefit of using 'with' statement for file operations?",
+      "options": [
+        "Files open faster",
+        "Files are automatically closed even if errors occur",
+        "You can write more content to the file",
+        "Files can be read and written simultaneously"
+      ],
+      "correct_answer": 1,
+      "explanation": "The main benefit of 'with' is automatic resource cleanup - the file is GUARANTEED to close when the with block ends, even if an exception occurs. This prevents resource leaks and makes code safer than manual closing."
+    },
+    {
+      "id": 4,
+      "type": "multiple_choice",
+      "question": "When does the file close in a 'with' statement?",
+      "options": [
+        "When you call file.close()",
+        "When the program ends",
+        "Immediately when the with block ends (indentation ends)",
+        "When you open another file"
+      ],
+      "correct_answer": 2,
+      "explanation": "The file closes IMMEDIATELY when the with block ends - that is, when the indentation returns to the previous level. This happens whether the block ends normally, via return, via break, or via exception."
+    },
+    {
+      "id": 5,
+      "type": "multiple_choice",
+      "question": "Why should you always use newline='' when opening a CSV file in write mode?",
+      "options": [
+        "It makes writing faster",
+        "It prevents extra blank lines in the CSV file (especially on Windows)",
+        "It's required by the csv module to work",
+        "It allows writing unicode characters"
+      ],
+      "correct_answer": 1,
+      "explanation": "Always use newline='' when opening CSV files in write mode: open('file.csv', 'w', newline=''). Without it, you get extra blank lines on Windows because Python adds its own line endings and the csv module adds them too. This is a Python CSV requirement."
+    },
+    {
+      "id": 6,
+      "type": "multiple_choice",
+      "question": "What type are the values in a row when using csv.DictReader()?",
+      "options": [
+        "All values are automatically converted to the correct type (int, float, etc.)",
+        "All values are strings - you must convert them yourself",
+        "Numbers are int/float, everything else is string",
+        "Values have no type until you use them"
+      ],
+      "correct_answer": 1,
+      "explanation": "CSV readers return ALL values as strings, even numbers that look like integers or floats. You must convert them manually: int(row['Age']), float(row['Price']). This is true for both csv.reader() and csv.DictReader()."
+    },
+    {
+      "id": 7,
+      "type": "multiple_choice",
+      "question": "What's the advantage of using csv.DictReader over csv.reader?",
+      "options": [
+        "DictReader is faster",
+        "DictReader uses less memory",
+        "DictReader lets you access columns by name (row['Name']) instead of index (row[0])",
+        "DictReader automatically converts types"
+      ],
+      "correct_answer": 2,
+      "explanation": "DictReader lets you access columns by name: row['Name'], row['Age'] instead of by index: row[0], row[1]. This makes code more readable, self-documenting, and less error-prone. You don't have to remember column positions."
+    },
+    {
+      "id": 8,
+      "type": "multiple_choice",
+      "question": "What's the difference between json.dump() and json.dumps()?",
+      "options": [
+        "They're the same function",
+        "dump writes to a file, dumps returns a string (s = string)",
+        "dumps is faster than dump",
+        "dump is for Python 2, dumps is for Python 3"
+      ],
+      "correct_answer": 1,
+      "explanation": "dump() writes JSON directly to a file, while dumps() (dump string) converts to JSON and returns it as a string. The 's' in dumps means 'string'. Same for load() (file) vs loads() (string)."
+    },
+    {
+      "id": 9,
+      "type": "multiple_choice",
+      "question": "What happens to Python True/False/None when converted to JSON?",
+      "options": [
+        "They stay the same: True/False/None",
+        "They become lowercase: true/false/null",
+        "They become strings: 'True'/'False'/'None'",
+        "They cause an error"
+      ],
+      "correct_answer": 1,
+      "explanation": "Python's True/False/None become JSON's true/false/null (lowercase). When loading JSON back to Python, they convert back: true→True, false→False, null→None. This is an automatic conversion."
+    },
+    {
+      "id": 10,
+      "type": "multiple_choice",
+      "question": "Why should you use indent=2 when writing JSON files?",
+      "options": [
+        "It makes the file smaller",
+        "It's required by the JSON specification",
+        "It makes JSON human-readable with proper formatting",
+        "It makes loading faster"
+      ],
+      "correct_answer": 2,
+      "explanation": "indent=2 (or indent=4) pretty-prints JSON with indentation, making it human-readable. Without it, JSON is one long unreadable line. Always use indent when saving JSON files - it makes debugging and manual editing much easier."
+    },
+    {
+      "id": 11,
+      "type": "multiple_choice",
+      "question": "What's the advantage of using Path() / 'file' over string concatenation?",
+      "options": [
+        "It's faster",
+        "It automatically uses the correct path separator for your OS (cross-platform)",
+        "It uses less memory",
+        "It's required by Python"
+      ],
+      "correct_answer": 1,
+      "explanation": "Path() / 'file' automatically uses the correct path separator for your OS - forward slash (/) on Unix/Mac, backslash (\\) on Windows. String concatenation with '/' only works on Unix. The / operator makes code cross-platform."
+    },
+    {
+      "id": 12,
+      "type": "multiple_choice",
+      "question": "What does mkdir(parents=True, exist_ok=True) do?",
+      "options": [
+        "Only creates the directory if it doesn't exist",
+        "Creates parent directories if needed AND doesn't error if directory exists",
+        "Deletes existing directory and creates new one",
+        "Creates directory only if parent exists"
+      ],
+      "correct_answer": 1,
+      "explanation": "parents=True creates parent directories if they don't exist (like mkdir -p). exist_ok=True doesn't raise an error if the directory already exists. Together, they make mkdir() safe to call multiple times."
+    },
+    {
+      "id": 13,
+      "type": "multiple_choice",
+      "question": "What's the difference between glob() and rglob()?",
+      "options": [
+        "glob is faster than rglob",
+        "glob searches current directory only, rglob searches recursively (subdirectories too)",
+        "glob is for files, rglob is for directories",
+        "They're the same"
+      ],
+      "correct_answer": 1,
+      "explanation": "glob() searches only in the specified directory. rglob() (recursive glob) searches the directory AND all subdirectories. Use glob('*.txt') for current directory, rglob('*.txt') to find all .txt files everywhere below."
+    },
+    {
+      "id": 14,
+      "type": "multiple_choice",
+      "question": "Why do you need to add \\n when using write()?",
+      "options": [
+        "You don't - write() adds it automatically",
+        "write() doesn't add newlines automatically, so you must add \\n for line breaks",
+        "\\n makes the code run faster",
+        "It's only needed on Windows"
+      ],
+      "correct_answer": 1,
+      "explanation": "write() writes exactly what you give it - it doesn't add newlines automatically. If you want separate lines, you must add \\n at the end: file.write('Line 1\\n'). Without \\n, everything runs together: 'Line 1Line 2'."
+    },
+    {
+      "id": 15,
+      "type": "multiple_choice",
+      "question": "What happens if you try to use a file object after the 'with' block has ended?",
+      "options": [
+        "It works normally",
+        "It re-opens the file automatically",
+        "You get an error because the file is already closed",
+        "The file reopens in read mode"
+      ],
+      "correct_answer": 2,
+      "explanation": "After the with block ends, the file is closed and you cannot use the file object anymore. Trying to read/write will raise a ValueError: I/O operation on closed file. You must perform all file operations inside the with block."
+    },
+    {
+      "id": 16,
+      "type": "multiple_choice",
+      "question": "What's the correct way to handle a file that might not exist when reading?",
+      "options": [
+        "Just open it - Python will create it",
+        "Check if it exists first, then open it",
+        "Use try/except to catch FileNotFoundError",
+        "Use 'w' mode instead of 'r' mode"
+      ],
+      "correct_answer": 2,
+      "explanation": "Always wrap file reading in try/except to catch FileNotFoundError. The file might not exist, be moved, or deleted. Checking with exists() has a race condition (file could be deleted between check and open). try/except is the safest approach."
+    },
+    {
+      "id": 17,
+      "type": "multiple_choice",
+      "question": "Why is it better to parse data into structured objects (like LogEntry) before analyzing?",
+      "options": [
+        "It's faster",
+        "It separates parsing logic from analysis logic, making code more maintainable",
+        "It uses less memory",
+        "It's required by Python"
+      ],
+      "correct_answer": 1,
+      "explanation": "Parsing into structured objects separates concerns: parsing handles text → data conversion, analysis handles data processing. This makes code easier to test, debug, and maintain. You can change parsing logic without touching analysis code (separation of concerns)."
+    },
+    {
+      "id": 18,
+      "type": "multiple_choice",
+      "question": "Which file mode should you use to add data to an existing file without erasing it?",
+      "options": [
+        "'r' (read mode)",
+        "'w' (write mode)",
+        "'a' (append mode)",
+        "'x' (exclusive mode)"
+      ],
+      "correct_answer": 2,
+      "explanation": "'a' (append) mode adds content to the end of an existing file without erasing it. 'w' mode would erase everything first. 'r' mode is read-only. 'a' mode creates the file if it doesn't exist."
+    },
+    {
+      "id": 19,
+      "type": "multiple_choice",
+      "question": "What does Path.cwd() return?",
+      "options": [
+        "The user's home directory",
+        "The current working directory",
+        "The Python installation directory",
+        "The root directory"
+      ],
+      "correct_answer": 1,
+      "explanation": "Path.cwd() returns the current working directory (cwd = current working directory) - the directory your program is running from. Path.home() returns the user's home directory. These are common starting points for building paths."
+    },
+    {
+      "id": 20,
+      "type": "multiple_choice",
+      "question": "Why generate multiple output formats (text, CSV, JSON) in data processing applications?",
+      "options": [
+        "To use more disk space",
+        "Different formats serve different purposes: text for humans, CSV for spreadsheets, JSON for programs",
+        "It makes the program slower",
+        "It's a Python requirement"
+      ],
+      "correct_answer": 1,
+      "explanation": "Different formats serve different audiences: text reports are human-readable for quick review, CSV can be opened in Excel for further analysis, JSON can be consumed by other programs or APIs. Professional applications provide multiple export options to serve different needs."
+    }
+  ],
+  "completion_message": "Excellent! You've mastered File I/O - one of the most practical skills in programming. You can now persist data beyond program execution, work with standard formats (CSV, JSON), navigate the file system, and build real-world data processing applications. These skills are essential for backend development, data engineering, DevOps, and system automation. Ready for Module 10: Modules & Packages?",
+  "retry_message": "Review the lessons that gave you trouble and try again. Focus on: file modes (r/w/a), the 'with' statement and why it's essential, csv.DictReader/DictWriter for CSV operations, json.dump/dumps vs load/loads, Path() operations and the / operator, mkdir() parameters, glob() vs rglob(), and why manual file closing is dangerous. Master these concepts - File I/O is used in almost every real-world Python application!"
+}
