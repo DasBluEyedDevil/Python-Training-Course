@@ -1,0 +1,270 @@
+{
+  "title": "Module 7 Quiz: Dictionaries & Sets",
+  "module_id": 7,
+  "passing_score": 70,
+  "description": "Test your mastery of dictionaries and sets: creating, accessing, methods, nested structures, sets, and comprehensions. You need 14/20 correct (70%) to pass.",
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": "What is the correct syntax to create a dictionary with key 'name' and value 'Alice'?",
+      "options": [
+        "person = ['name': 'Alice']",
+        "person = {'name': 'Alice'}",
+        "person = ('name': 'Alice')",
+        "person = name: 'Alice'"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use CURLY BRACES {} with key:value pairs: person = {'name': 'Alice'}. Square brackets [] are for lists, parentheses () are for tuples. The colon : separates key from value in dictionaries."
+    },
+    {
+      "id": 2,
+      "type": "multiple_choice",
+      "question": "What does dict.get('key', 'default') return if 'key' doesn't exist?",
+      "options": [
+        "Raises KeyError",
+        "Returns None",
+        "Returns 'default'",
+        "Returns an empty string"
+      ],
+      "correct_answer": 2,
+      "explanation": "Returns 'default' if the key doesn't exist. This is the safe way to access dictionary values without risking KeyError. Without the second argument, .get() would return None. It NEVER raises KeyError - that's the point!"
+    },
+    {
+      "id": 3,
+      "type": "multiple_choice",
+      "question": "Which method adds all items from one dictionary to another?",
+      "options": [
+        ".add()",
+        ".update()",
+        ".merge()",
+        ".append()"
+      ],
+      "correct_answer": 1,
+      "explanation": ".update() merges dictionaries. dict1.update(dict2) adds all key-value pairs from dict2 into dict1. If keys exist, values are overwritten. .add() is for sets, .append() is for lists, and .merge() doesn't exist."
+    },
+    {
+      "id": 4,
+      "type": "multiple_choice",
+      "question": "What does dict.pop('key', default) do?",
+      "options": [
+        "Returns the value only",
+        "Removes the key and returns its value",
+        "Removes the key but doesn't return anything",
+        "Creates a new key"
+      ],
+      "correct_answer": 1,
+      "explanation": ".pop() REMOVES the key from the dictionary AND RETURNS its value. It's two operations in one: remove + get. If key doesn't exist and default is provided, returns default without error. If no default and key missing, raises KeyError."
+    },
+    {
+      "id": 5,
+      "type": "multiple_choice",
+      "question": "How do you iterate over both keys and values in a dictionary?",
+      "options": [
+        "for key, value in dict:",
+        "for key, value in dict.items():",
+        "for key, value in dict.pairs():",
+        "for key, value in dict.keys(), dict.values():"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use .items(): for key, value in dict.items():. This returns (key, value) tuples that you can unpack. .pairs() doesn't exist, and option D doesn't work syntactically. .items() is the standard way to loop over dictionaries."
+    },
+    {
+      "id": 6,
+      "type": "multiple_choice",
+      "question": "How do you access a nested dictionary value?\ndata = {'user': {'name': 'Alice', 'age': 25}}",
+      "options": [
+        "data['user.name']",
+        "data['user']['name']",
+        "data.user.name",
+        "data['user', 'name']"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use CHAINED BRACKETS: data['user']['name']. First bracket gets the inner dictionary, second bracket gets the value from that dictionary. Navigate level by level with separate brackets, not dots or comma syntax."
+    },
+    {
+      "id": 7,
+      "type": "multiple_choice",
+      "question": "What's the safe way to access deeply nested values?\nuser = {'contact': {'email': 'test@example.com'}}",
+      "options": [
+        "user['contact']['phone']",
+        "user.get('contact').get('phone')",
+        "user.get('contact', {}).get('phone', 'N/A')",
+        "user['contact'].get('phone', 'N/A')"
+      ],
+      "correct_answer": 2,
+      "explanation": "Chain .get() with defaults: user.get('contact', {}).get('phone', 'N/A'). If 'contact' doesn't exist, returns {}, then .get('phone') on that returns 'N/A'. This NEVER crashes. Options A and D crash if keys missing. Option B crashes if .get('contact') returns None."
+    },
+    {
+      "id": 8,
+      "type": "multiple_choice",
+      "question": "What makes a set different from a list?",
+      "options": [
+        "Sets are faster",
+        "Sets only store unique items and have no order",
+        "Sets can only store numbers",
+        "Sets are immutable"
+      ],
+      "correct_answer": 1,
+      "explanation": "Sets store UNIQUE items (no duplicates) and have NO ORDER (can't index). Lists allow duplicates and maintain order. Both are mutable. Sets can store any immutable type (not just numbers). The uniqueness and lack of order are the key differences."
+    },
+    {
+      "id": 9,
+      "type": "multiple_choice",
+      "question": "How do you create an empty set?",
+      "options": [
+        "empty = {}",
+        "empty = set()",
+        "empty = []",
+        "empty = ()"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use set() to create an empty set. {} creates an empty DICTIONARY (not set!), [] creates a list, () creates a tuple. This is a common gotcha - {} is ambiguous, so Python treats it as a dict."
+    },
+    {
+      "id": 10,
+      "type": "multiple_choice",
+      "question": "What does set1 & set2 do?",
+      "options": [
+        "Combines all items from both sets (union)",
+        "Returns items in BOTH sets (intersection)",
+        "Returns items in set1 but not set2 (difference)",
+        "Creates an error"
+      ],
+      "correct_answer": 1,
+      "explanation": "The & operator returns the INTERSECTION - items in BOTH sets. If set1 = {1, 2, 3} and set2 = {2, 3, 4}, then set1 & set2 = {2, 3}. Use | for union, - for difference."
+    },
+    {
+      "id": 11,
+      "type": "multiple_choice",
+      "question": "What does set1 | set2 do?",
+      "options": [
+        "Returns items in both sets (intersection)",
+        "Returns items in set1 but not set2 (difference)",
+        "Returns all items from both sets (union)",
+        "Divides the sets"
+      ],
+      "correct_answer": 2,
+      "explanation": "The | operator returns the UNION - ALL items from BOTH sets (no duplicates). If set1 = {1, 2} and set2 = {2, 3}, then set1 | set2 = {1, 2, 3}. Use & for intersection, - for difference."
+    },
+    {
+      "id": 12,
+      "type": "multiple_choice",
+      "question": "What does set1 - set2 do?",
+      "options": [
+        "Combines all items",
+        "Returns items in both sets",
+        "Returns items in set1 but NOT in set2",
+        "Subtracts the values"
+      ],
+      "correct_answer": 2,
+      "explanation": "The - operator returns the DIFFERENCE - items in set1 that are NOT in set2. If set1 = {1, 2, 3} and set2 = {2, 3, 4}, then set1 - set2 = {1}. Note: set1 - set2 ≠ set2 - set1!"
+    },
+    {
+      "id": 13,
+      "type": "multiple_choice",
+      "question": "What's the difference between .remove() and .discard() for sets?",
+      "options": [
+        "They're the same",
+        ".remove() raises error if item doesn't exist, .discard() doesn't",
+        ".discard() is faster",
+        ".remove() works on lists only"
+      ],
+      "correct_answer": 1,
+      "explanation": ".remove() raises KeyError if item doesn't exist. .discard() silently does nothing if item missing. Both remove items from sets. Use .discard() when you're not sure if item exists, .remove() when you expect it to be there."
+    },
+    {
+      "id": 14,
+      "type": "multiple_choice",
+      "question": "What does this dictionary comprehension create?\n{x: x**2 for x in range(4)}",
+      "options": [
+        "{0, 1, 4, 9}",
+        "[0, 1, 4, 9]",
+        "{0: 0, 1: 1, 2: 4, 3: 9}",
+        "{'x': 'x**2'}"
+      ],
+      "correct_answer": 2,
+      "explanation": "Creates a DICTIONARY with keys 0-3 mapped to their squares: {0: 0, 1: 1, 2: 4, 3: 9}. The key:value format makes it a dict comprehension. Option A would be a set (no colons), B would be a list (uses [])."
+    },
+    {
+      "id": 15,
+      "type": "multiple_choice",
+      "question": "What's the difference between {x*2 for x in nums} and {x: x*2 for x in nums}?",
+      "options": [
+        "They're the same",
+        "First creates a set, second creates a dict",
+        "First creates a list, second creates a dict",
+        "Both create dicts"
+      ],
+      "correct_answer": 1,
+      "explanation": "First creates a SET {2, 4, 6...} (single expression), second creates a DICT {1: 2, 2: 4, 3: 6...} (key:value pairs). The COLON : is what distinguishes dict comprehensions from set comprehensions. Both use curly braces {}."
+    },
+    {
+      "id": 16,
+      "type": "multiple_choice",
+      "question": "How do you filter a dictionary using comprehension?\nscores = {'Alice': 85, 'Bob': 55, 'Carol': 92}",
+      "options": [
+        "{k: v for k, v in scores if v >= 60}",
+        "{k: v for k, v in scores.items() if v >= 60}",
+        "{k, v for k, v in scores.items() if v >= 60}",
+        "{scores if v >= 60}"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use .items() with if condition: {k: v for k, v in scores.items() if v >= 60}. Must use .items() to get key-value pairs. Option A is missing .items(), option C is missing the colon, option D is nonsense."
+    },
+    {
+      "id": 17,
+      "type": "multiple_choice",
+      "question": "What does this set comprehension do?\n{len(word) for word in ['hi', 'hello', 'hi']}",
+      "options": [
+        "Creates {2, 5, 2}",
+        "Creates {2, 5}",
+        "Creates [2, 5, 2]",
+        "Creates an error"
+      ],
+      "correct_answer": 1,
+      "explanation": "Creates {2, 5} - a SET of unique lengths. Even though 'hi' appears twice (length 2), sets automatically remove duplicates. Result contains only unique values: 2 and 5. Not a list (would need []), and sets don't store duplicates."
+    },
+    {
+      "id": 18,
+      "type": "multiple_choice",
+      "question": "When should you use a traditional loop instead of a comprehension?",
+      "options": [
+        "Never - comprehensions are always better",
+        "When logic is complex or you need side effects (like printing)",
+        "When you have more than 5 items",
+        "When you want it to run slower"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use traditional loops when logic is COMPLEX or you need SIDE EFFECTS (printing, modifying external variables). Comprehensions are for simple, clean transformations/filters. If it becomes hard to read or requires multiple lines, use a loop instead. Readability > brevity!"
+    },
+    {
+      "id": 19,
+      "type": "multiple_choice",
+      "question": "What's the best data structure for storing tags for a contact where each tag should only appear once?",
+      "options": [
+        "List",
+        "Dictionary",
+        "Set",
+        "Tuple"
+      ],
+      "correct_answer": 2,
+      "explanation": "A SET is best for tags because: (1) enforces uniqueness (no duplicate tags), (2) order doesn't matter for tags, (3) fast membership testing ('work' in tags). Lists allow duplicates, dicts need key:value pairs, tuples are immutable."
+    },
+    {
+      "id": 20,
+      "type": "multiple_choice",
+      "question": "How would you invert a dictionary (swap keys and values)?",
+      "options": [
+        "dict.invert()",
+        "{v: k for k, v in dict.items()}",
+        "{k: v.reverse() for k, v in dict.items()}",
+        "dict[::-1]"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use dict comprehension with swapped positions: {v: k for k, v in dict.items()}. This creates a new dict where original values become keys and original keys become values. .invert() doesn't exist, .reverse() is for lists, and slicing doesn't work on dicts."
+    }
+  ],
+  "completion_message": "Excellent work completing Module 7! You've mastered dictionaries and sets - Python's most powerful data structures for organizing data. You understand key-value pairs, dictionary methods, nested structures, sets for unique collections, and comprehensions for concise data processing. These are essential skills for any Python developer! Ready for Module 8: Error Handling?",
+  "retry_message": "Review the lessons that gave you trouble and try again. Focus on: dictionary syntax {key: value}, .get() for safe access, .update() and .pop(), nested dictionary navigation, sets for unique items, set operations (& | -), comprehension syntax for both dicts and sets, and when to use each data structure. These concepts are crucial!"
+}

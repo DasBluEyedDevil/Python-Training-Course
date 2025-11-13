@@ -1,0 +1,130 @@
+{
+  "lesson_id": "08_04",
+  "title": "Raising Exceptions and Creating Custom Exceptions",
+  "module_id": 8,
+  "order_index": 4,
+  "description": "Learn to raise exceptions intentionally, create custom exception classes for domain-specific errors, and understand when to use exceptions vs. return values.",
+  "estimated_minutes": 35,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: Activating the Fire Alarm",
+      "content": "So far, we've been CATCHING exceptions (responding to the alarm when it goes off). But what about RAISING exceptions (pressing the fire alarm button yourself)?\n\n**Why would you raise an exception?**\n\nImagine you're a security guard checking IDs at a club:\n- Someone shows a fake ID → You raise an alarm (raise ValueError)\n- Someone is under 21 → You raise an alarm (raise ValueError)\n- Someone is on the banned list → You raise a CUSTOM alarm (raise BannedPersonError)\n\nYou're not waiting for something to break - you're actively detecting a problem and **signaling it** by raising an exception.\n\n**Real-world code scenarios:**\n\n1. **Validation:** Age is negative → raise ValueError(\"Age cannot be negative\")\n2. **Business rules:** Withdrawal exceeds balance → raise InsufficientFundsError(\"Not enough money\")\n3. **Preconditions:** Function requires positive number but got zero → raise ValueError(\"Expected positive number\")\n\n**Custom Exceptions** are like creating your own fire alarm sounds:\n- Standard alarm: ValueError, TypeError (built-in)\n- Custom alarm: InsufficientFundsError, InvalidPasswordError (your own)\n\nCustom exceptions make your code self-documenting: except InsufficientFundsError: is clearer than except ValueError: in a banking app.\n\n**Exception vs. Return Value:**\n- **Return error value:** User enters wrong password → return False (expected, common)\n- **Raise exception:** Credit card number has letters → raise ValueError (unexpected, exceptional)\n\nRule of thumb: If the error is EXCEPTIONAL (shouldn't normally happen), raise an exception. If it's EXPECTED (users often get it wrong), return a value."
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Raising Exceptions",
+      "code": "# Example 1: Raising built-in exceptions\nprint(\"=== Raising Built-in Exceptions ===\")\n\ndef calculate_discount(price, discount_percent):\n    \"\"\"Calculate discounted price with validation.\"\"\"\n    \n    # Validate price\n    if price < 0:\n        raise ValueError(\"Price cannot be negative\")\n    \n    # Validate discount\n    if discount_percent < 0 or discount_percent > 100:\n        raise ValueError(\"Discount must be between 0 and 100\")\n    \n    # If validations pass, calculate discount\n    discount_amount = price * (discount_percent / 100)\n    final_price = price - discount_amount\n    return final_price\n\n# Valid usage\nprint(\"Test 1: Valid values\")\ntry:\n    result = calculate_discount(100, 20)\n    print(f\"$100 with 20% discount = ${result}\\n\")\nexcept ValueError as e:\n    print(f\"Error: {e}\\n\")\n\n# Invalid price\nprint(\"Test 2: Negative price\")\ntry:\n    result = calculate_discount(-50, 20)\n    print(f\"Result: ${result}\\n\")\nexcept ValueError as e:\n    print(f\"Error: {e}\\n\")\n\n# Invalid discount\nprint(\"Test 3: Invalid discount\")\ntry:\n    result = calculate_discount(100, 150)\n    print(f\"Result: ${result}\\n\")\nexcept ValueError as e:\n    print(f\"Error: {e}\\n\")\n\n# Example 2: Creating custom exceptions\nprint(\"=== Custom Exception Classes ===\")\n\n# Define custom exception\nclass InsufficientFundsError(Exception):\n    \"\"\"Raised when account has insufficient funds for withdrawal.\"\"\"\n    pass\n\nclass AccountLockedError(Exception):\n    \"\"\"Raised when attempting to access a locked account.\"\"\"\n    pass\n\nclass BankAccount:\n    \"\"\"Simple bank account with custom exceptions.\"\"\"\n    \n    def __init__(self, balance=0):\n        self.balance = balance\n        self.is_locked = False\n    \n    def withdraw(self, amount):\n        \"\"\"Withdraw money with validation.\"\"\"\n        \n        # Check if account is locked\n        if self.is_locked:\n            raise AccountLockedError(\"Account is locked. Contact bank.\")\n        \n        # Validate amount\n        if amount <= 0:\n            raise ValueError(\"Withdrawal amount must be positive\")\n        \n        # Check sufficient funds\n        if amount > self.balance:\n            raise InsufficientFundsError(\n                f\"Insufficient funds. Balance: ${self.balance}, \"\n                f\"Requested: ${amount}\"\n            )\n        \n        # Process withdrawal\n        self.balance -= amount\n        return self.balance\n    \n    def lock_account(self):\n        \"\"\"Lock the account.\"\"\"\n        self.is_locked = True\n\n# Test custom exceptions\naccount = BankAccount(balance=1000)\n\nprint(\"Test 1: Valid withdrawal\")\ntry:\n    new_balance = account.withdraw(200)\n    print(f\"Withdrew $200. New balance: ${new_balance}\\n\")\nexcept (InsufficientFundsError, AccountLockedError, ValueError) as e:\n    print(f\"Error: {e}\\n\")\n\nprint(\"Test 2: Insufficient funds\")\ntry:\n    new_balance = account.withdraw(5000)\n    print(f\"New balance: ${new_balance}\\n\")\nexcept InsufficientFundsError as e:\n    print(f\"Error: {e}\\n\")\n\nprint(\"Test 3: Locked account\")\naccount.lock_account()\ntry:\n    new_balance = account.withdraw(100)\n    print(f\"New balance: ${new_balance}\\n\")\nexcept AccountLockedError as e:\n    print(f\"Error: {e}\\n\")\n\n# Example 3: Re-raising exceptions\nprint(\"=== Re-raising Exceptions ===\")\n\ndef process_transaction(account, amount):\n    \"\"\"Process transaction with logging.\"\"\"\n    try:\n        account.withdraw(amount)\n        print(f\"Transaction successful: ${amount}\")\n    except InsufficientFundsError as e:\n        print(f\"[LOG] Failed transaction: {e}\")\n        raise  # Re-raise the same exception\n\naccount2 = BankAccount(balance=100)\ntry:\n    process_transaction(account2, 200)\nexcept InsufficientFundsError:\n    print(\"Transaction declined at higher level\")",
+      "explanation": "The code demonstrates:\n1. **Raising built-in exceptions** with raise ValueError() when validation fails\n2. **Custom exception classes** that inherit from Exception for domain-specific errors\n3. **Re-raising exceptions** with bare raise to pass the exception up after logging\n\nCustom exceptions make error handling more specific and self-documenting.",
+      "output": "=== Raising Built-in Exceptions ===\nTest 1: Valid values\n$100 with 20% discount = $80.0\n\nTest 2: Negative price\nError: Price cannot be negative\n\nTest 3: Invalid discount\nError: Discount must be between 0 and 100\n\n=== Custom Exception Classes ===\nTest 1: Valid withdrawal\nWithdrew $200. New balance: $800\n\nTest 2: Insufficient funds\nError: Insufficient funds. Balance: $800, Requested: $5000\n\nTest 3: Locked account\nError: Account is locked. Contact bank.\n\n=== Re-raising Exceptions ===\n[LOG] Failed transaction: Insufficient funds. Balance: $100, Requested: $200\nTransaction declined at higher level"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown: Raising and Creating Exceptions",
+      "content": "**Raising Built-in Exceptions:**\n\n```python\n# Basic syntax\nraise ExceptionType(\"Error message\")\n\n# Examples\nraise ValueError(\"Age cannot be negative\")\nraise TypeError(\"Expected string, got int\")\nraise FileNotFoundError(\"Config file not found\")\n\n# Without message (less helpful)\nraise ValueError()\n```\n\n**Creating Custom Exception Classes:**\n\n**Basic custom exception:**\n```python\nclass MyCustomError(Exception):\n    \"\"\"Description of when this error occurs.\"\"\"\n    pass  # No additional code needed\n\n# Usage\nraise MyCustomError(\"Something specific went wrong\")\n```\n\n**Custom exception with default message:**\n```python\nclass InsufficientFundsError(Exception):\n    \"\"\"Raised when account balance is too low.\"\"\"\n    def __init__(self, balance, amount):\n        self.balance = balance\n        self.amount = amount\n        message = f\"Insufficient funds: ${balance} < ${amount}\"\n        super().__init__(message)\n\n# Usage\nraise InsufficientFundsError(balance=100, amount=200)\n```\n\n**Exception hierarchy for related errors:**\n```python\nclass BankError(Exception):\n    \"\"\"Base exception for all bank errors.\"\"\"\n    pass\n\nclass InsufficientFundsError(BankError):\n    \"\"\"Not enough money.\"\"\"\n    pass\n\nclass AccountLockedError(BankError):\n    \"\"\"Account is locked.\"\"\"\n    pass\n\n# Can catch all bank errors:\ntry:\n    do_banking()\nexcept BankError:  # Catches both children\n    handle_bank_error()\n\n# Or catch specific ones:\nexcept InsufficientFundsError:\n    handle_insufficient_funds()\n```\n\n**Re-raising Exceptions:**\n\n**Bare raise (re-raises the same exception):**\n```python\ntry:\n    risky_operation()\nexcept ValueError as e:\n    log_error(e)  # Log it\n    raise  # Re-raise the original exception\n```\n\n**Raising a different exception:**\n```python\ntry:\n    risky_operation()\nexcept ValueError as e:\n    # Convert to custom exception\n    raise CustomError(f\"Failed: {e}\")\n```\n\n**When to Raise Exceptions:**\n\n✅ **DO raise exceptions when:**\n- Input validation fails (negative age, invalid email)\n- Preconditions not met (function expects positive number, got zero)\n- Business rules violated (withdrawal exceeds limit)\n- Unrecoverable errors (file corrupted, database connection lost)\n\n❌ **DON'T raise exceptions when:**\n- Result could be legitimately empty (search returns 0 results)\n- User input is commonly wrong (wrong password)\n- You can return a sentinel value (None, False, -1)\n- It's an expected alternate flow (user cancels operation)\n\n**Guideline:** Exceptions are for EXCEPTIONAL cases, not control flow."
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise: Build a Password Validator",
+      "instruction": "Create a password validator that raises custom exceptions for different validation failures:\n\n**Requirements:**\n- Password must be at least 8 characters → raise TooShortError\n- Password must contain at least one digit → raise NoDigitError  \n- Password must contain at least one uppercase letter → raise NoUppercaseError\n- If all validations pass, return True\n\n**Your task:**\n1. Create three custom exception classes\n2. Create a validate_password() function\n3. Raise appropriate exceptions when validation fails\n4. Test with various passwords\n\n**Starter code:**",
+      "starter_code": "# TODO: Create custom exception classes\nclass TooShortError(Exception):\n    \"\"\"Password is too short.\"\"\"\n    pass\n\n# TODO: Create NoDigitError class\n\n# TODO: Create NoUppercaseError class\n\ndef validate_password(password):\n    \"\"\"Validate password and raise exceptions on failure.\"\"\"\n    \n    # TODO: Check length (< 8 chars)\n    # Raise TooShortError with helpful message\n    \n    # TODO: Check for at least one digit\n    # Use: any(char.isdigit() for char in password)\n    # Raise NoDigitError if no digits found\n    \n    # TODO: Check for at least one uppercase letter\n    # Use: any(char.isupper() for char in password)\n    # Raise NoUppercaseError if no uppercase found\n    \n    # If all checks pass\n    return True\n\n# Test cases\ntest_passwords = [\n    \"SecurePass123\",  # Valid\n    \"short\",          # Too short\n    \"nouppercase123\", # No uppercase\n    \"NODIGITS\",       # No digit\n]\n\nfor pwd in test_passwords:\n    try:\n        if validate_password(pwd):\n            print(f\"✓ '{pwd}' is valid\")\n    except (TooShortError, NoDigitError, NoUppercaseError) as e:\n        print(f\"✗ '{pwd}': {e}\")",
+      "hint": "Create each exception class with pass. In validate_password, use if len(password) < 8: raise TooShortError(...). Use any() with generator expressions to check for digits and uppercase."
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution & Common Mistakes",
+      "solution_code": "# Custom exception classes for password validation\nclass TooShortError(Exception):\n    \"\"\"Raised when password is shorter than minimum length.\"\"\"\n    pass\n\nclass NoDigitError(Exception):\n    \"\"\"Raised when password contains no digits.\"\"\"\n    pass\n\nclass NoUppercaseError(Exception):\n    \"\"\"Raised when password contains no uppercase letters.\"\"\"\n    pass\n\ndef validate_password(password):\n    \"\"\"Validate password and raise specific exceptions on failure.\n    \n    Args:\n        password: String to validate\n        \n    Returns:\n        True if password is valid\n        \n    Raises:\n        TooShortError: Password is less than 8 characters\n        NoDigitError: Password contains no digits\n        NoUppercaseError: Password contains no uppercase letters\n    \"\"\"\n    \n    # Check minimum length\n    if len(password) < 8:\n        raise TooShortError(\n            f\"Password must be at least 8 characters (got {len(password)})\"\n        )\n    \n    # Check for at least one digit\n    if not any(char.isdigit() for char in password):\n        raise NoDigitError(\"Password must contain at least one digit (0-9)\")\n    \n    # Check for at least one uppercase letter\n    if not any(char.isupper() for char in password):\n        raise NoUppercaseError(\"Password must contain at least one uppercase letter (A-Z)\")\n    \n    # All validations passed\n    return True\n\n# Comprehensive test cases\nprint(\"=== Password Validation Tests ===\")\n\ntest_passwords = [\n    (\"SecurePass123\", \"Valid password\"),\n    (\"short\", \"Too short\"),\n    (\"nouppercase123\", \"No uppercase letters\"),\n    (\"NODIGITSHERE\", \"No digits\"),\n    (\"NoDigit\", \"No digit and too short\"),\n    (\"Valid1Password\", \"Another valid password\"),\n]\n\nfor pwd, description in test_passwords:\n    print(f\"\\nTesting: '{pwd}' ({description})\")\n    try:\n        if validate_password(pwd):\n            print(f\"  ✓ Password is valid!\")\n    except TooShortError as e:\n        print(f\"  ✗ Too Short: {e}\")\n    except NoDigitError as e:\n        print(f\"  ✗ No Digit: {e}\")\n    except NoUppercaseError as e:\n        print(f\"  ✗ No Uppercase: {e}\")\n\n# Bonus: Creating a parent exception for all password errors\nprint(\"\\n=== Bonus: Exception Hierarchy ===\")\n\nclass PasswordValidationError(Exception):\n    \"\"\"Base class for all password validation errors.\"\"\"\n    pass\n\nclass TooShortError2(PasswordValidationError):\n    pass\n\nclass NoDigitError2(PasswordValidationError):\n    pass\n\nclass NoUppercaseError2(PasswordValidationError):\n    pass\n\ndef validate_password_v2(password):\n    \"\"\"Version 2 with exception hierarchy.\"\"\"\n    if len(password) < 8:\n        raise TooShortError2(f\"Minimum 8 characters (got {len(password)})\")\n    if not any(char.isdigit() for char in password):\n        raise NoDigitError2(\"Must contain at least one digit\")\n    if not any(char.isupper() for char in password):\n        raise NoUppercaseError2(\"Must contain at least one uppercase letter\")\n    return True\n\n# Can catch all password errors with one except\nprint(\"\\nTesting with exception hierarchy:\")\ntry:\n    validate_password_v2(\"tooshort\")\nexcept PasswordValidationError as e:\n    print(f\"Password validation failed: {e}\")\n    print(f\"Error type: {type(e).__name__}\")",
+      "explanation": "The solution demonstrates:\n1. **Custom exception classes** for each specific validation failure\n2. **Descriptive error messages** that help users fix the problem\n3. **Raising exceptions** with raise when validation fails\n4. **Exception hierarchy (bonus)** where all password errors inherit from a common base class\n\nThe hierarchy lets you catch all password errors with one except block, or catch specific ones separately.",
+      "output": "=== Password Validation Tests ===\n\nTesting: 'SecurePass123' (Valid password)\n  ✓ Password is valid!\n\nTesting: 'short' (Too short)\n  ✗ Too Short: Password must be at least 8 characters (got 5)\n\nTesting: 'nouppercase123' (No uppercase letters)\n  ✗ No Uppercase: Password must contain at least one uppercase letter (A-Z)\n\nTesting: 'NODIGITSHERE' (No digits)\n  ✗ No Digit: Password must contain at least one digit (0-9)\n\nTesting: 'NoDigit' (No digit and too short)\n  ✗ Too Short: Password must be at least 8 characters (got 7)\n\nTesting: 'Valid1Password' (Another valid password)\n  ✓ Password is valid!\n\n=== Bonus: Exception Hierarchy ===\n\nTesting with exception hierarchy:\nPassword validation failed: Minimum 8 characters (got 8)\nError type: TooShortError2",
+      "common_mistakes": [
+        {
+          "mistake": "Forgetting to inherit from Exception",
+          "wrong_code": "class MyError:  # Missing inheritance!\n    pass\n\nraise MyError(\"Error\")",
+          "correct_code": "class MyError(Exception):\n    pass\n\nraise MyError(\"Error\")",
+          "explanation": "Custom exceptions MUST inherit from Exception (or a subclass of Exception). Without inheritance, Python won't recognize it as an exception, and you'll get a TypeError when trying to raise it."
+        },
+        {
+          "mistake": "Raising exceptions without messages",
+          "wrong_code": "if age < 0:\n    raise ValueError()  # No context!",
+          "correct_code": "if age < 0:\n    raise ValueError(f\"Age cannot be negative, got {age}\")",
+          "explanation": "Always include a descriptive error message. It helps with debugging and tells users what went wrong and how to fix it. The message should be specific and actionable."
+        },
+        {
+          "mistake": "Using exceptions for control flow",
+          "wrong_code": "def find_user(user_id):\n    if user_id not in users:\n        raise UserNotFoundError()  # Bad!\n    return users[user_id]",
+          "correct_code": "def find_user(user_id):\n    if user_id not in users:\n        return None  # Expected case\n    return users[user_id]",
+          "explanation": "Don't use exceptions for expected alternate flows. If not finding a user is common (search returns no results), return None or an empty list. Use exceptions for truly EXCEPTIONAL cases only."
+        },
+        {
+          "mistake": "Re-raising with raise e instead of bare raise",
+          "wrong_code": "try:\n    risky_op()\nexcept ValueError as e:\n    log(e)\n    raise e  # Loses stack trace context!",
+          "correct_code": "try:\n    risky_op()\nexcept ValueError as e:\n    log(e)\n    raise  # Preserves full stack trace",
+          "explanation": "Use bare raise (not raise e) to re-raise. Bare raise preserves the original exception with full stack trace. raise e creates a new exception and loses context about where it originally occurred."
+        },
+        {
+          "mistake": "Creating exception classes with complicated __init__",
+          "wrong_code": "class MyError(Exception):\n    def __init__(self, msg, code):\n        self.msg = msg\n        self.code = code\n        # Forgot to call super().__init__!",
+          "correct_code": "class MyError(Exception):\n    def __init__(self, msg, code):\n        super().__init__(msg)  # Important!\n        self.code = code",
+          "explanation": "If you override __init__ in custom exceptions, ALWAYS call super().__init__(message). This ensures the exception message is properly set and available to exception handlers."
+        }
+      ]
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Raise exceptions** with raise ExceptionType('message') when validation fails or preconditions aren't met. Always include a descriptive message.",
+        "**Custom exceptions** are classes that inherit from Exception. Use them for domain-specific errors: class MyError(Exception): pass",
+        "**Exception hierarchy** lets you group related exceptions. Create a base exception and inherit from it: class BankError(Exception), then class InsufficientFundsError(BankError).",
+        "**Re-raise exceptions** with bare raise (not raise e) to preserve the original stack trace. Useful for logging then re-raising.",
+        "**Use exceptions for exceptional cases** (validation failures, violated preconditions). Use return values for expected alternate flows (search returns no results).",
+        "**Exception messages should be actionable:** Include what went wrong, expected vs. actual values, and how to fix it.",
+        "**Custom exceptions make code self-documenting:** except InsufficientFundsError is clearer than except ValueError in a banking app.",
+        "**Don't use exceptions for control flow:** They're slower than if/else and make code harder to understand. Save them for truly exceptional situations."
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "What is the correct syntax to raise a ValueError with a message?",
+        "options": [
+          "throw ValueError('message')",
+          "raise ValueError('message')",
+          "error ValueError('message')",
+          "ValueError.raise('message')"
+        ],
+        "correct_answer": 1,
+        "explanation": "Use raise ExceptionType('message') to raise an exception in Python. The raise keyword is followed by the exception class with an optional message in parentheses. (Note: 'throw' is used in other languages like Java, not Python.)"
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "How do you create a custom exception class?",
+        "options": [
+          "class MyError: pass",
+          "class MyError(Exception): pass",
+          "class MyError extends Exception: pass",
+          "def MyError(Exception): pass"
+        ],
+        "correct_answer": 1,
+        "explanation": "Custom exceptions must inherit from Exception (or a subclass of Exception): class MyError(Exception): pass. This makes Python recognize it as an exception type. The pass keyword means the class has no additional code."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "When should you use exceptions instead of return values?",
+        "options": [
+          "Always - exceptions are better than return values",
+          "For control flow in loops",
+          "For exceptional, unexpected errors (validation failures, violated preconditions)",
+          "For expected alternate flows like \"user not found\""
+        ],
+        "correct_answer": 2,
+        "explanation": "Use exceptions for exceptional, unexpected situations (validation failures, violated preconditions, unrecoverable errors). Use return values for expected alternate flows (search returns 0 results, user not found). Exceptions are for when something goes wrong, not for normal program logic."
+      }
+    ]
+  }
+}

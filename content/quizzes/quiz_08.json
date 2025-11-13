@@ -1,0 +1,270 @@
+{
+  "title": "Module 8 Quiz: Error Handling & Defensive Programming",
+  "module_id": 8,
+  "passing_score": 70,
+  "description": "Test your mastery of error handling: exceptions, try/except/finally, custom exceptions, input validation, and defensive programming. You need 14/20 correct (70%) to pass.",
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": "What happens when an exception occurs in a try block?",
+      "options": [
+        "The program crashes immediately",
+        "Python jumps to the matching except block",
+        "The try block restarts from the beginning",
+        "Python ignores the error and continues"
+      ],
+      "correct_answer": 1,
+      "explanation": "When an exception occurs in a try block, Python immediately stops executing the try block and jumps to the first matching except block. This prevents the program from crashing and allows you to handle the error gracefully."
+    },
+    {
+      "id": 2,
+      "type": "multiple_choice",
+      "question": "What is the correct order for try/except/else/finally blocks?",
+      "options": [
+        "try → else → except → finally",
+        "try → except → finally → else",
+        "try → except → else → finally",
+        "The order doesn't matter"
+      ],
+      "correct_answer": 2,
+      "explanation": "The mandatory order is: try → except(s) → else (optional) → finally (optional). Python enforces this order - any other arrangement will cause a SyntaxError. The else block must come after all except blocks and before finally."
+    },
+    {
+      "id": 3,
+      "type": "multiple_choice",
+      "question": "When does the finally block execute?",
+      "options": [
+        "Only if the try block succeeds",
+        "Only if an exception occurs",
+        "Always, no matter what happens",
+        "Only if there's a return statement"
+      ],
+      "correct_answer": 2,
+      "explanation": "The finally block ALWAYS executes, no matter what - whether the try succeeds, an exception occurs, or there's a return/break/continue statement. This makes it perfect for cleanup code like closing files or releasing resources."
+    },
+    {
+      "id": 4,
+      "type": "multiple_choice",
+      "question": "When does the else block in try/except/else run?",
+      "options": [
+        "Always, no matter what",
+        "Only if an exception occurs",
+        "Only if NO exception occurs in the try block",
+        "Only if finally runs"
+      ],
+      "correct_answer": 2,
+      "explanation": "The else block runs ONLY if the try block completes successfully without any exception. If any exception occurs, the else block is skipped entirely. It's useful for code that should only run on success."
+    },
+    {
+      "id": 5,
+      "type": "multiple_choice",
+      "question": "What exception is raised when you try to convert 'abc' to an integer with int('abc')?",
+      "options": [
+        "TypeError",
+        "ValueError",
+        "ConversionError",
+        "SyntaxError"
+      ],
+      "correct_answer": 1,
+      "explanation": "int('abc') raises a ValueError because 'abc' cannot be converted to an integer. ValueError is raised when a function receives an argument of the correct type (string) but with an inappropriate value (not numeric)."
+    },
+    {
+      "id": 6,
+      "type": "multiple_choice",
+      "question": "What exception does accessing a list index that doesn't exist raise?",
+      "options": [
+        "KeyError",
+        "IndexError",
+        "ValueError",
+        "AttributeError"
+      ],
+      "correct_answer": 1,
+      "explanation": "Accessing a list, tuple, or string index that is out of range raises IndexError. KeyError is for dictionaries, ValueError is for wrong values, and AttributeError is for missing attributes/methods."
+    },
+    {
+      "id": 7,
+      "type": "multiple_choice",
+      "question": "How do you catch multiple exception types with the same handler?",
+      "options": [
+        "except ValueError or TypeError:",
+        "except (ValueError, TypeError):",
+        "except ValueError, TypeError:",
+        "except ValueError and TypeError:"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use a tuple with parentheses: except (ValueError, TypeError):. This catches both ValueError and TypeError with the same handling code. The parentheses are required in Python 3 to distinguish from the old Python 2 syntax."
+    },
+    {
+      "id": 8,
+      "type": "multiple_choice",
+      "question": "Why should you order except blocks from specific to general?",
+      "options": [
+        "It runs faster",
+        "It's required by Python syntax",
+        "Python checks in order and uses the first match, so general exceptions would catch everything",
+        "It doesn't matter what order you use"
+      ],
+      "correct_answer": 2,
+      "explanation": "Python checks except blocks in order and uses the first match. If you put except Exception: first (general), it catches all exceptions, and specific blocks below it never run. Always put specific exceptions first (ValueError, TypeError), general ones last (Exception)."
+    },
+    {
+      "id": 9,
+      "type": "multiple_choice",
+      "question": "What is the correct syntax to raise a ValueError with a message?",
+      "options": [
+        "throw ValueError('message')",
+        "raise ValueError('message')",
+        "error ValueError('message')",
+        "ValueError.raise('message')"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use raise ExceptionType('message') to raise an exception in Python. The raise keyword is followed by the exception class with an optional message. Note: 'throw' is used in other languages like Java, not Python."
+    },
+    {
+      "id": 10,
+      "type": "multiple_choice",
+      "question": "How do you create a custom exception class?",
+      "options": [
+        "class MyError: pass",
+        "class MyError(Exception): pass",
+        "class MyError extends Exception: pass",
+        "def MyError(Exception): pass"
+      ],
+      "correct_answer": 1,
+      "explanation": "Custom exceptions must inherit from Exception (or a subclass): class MyError(Exception): pass. This makes Python recognize it as an exception type. The pass keyword means the class has no additional code beyond inheriting from Exception."
+    },
+    {
+      "id": 11,
+      "type": "multiple_choice",
+      "question": "When should you use exceptions instead of return values?",
+      "options": [
+        "Always - exceptions are better than return values",
+        "For control flow in loops",
+        "For exceptional, unexpected errors (validation failures, violated preconditions)",
+        "For expected alternate flows like 'user not found'"
+      ],
+      "correct_answer": 2,
+      "explanation": "Use exceptions for exceptional, unexpected situations (validation failures, violated preconditions, unrecoverable errors). Use return values for expected alternate flows (search returns 0 results, user enters wrong password). Exceptions are for when something goes wrong, not normal program logic."
+    },
+    {
+      "id": 12,
+      "type": "multiple_choice",
+      "question": "What's the difference between raise and raise e when re-raising an exception?",
+      "options": [
+        "They're exactly the same",
+        "raise preserves the original stack trace, raise e creates a new exception",
+        "raise e is faster",
+        "raise doesn't work, must use raise e"
+      ],
+      "correct_answer": 1,
+      "explanation": "Bare raise preserves the original exception with its full stack trace, showing where it originally occurred. raise e creates a new exception at the current location, losing the original context. Always use bare raise to re-raise and preserve debugging information."
+    },
+    {
+      "id": 13,
+      "type": "multiple_choice",
+      "question": "What does EAFP stand for and what does it mean?",
+      "options": [
+        "Execute And Fix Programming - run code and fix errors later",
+        "Easier to Ask Forgiveness than Permission - try it, handle errors if they occur",
+        "Error And Failure Prevention - prevent all possible errors",
+        "Evaluate All Function Parameters - validate all inputs"
+      ],
+      "correct_answer": 1,
+      "explanation": "EAFP (Easier to Ask Forgiveness than Permission) means trying an operation and handling exceptions if they occur, rather than checking conditions first. This is the Pythonic approach: try: dict[key] except KeyError: handle() instead of if key in dict: value = dict[key]."
+    },
+    {
+      "id": 14,
+      "type": "multiple_choice",
+      "question": "What should you do BEFORE checking the length of a string from user input?",
+      "options": [
+        "Convert it to lowercase",
+        "Check if it's None and strip whitespace",
+        "Check if it contains numbers",
+        "Nothing - check length first"
+      ],
+      "correct_answer": 1,
+      "explanation": "Always check if the string is None and strip whitespace BEFORE checking length. Calling len() on None causes an error. Also, '   ' has length 3 but is effectively empty. Validation order: check None → strip → check empty → check length → check format."
+    },
+    {
+      "id": 15,
+      "type": "multiple_choice",
+      "question": "Why validate types with isinstance() before performing operations?",
+      "options": [
+        "It makes code run faster",
+        "It prevents TypeError exceptions when operations are performed on wrong types",
+        "It's required by Python syntax",
+        "It automatically converts types"
+      ],
+      "correct_answer": 1,
+      "explanation": "Validating types with isinstance() prevents TypeError exceptions. For example, if age is string '25' and you try age < 0, Python raises TypeError. Check isinstance(age, int) first to ensure it's a number before comparing. Always validate types before type-specific operations."
+    },
+    {
+      "id": 16,
+      "type": "multiple_choice",
+      "question": "What's the benefit of using a custom exception hierarchy (base class with specific subclasses)?",
+      "options": [
+        "It makes exceptions run faster",
+        "It's required for all projects",
+        "You can catch all related errors with one except, or specific errors separately",
+        "It makes raising exceptions easier"
+      ],
+      "correct_answer": 2,
+      "explanation": "Exception hierarchies provide flexibility: catch all related errors with except BaseError: or catch specific ones with except SpecificError:. Example: except CalculatorError: catches all calculator errors (InsufficientFunds, InvalidOperation, etc.), while except InsufficientFundsError: catches only that specific error."
+    },
+    {
+      "id": 17,
+      "type": "multiple_choice",
+      "question": "Why should you avoid using bare except: clauses?",
+      "options": [
+        "They run slower",
+        "They only catch some errors",
+        "They catch ALL exceptions including system errors, which can hide bugs",
+        "They don't work in Python 3"
+      ],
+      "correct_answer": 2,
+      "explanation": "Bare except: catches EVERY exception, including KeyboardInterrupt (Ctrl+C) and SystemExit, making it impossible to stop the program normally. This hides bugs and makes debugging hard. Always specify the exception type you want to catch: except ValueError:, except TypeError:, etc."
+    },
+    {
+      "id": 18,
+      "type": "multiple_choice",
+      "question": "What's the correct way to validate that a password is not empty?",
+      "options": [
+        "if password.strip():",
+        "if password: (without stripping)",
+        "if len(password) > 0:",
+        "if password is not None:"
+      ],
+      "correct_answer": 1,
+      "explanation": "For passwords, check if password: WITHOUT stripping, because leading/trailing spaces might be intentional and part of the password. Don't strip passwords! For usernames and display text, strip first then check. Also verify password is not None first if it could be None."
+    },
+    {
+      "id": 19,
+      "type": "multiple_choice",
+      "question": "When using eval() to evaluate user expressions, what's the most important security measure?",
+      "options": [
+        "Convert to lowercase first",
+        "Validate with a whitelist of allowed characters and restrict the namespace",
+        "Only use it with numbers",
+        "Always catch exceptions"
+      ],
+      "correct_answer": 1,
+      "explanation": "When using eval(): (1) Validate input with whitelist of allowed characters, (2) Block dangerous keywords ('import', '__'), (3) Restrict namespace: eval(expr, {'__builtins__': {}}, {}). This prevents code injection. Just catching exceptions isn't enough - malicious code could still execute before raising an exception."
+    },
+    {
+      "id": 20,
+      "type": "multiple_choice",
+      "question": "What's the main purpose of defensive programming?",
+      "options": [
+        "To make programs run faster",
+        "To write less code",
+        "To assume everything can fail and guard against it with validation and error handling",
+        "To avoid using try/except blocks"
+      ],
+      "correct_answer": 2,
+      "explanation": "Defensive programming means assuming everything CAN fail and proactively guarding against it. Validate all inputs (type, range, format), handle all possible errors, provide clear error messages, and have fallback values. The goal is to write robust code that never crashes and handles unexpected situations gracefully."
+    }
+  ],
+  "completion_message": "Outstanding! You've mastered error handling and defensive programming - critical skills for writing production-ready code. You understand try/except/finally blocks, exception types, custom exceptions, raising exceptions, input validation, EAFP vs LBYL, and building robust applications. These skills will make you a professional Python developer who writes code that never crashes! Ready for Module 9: File I/O?",
+  "retry_message": "Review the lessons that gave you trouble and try again. Focus on: try/except/finally order and when each runs, exception types (ValueError, TypeError, IndexError, KeyError), catching multiple exceptions, raising exceptions with raise, creating custom exception classes, exception hierarchies, EAFP vs LBYL, input validation order (None → strip → empty → type → range → format), isinstance() for type checking, and defensive programming principles. Master these concepts - they're essential for writing professional code!"
+}
