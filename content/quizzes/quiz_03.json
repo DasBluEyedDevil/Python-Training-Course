@@ -1,0 +1,270 @@
+{
+  "title": "Module 3 Quiz: Making Decisions (Conditionals)",
+  "module_id": 3,
+  "passing_score": 70,
+  "description": "Test your understanding of Boolean logic, conditional statements, and decision-making in Python. You need 14/20 correct (70%) to pass.",
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": "What are the only two Boolean values in Python?",
+      "options": [
+        "true and false",
+        "TRUE and FALSE",
+        "True and False",
+        "1 and 0"
+      ],
+      "correct_answer": 2,
+      "explanation": "True and False (capitalized!) are the only Boolean values in Python. Python is case-sensitive, so 'true', 'TRUE', or 'false' will cause errors. While True equals 1 and False equals 0 internally, the Boolean values themselves are True and False."
+    },
+    {
+      "id": 2,
+      "type": "multiple_choice",
+      "question": "What will this expression evaluate to?\n\nTrue and False or True",
+      "options": [
+        "True",
+        "False",
+        "Error",
+        "None"
+      ],
+      "correct_answer": 0,
+      "explanation": "The result is True. Following operator precedence, 'and' is evaluated first: (True and False) = False. Then 'or' is evaluated: False or True = True. Remember: 'and' has higher precedence than 'or'."
+    },
+    {
+      "id": 3,
+      "type": "multiple_choice",
+      "question": "Which operator checks if two values are equal?",
+      "options": [
+        "=",
+        "==",
+        "===",
+        "equals"
+      ],
+      "correct_answer": 1,
+      "explanation": "The == operator checks equality and returns True or False. The = operator is for assignment (making a variable equal to a value). Python doesn't use === (that's JavaScript)."
+    },
+    {
+      "id": 4,
+      "type": "multiple_choice",
+      "question": "What's wrong with this code?\n\nif age >= 18\n    print(\"Adult\")",
+      "options": [
+        "Nothing is wrong",
+        "Missing colon after condition",
+        "Wrong indentation",
+        "Using >= instead of >"
+      ],
+      "correct_answer": 1,
+      "explanation": "The colon (:) after the if condition is mandatory in Python. The correct syntax is 'if age >= 18:'. The indentation is actually correct (the print is indented), and >= is the right operator for 'greater than or equal to'."
+    },
+    {
+      "id": 5,
+      "type": "multiple_choice",
+      "question": "What will this code output?\n\nage = 15\n\nif age >= 18:\n    print(\"Adult\")\n\nprint(\"Done\")",
+      "options": [
+        "Adult<br>Done",
+        "Done",
+        "Adult",
+        "Nothing"
+      ],
+      "correct_answer": 1,
+      "explanation": "Only 'Done' prints. Since age (15) is not >= 18, the condition is False, so 'Adult' never prints. However, 'Done' is not indented, so it's not part of the if block - it always runs."
+    },
+    {
+      "id": 6,
+      "type": "multiple_choice",
+      "question": "What's the purpose of the else statement?",
+      "options": [
+        "To check another condition",
+        "To execute code when the if condition is False",
+        "To add comments to code",
+        "To end the if statement"
+      ],
+      "correct_answer": 1,
+      "explanation": "The else statement executes code when the if condition is False. It provides an alternative path. Note: else doesn't check a condition - it automatically handles all cases where the if was False."
+    },
+    {
+      "id": 7,
+      "type": "multiple_choice",
+      "question": "What's wrong with this code?\n\nif score >= 90:\n    print(\"A\")\nelse score >= 80:\n    print(\"B\")",
+      "options": [
+        "Nothing is wrong",
+        "Should use elif instead of else",
+        "else cannot have a condition",
+        "Both B and C are correct"
+      ],
+      "correct_answer": 3,
+      "explanation": "Both B and C are correct! The else keyword cannot have a condition - you can't write 'else score >= 80:'. When you need to check another condition, you must use elif (else if): 'elif score >= 80:'. This is one of the most common mistakes beginners make!"
+    },
+    {
+      "id": 8,
+      "type": "multiple_choice",
+      "question": "In an if-elif-else chain, how many blocks can execute?",
+      "options": [
+        "All of them",
+        "Exactly one",
+        "At least one",
+        "None of them"
+      ],
+      "correct_answer": 1,
+      "explanation": "Exactly ONE block executes in an if-elif-else chain (or zero if there's no else and all conditions are False). Python checks from top to bottom and stops at the first True condition, skipping all remaining elif/else blocks. This is called 'first match wins'."
+    },
+    {
+      "id": 9,
+      "type": "multiple_choice",
+      "question": "What will this code output?\n\nscore = 95\n\nif score >= 60:\n    print(\"Pass\")\nelif score >= 90:\n    print(\"Excellent\")",
+      "options": [
+        "Pass",
+        "Excellent",
+        "Pass<br>Excellent",
+        "Error"
+      ],
+      "correct_answer": 0,
+      "explanation": "Only 'Pass' prints. Even though score >= 90 is also True, Python stops at the FIRST match (score >= 60), executes that block, and skips all remaining elif blocks. Order matters in elif chains! This should be: if score >= 90 (check highest first), then elif score >= 60."
+    },
+    {
+      "id": 10,
+      "type": "multiple_choice",
+      "question": "Which is the correct order for checking grade ranges?",
+      "options": [
+        "if score >= 60, elif >= 70, elif >= 80, elif >= 90",
+        "if score >= 90, elif >= 80, elif >= 70, elif >= 60",
+        "Order doesn't matter",
+        "Use else for all ranges"
+      ],
+      "correct_answer": 1,
+      "explanation": "Option B is correct: check from highest to lowest (most specific to most general). If you check >= 60 first, a score of 95 would match and you'd never check the higher grades. Always order elif chains from most restrictive to least restrictive."
+    },
+    {
+      "id": 11,
+      "type": "multiple_choice",
+      "question": "What does the 'not' operator do?",
+      "options": [
+        "Combines two conditions",
+        "Checks inequality",
+        "Reverses True to False and vice versa",
+        "Stops code execution"
+      ],
+      "correct_answer": 2,
+      "explanation": "The 'not' operator reverses Boolean values: 'not True' becomes False, and 'not False' becomes True. For example, 'not is_raining' is True when is_raining is False."
+    },
+    {
+      "id": 12,
+      "type": "multiple_choice",
+      "question": "What's the result of: 10 > 5 and 3 < 2",
+      "options": [
+        "True",
+        "False",
+        "10",
+        "Error"
+      ],
+      "correct_answer": 1,
+      "explanation": "The result is False. Breaking it down: 10 > 5 is True, and 3 < 2 is False. For 'and' to return True, BOTH conditions must be True. Since one is False, the entire expression is False."
+    },
+    {
+      "id": 13,
+      "type": "multiple_choice",
+      "question": "What's the result of: False or False or True",
+      "options": [
+        "True",
+        "False",
+        "Error",
+        "None"
+      ],
+      "correct_answer": 0,
+      "explanation": "The result is True. With 'or', at least ONE condition must be True for the result to be True. Even though the first two are False, the third one is True, so the entire expression evaluates to True."
+    },
+    {
+      "id": 14,
+      "type": "multiple_choice",
+      "question": "How many spaces should the inner code have in a nested if?\n\nif outer:\n    if inner:\n        action",
+      "options": [
+        "4 spaces",
+        "6 spaces",
+        "8 spaces",
+        "12 spaces"
+      ],
+      "correct_answer": 2,
+      "explanation": "The innermost code needs 8 spaces total. The first if adds 4 spaces, the nested if adds another 4 spaces. Each level of nesting adds 4 more spaces (Level 0 = 0, Level 1 = 4, Level 2 = 8, Level 3 = 12, etc.)."
+    },
+    {
+      "id": 15,
+      "type": "multiple_choice",
+      "question": "When should you use nested if statements instead of 'and'?",
+      "options": [
+        "Always use nesting",
+        "When you need different actions at each level",
+        "When checking two conditions",
+        "Never use nesting"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use nested if when you need different actions at each decision level. For example, checking login status first, then checking user role to show different dashboards. Use 'and' when both conditions are equal requirements for a single outcome."
+    },
+    {
+      "id": 16,
+      "type": "multiple_choice",
+      "question": "What's the difference between these?\n\nA: if x > 10:\n     if y > 5:\n         action\n\nB: if x > 10 and y > 5:\n     action",
+      "options": [
+        "A is correct, B is wrong",
+        "B is correct, A is wrong",
+        "Both produce the same result for this case",
+        "Neither will work"
+      ],
+      "correct_answer": 2,
+      "explanation": "Both produce the same result in this case - action only runs if both conditions are True. However, B is simpler and more concise when you just need to check both conditions for one action. Use A when you need different actions at each level."
+    },
+    {
+      "id": 17,
+      "type": "multiple_choice",
+      "question": "What's wrong with this code?\n\nif age >= 18:\n    print(\"Adult\")\n    else:\n        print(\"Minor\")",
+      "options": [
+        "Nothing is wrong",
+        "else is indented too much",
+        "Missing colon after else",
+        "else should be elif"
+      ],
+      "correct_answer": 1,
+      "explanation": "The else is indented too much. The else keyword must be at the SAME indentation level as its matching if statement. The else should have 0 spaces (same as if), not 4 spaces."
+    },
+    {
+      "id": 18,
+      "type": "multiple_choice",
+      "question": "Which expression checks if a number is NOT equal to 10?",
+      "options": [
+        "number !== 10",
+        "number != 10",
+        "number <> 10",
+        "not number == 10"
+      ],
+      "correct_answer": 1,
+      "explanation": "The != operator checks 'not equal to' in Python. Option D (not number == 10) also works but is more verbose. Options A and C use syntax from other languages that doesn't work in Python."
+    },
+    {
+      "id": 19,
+      "type": "multiple_choice",
+      "question": "What will this code output?\n\nif True:\n    print(\"A\")\n    print(\"B\")\nprint(\"C\")",
+      "options": [
+        "A",
+        "A<br>B",
+        "A<br>B<br>C",
+        "C"
+      ],
+      "correct_answer": 2,
+      "explanation": "All three lines print! The if condition is True, so both 'A' and 'B' (which are indented and part of the if block) execute. Then 'C' prints because it's not indented - it's not part of the if block and always runs."
+    },
+    {
+      "id": 20,
+      "type": "multiple_choice",
+      "question": "What's the best practice for deep nesting?",
+      "options": [
+        "Nest as deeply as needed, no limit",
+        "Never use nesting",
+        "Keep nesting to 2-3 levels max for readability",
+        "Always use 5+ levels"
+      ],
+      "correct_answer": 2,
+      "explanation": "Best practice is to keep nesting to 2-3 levels maximum for readability. Deeper nesting becomes hard to follow and maintain. If you need more levels, consider using logical operators (and/or) or refactoring into functions (which you'll learn in Module 6)."
+    }
+  ],
+  "completion_message": "Excellent work completing Module 3! You've mastered Boolean logic, comparison operators, logical operators (and/or/not), and all conditional statement patterns (if, if-else, elif, nested). You can now build programs that make sophisticated decisions! Ready for Module 4: Loops?",
+  "retry_message": "Review the lessons that gave you trouble and try again. Focus on: the difference between = and ==, when to use elif vs else, how and/or/not work, and proper indentation. Understanding conditionals is crucial for everything ahead!"
+}
