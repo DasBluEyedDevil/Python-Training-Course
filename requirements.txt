@@ -1,0 +1,27 @@
+# Python Learning Platform - Dependencies
+# Python 3.14+ required
+
+# Web Framework
+Flask==3.1.2
+Werkzeug==3.1.3
+
+# Database (for future user progress tracking)
+SQLAlchemy==2.0.44
+Flask-SQLAlchemy==3.1.1
+
+# Security
+itsdangerous==2.2.0
+
+# Templating
+Jinja2==3.1.4
+MarkupSafe==3.0.2
+
+# Development
+python-dotenv==1.0.1
+
+# For code execution sandbox (future feature)
+# RestrictedPython==7.4
+
+# Utilities
+click==8.1.8
+blinker==1.9.0

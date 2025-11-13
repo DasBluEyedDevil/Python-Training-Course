@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}Python: From Zero to Full-Stack Developer{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Python: From Zero to Full-Stack Developer</h1>
+            <p class="hero-subtitle">A comprehensive, interactive course designed for absolute beginners</p>
+            <p class="hero-philosophy"><strong>Our Philosophy:</strong> Concept First, Jargon Last</p>
+
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-number">14</div>
+                    <div class="stat-label">Modules</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">73</div>
+                    <div class="stat-label">Lessons</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Mini-Projects</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Capstone</div>
+                </div>
+            </div>
+
+            <div class="hero-cta">
+                <a href="/module/1" class="btn btn-primary btn-large">Start Learning</a>
+                <a href="#curriculum" class="btn btn-secondary btn-large">View Curriculum</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="features-section">
+    <div class="container">
+        <h2 class="section-title">What Makes This Course Special</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Beginner-Friendly</h3>
+                <p>No prior programming experience required. Every concept is explained with real-world analogies before introducing technical terms.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💻</div>
+                <h3>Interactive Learning</h3>
+                <p>Write and run code directly in your browser. Practice with hands-on exercises and immediate feedback.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3>Project-Based</h3>
+                <p>Build real applications as you learn. From simple calculators to full-stack web apps with databases.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Track Progress</h3>
+                <p>Monitor your learning journey with detailed progress tracking and module-based quizzes.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎓</div>
+                <h3>Job-Ready Skills</h3>
+                <p>Learn modern Python 3.14, Flask 3.1, SQLAlchemy 2.0, and full-stack development practices.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>Self-Paced</h3>
+                <p>Learn at your own speed. Review lessons as many times as you need. No deadlines or pressure.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="curriculum-section" id="curriculum">
+    <div class="container">
+        <h2 class="section-title">Complete Curriculum</h2>
+        <p class="section-subtitle">14 modules that take you from absolute beginner to full-stack developer</p>
+
+        <div class="modules-grid">
+            {% for module in course.modules %}
+            <div class="module-card" data-module-id="{{ module.id }}">
+                <div class="module-header">
+                    <span class="module-icon">{{ module.icon }}</span>
+                    <div class="module-info">
+                        <h3 class="module-title">Module {{ module.id }}: {{ module.title }}</h3>
+                        <p class="module-subtitle">{{ module.subtitle }}</p>
+                    </div>
+                </div>
+                <div class="module-body">
+                    <div class="module-meta">
+                        <span class="module-lessons">📚 {{ module.lessons }} Lessons</span>
+                        <span class="module-progress" data-module="{{ module.id }}">0% Complete</span>
+                    </div>
+                    <a href="/module/{{ module.id }}" class="btn btn-primary btn-block">Start Module</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<div class="learning-path-section">
+    <div class="container">
+        <h2 class="section-title">Your Learning Path</h2>
+        <div class="learning-path">
+            <div class="path-step">
+                <div class="step-number">1</div>
+                <h3>Fundamentals</h3>
+                <p>Modules 1-4: Learn the basics of programming with Python</p>
+            </div>
+            <div class="path-arrow">→</div>
+            <div class="path-step">
+                <div class="step-number">2</div>
+                <h3>Core Concepts</h3>
+                <p>Modules 5-8: Data structures, functions, and object-oriented programming</p>
+            </div>
+            <div class="path-arrow">→</div>
+            <div class="path-step">
+                <div class="step-number">3</div>
+                <h3>Real-World Skills</h3>
+                <p>Modules 9-11: Files, web development, and databases</p>
+            </div>
+            <div class="path-arrow">→</div>
+            <div class="path-step">
+                <div class="step-number">4</div>
+                <h3>Full-Stack</h3>
+                <p>Modules 12-14: Build and deploy complete applications</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cta-section">
+    <div class="container">
+        <h2>Ready to Start Your Journey?</h2>
+        <p>Begin with Module 1 and work your way to becoming a full-stack developer</p>
+        <a href="/module/1" class="btn btn-primary btn-large">Start Learning Now</a>
+    </div>
+</div>
+
+<script>
+    // Update module progress indicators on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const progressTracker = new ProgressTracker();
+        const progress = progressTracker.getProgress();
+
+        // Update each module's progress
+        document.querySelectorAll('.module-progress').forEach(element => {
+            const moduleId = element.getAttribute('data-module');
+            const moduleProgress = progress.modules[moduleId] || { completed: 0, total: 0 };
+
+            if (moduleProgress.total > 0) {
+                const percentage = Math.round((moduleProgress.completed / moduleProgress.total) * 100);
+                element.textContent = `${percentage}% Complete`;
+
+                if (percentage === 100) {
+                    element.classList.add('complete');
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}
