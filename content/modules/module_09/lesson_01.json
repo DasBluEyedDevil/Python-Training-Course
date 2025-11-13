@@ -1,0 +1,132 @@
+{
+  "lesson_id": "09_01",
+  "title": "Reading and Writing Text Files",
+  "module_id": 9,
+  "order_index": 1,
+  "description": "Learn to read from and write to text files in Python. Master file modes, reading methods, writing operations, and proper file closing to persist data beyond program execution.",
+  "estimated_minutes": 30,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: Your Program's Filing Cabinet",
+      "content": "Until now, all your data disappeared when your program ended. Variables, lists, dictionaries - gone! Like writing on a whiteboard that gets erased every time you leave the room.\n\n**Files are permanent storage** - like writing in a notebook instead of on a whiteboard. Data stays even after your program ends.\n\n**Real-world analogy: A Filing Cabinet**\n\nOpening a file is like opening a filing cabinet drawer:\n\n**READ mode ('r'):** Open drawer to READ documents\n- You can look at the contents\n- You CANNOT add or change anything\n- If the drawer (file) doesn't exist → Error!\n\n**WRITE mode ('w'):** Open drawer to WRITE new documents\n- You can add content\n- WARNING: Erases everything that was there before (starts fresh)\n- If drawer doesn't exist → Creates it automatically\n\n**APPEND mode ('a'):** Open drawer to ADD MORE documents\n- You can add content to the END\n- Keeps existing content (doesn't erase)\n- If drawer doesn't exist → Creates it\n\n**Common operations:**\n\n1. **Reading a file:**\n   - Open filing cabinet ('r' mode)\n   - Read the documents (read() or readlines())\n   - Close filing cabinet\n\n2. **Writing a file:**\n   - Open filing cabinet ('w' mode)\n   - Write your documents (write())\n   - Close filing cabinet (IMPORTANT - saves changes!)\n\n**Critical rule:** Always CLOSE files when done! Like closing the filing cabinet drawer. If you don't close it, changes might not be saved, and other programs can't access the file.\n\nPython has a better way (context managers with `with`) that auto-closes files, which we'll learn in the next lesson."
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Reading and Writing Files",
+      "code": "# Example 1: Writing to a file\nprint(\"=== Writing to a File ===\")\n\n# Open file in WRITE mode (creates if doesn't exist, overwrites if exists)\nfile = open(\"greeting.txt\", \"w\")\n\n# Write content (note: must add \\n for new lines yourself)\nfile.write(\"Hello, World!\\n\")\nfile.write(\"Welcome to Python file handling.\\n\")\nfile.write(\"This is line 3.\\n\")\n\n# MUST close the file to save changes!\nfile.close()\n\nprint(\"✓ Created greeting.txt\\n\")\n\n# Example 2: Reading an entire file\nprint(\"=== Reading Entire File ===\")\n\n# Open file in READ mode\nfile = open(\"greeting.txt\", \"r\")\n\n# Read all content at once\ncontent = file.read()\nprint(\"Content:\")\nprint(content)\n\n# Close the file\nfile.close()\nprint(\"✓ File closed\\n\")\n\n# Example 3: Reading line by line\nprint(\"=== Reading Line by Line ===\")\n\nfile = open(\"greeting.txt\", \"r\")\n\n# readline() reads ONE line at a time\nline1 = file.readline()\nline2 = file.readline()\nline3 = file.readline()\n\nprint(f\"Line 1: {line1.strip()}\")  # .strip() removes \\n\nprint(f\"Line 2: {line2.strip()}\")\nprint(f\"Line 3: {line3.strip()}\")\n\nfile.close()\nprint(\"\")\n\n# Example 4: Reading all lines into a list\nprint(\"=== Reading All Lines as List ===\")\n\nfile = open(\"greeting.txt\", \"r\")\n\n# readlines() returns a list of all lines\nlines = file.readlines()\nprint(f\"Number of lines: {len(lines)}\")\n\nfor i, line in enumerate(lines, 1):\n    print(f\"  {i}. {line.strip()}\")\n\nfile.close()\nprint(\"\")\n\n# Example 5: Appending to a file\nprint(\"=== Appending to a File ===\")\n\n# APPEND mode - adds to end without erasing existing content\nfile = open(\"greeting.txt\", \"a\")\n\nfile.write(\"This line was appended.\\n\")\nfile.write(\"So was this one!\\n\")\n\nfile.close()\n\nprint(\"✓ Appended content\\n\")\n\n# Read updated file\nprint(\"=== Updated File Content ===\")\nfile = open(\"greeting.txt\", \"r\")\nprint(file.read())\nfile.close()\n\n# Example 6: Common file modes\nprint(\"=== File Modes Reference ===\")\nprint(\"'r'  - Read (default). File must exist.\")\nprint(\"'w'  - Write. Creates file or OVERWRITES existing.\")\nprint(\"'a'  - Append. Creates file or adds to end.\")\nprint(\"'r+' - Read and Write. File must exist.\")\nprint(\"'w+' - Write and Read. Creates or overwrites.\")\nprint(\"'a+' - Append and Read. Creates or adds to end.\")\nprint(\"\")\n\n# Example 7: Error handling with files\nprint(\"=== Error Handling ===\")\n\ntry:\n    file = open(\"nonexistent.txt\", \"r\")\n    content = file.read()\n    file.close()\nexcept FileNotFoundError:\n    print(\"❌ Error: File 'nonexistent.txt' does not exist!\")\n    print(\"   Use 'w' or 'a' mode to create it, or check the filename.\")\n\nprint(\"\\n✓ Program continues despite error\")",
+      "explanation": "Key concepts:\n1. **open(filename, mode)** opens a file and returns a file object\n2. **read()** reads entire file as one string\n3. **readline()** reads one line at a time\n4. **readlines()** reads all lines into a list\n5. **write(string)** writes content (must include \\n for new lines)\n6. **close()** MUST be called to save changes and free resources\n7. **File modes:** 'r' (read), 'w' (write/overwrite), 'a' (append)\n\nWithout close(), changes may not be saved!",
+      "output": "=== Writing to a File ===\n✓ Created greeting.txt\n\n=== Reading Entire File ===\nContent:\nHello, World!\nWelcome to Python file handling.\nThis is line 3.\n\n✓ File closed\n\n=== Reading Line by Line ===\nLine 1: Hello, World!\nLine 2: Welcome to Python file handling.\nLine 3: This is line 3.\n\n=== Reading All Lines as List ===\nNumber of lines: 3\n  1. Hello, World!\n  2. Welcome to Python file handling.\n  3. This is line 3.\n\n=== Appending to a File ===\n✓ Appended content\n\n=== Updated File Content ===\nHello, World!\nWelcome to Python file handling.\nThis is line 3.\nThis line was appended.\nSo was this one!\n\n=== File Modes Reference ===\n'r'  - Read (default). File must exist.\n'w'  - Write. Creates file or OVERWRITES existing.\n'a'  - Append. Creates file or adds to end.\n'r+' - Read and Write. File must exist.\n'w+' - Write and Read. Creates or overwrites.\n'a+' - Append and Read. Creates or adds to end.\n\n=== Error Handling ===\n❌ Error: File 'nonexistent.txt' does not exist!\n   Use 'w' or 'a' mode to create it, or check the filename.\n\n✓ Program continues despite error"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown: File Operations",
+      "content": "**Opening Files:**\n```python\n# Basic syntax\nfile_object = open(filename, mode)\n\n# Examples\nfile = open(\"data.txt\", \"r\")   # Read mode\nfile = open(\"output.txt\", \"w\") # Write mode\nfile = open(\"log.txt\", \"a\")    # Append mode\n```\n\n**Reading Methods:**\n\n**read() - Read entire file as one string:**\n```python\nfile = open(\"file.txt\", \"r\")\ncontent = file.read()  # \"Line 1\\nLine 2\\nLine 3\\n\"\nfile.close()\n```\n\n**readline() - Read one line at a time:**\n```python\nfile = open(\"file.txt\", \"r\")\nline1 = file.readline()  # \"Line 1\\n\"\nline2 = file.readline()  # \"Line 2\\n\"\nfile.close()\n```\n\n**readlines() - Read all lines into a list:**\n```python\nfile = open(\"file.txt\", \"r\")\nlines = file.readlines()  # [\"Line 1\\n\", \"Line 2\\n\", \"Line 3\\n\"]\nfile.close()\n```\n\n**Iterating over file lines (memory efficient):**\n```python\nfile = open(\"file.txt\", \"r\")\nfor line in file:  # Reads one line at a time\n    print(line.strip())\nfile.close()\n```\n\n**Writing Methods:**\n\n**write() - Write a string:**\n```python\nfile = open(\"file.txt\", \"w\")\nfile.write(\"Hello\\n\")  # Must add \\n yourself!\nfile.write(\"World\\n\")\nfile.close()\n```\n\n**writelines() - Write a list of strings:**\n```python\nfile = open(\"file.txt\", \"w\")\nlines = [\"Line 1\\n\", \"Line 2\\n\", \"Line 3\\n\"]\nfile.writelines(lines)  # Doesn't add \\n automatically!\nfile.close()\n```\n\n**File Modes Quick Reference:**\n\n| Mode | Description | Creates File? | Overwrites? |\n|------|-------------|---------------|-------------|\n| 'r'  | Read only   | No (error)    | N/A         |\n| 'w'  | Write       | Yes           | YES         |\n| 'a'  | Append      | Yes           | No          |\n| 'r+' | Read+Write  | No (error)    | No          |\n| 'w+' | Write+Read  | Yes           | YES         |\n| 'a+' | Append+Read | Yes           | No          |\n\n**Important notes:**\n\n1. **Always close files:** file.close() or use `with` (next lesson)\n\n2. **Write mode ('w') overwrites:** All existing content is DELETED!\n\n3. **Read mode requires file exists:** FileNotFoundError if not found\n\n4. **Line endings:** write() doesn't add \\n automatically - you must add it\n\n5. **strip() removes \\n:** When reading lines, use .strip() to remove newline characters\n\n**Common pattern for reading:**\n```python\ntry:\n    file = open(\"data.txt\", \"r\")\n    content = file.read()\n    file.close()\nexcept FileNotFoundError:\n    print(\"File not found!\")\n```\n\n**Common pattern for writing:**\n```python\nfile = open(\"output.txt\", \"w\")\nfile.write(\"Line 1\\n\")\nfile.write(\"Line 2\\n\")\nfile.close()  # IMPORTANT: Saves changes!\n```"
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise: Build a Simple Note-Taking App",
+      "instruction": "Create a simple note-taking application that can:\n1. Write a new note to \"notes.txt\" (overwrite existing)\n2. Add a note to \"notes.txt\" (append without erasing)\n3. Read and display all notes from \"notes.txt\"\n4. Handle FileNotFoundError if file doesn't exist when reading\n\n**Your task:**\nImplement three functions: write_note(), append_note(), and read_notes()\n\n**Starter code:**",
+      "starter_code": "def write_note(note):\n    \"\"\"Write a new note (overwrites existing notes).\"\"\"\n    # TODO: Open notes.txt in WRITE mode\n    # TODO: Write the note (add \\n at the end)\n    # TODO: Close the file\n    pass\n\ndef append_note(note):\n    \"\"\"Add a note to existing notes.\"\"\"\n    # TODO: Open notes.txt in APPEND mode\n    # TODO: Write the note (add \\n at the end)\n    # TODO: Close the file\n    pass\n\ndef read_notes():\n    \"\"\"Read and return all notes.\"\"\"\n    try:\n        # TODO: Open notes.txt in READ mode\n        # TODO: Read all content\n        # TODO: Close the file\n        # TODO: Return the content\n        pass\n    except FileNotFoundError:\n        return \"No notes found. Create a note first!\"\n\n# Test your functions\nprint(\"=== Testing Note App ===\")\n\n# Test 1: Write a new note\nprint(\"\\n1. Writing first note...\")\nwrite_note(\"Remember to buy milk\")\nprint(\"✓ Note written\")\n\n# Test 2: Read notes\nprint(\"\\n2. Reading notes...\")\nprint(read_notes())\n\n# Test 3: Append more notes\nprint(\"3. Adding more notes...\")\nappend_note(\"Call dentist tomorrow\")\nappend_note(\"Finish Python homework\")\nprint(\"✓ Notes added\")\n\n# Test 4: Read all notes\nprint(\"\\n4. Reading all notes...\")\nprint(read_notes())",
+      "hint": "For write_note: open('notes.txt', 'w'), file.write(note + '\\n'), file.close(). For append_note: use 'a' mode. For read_notes: use 'r' mode and file.read()."
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution & Common Mistakes",
+      "solution_code": "def write_note(note):\n    \"\"\"Write a new note (overwrites existing notes).\n    \n    Args:\n        note: The note content to write\n    \"\"\"\n    # Open in WRITE mode (creates or overwrites)\n    file = open(\"notes.txt\", \"w\")\n    \n    # Write the note with newline\n    file.write(note + \"\\n\")\n    \n    # MUST close to save!\n    file.close()\n\ndef append_note(note):\n    \"\"\"Add a note to existing notes.\n    \n    Args:\n        note: The note content to append\n    \"\"\"\n    # Open in APPEND mode (creates or adds to end)\n    file = open(\"notes.txt\", \"a\")\n    \n    # Write the note with newline\n    file.write(note + \"\\n\")\n    \n    # Close the file\n    file.close()\n\ndef read_notes():\n    \"\"\"Read and return all notes.\n    \n    Returns:\n        str: All notes content, or error message if file not found\n    \"\"\"\n    try:\n        # Open in READ mode\n        file = open(\"notes.txt\", \"r\")\n        \n        # Read all content\n        content = file.read()\n        \n        # Close the file\n        file.close()\n        \n        # Return the content\n        return content if content else \"No notes yet.\"\n    \n    except FileNotFoundError:\n        return \"No notes found. Create a note first!\"\n\n# Comprehensive testing\nprint(\"=\" * 50)\nprint(\"SIMPLE NOTE-TAKING APP\")\nprint(\"=\" * 50)\n\n# Test 1: Read before any file exists\nprint(\"\\n1. Reading notes (no file exists yet)...\")\nprint(read_notes())\n\n# Test 2: Write first note\nprint(\"\\n2. Writing first note...\")\nwrite_note(\"Remember to buy milk\")\nprint(\"✓ Note written\")\nprint(\"\\nCurrent notes:\")\nprint(read_notes())\n\n# Test 3: Write another note (overwrites!)\nprint(\"\\n3. Writing new note (this overwrites previous!)...\")\nwrite_note(\"This is the only note now\")\nprint(\"✓ Note written\")\nprint(\"\\nCurrent notes:\")\nprint(read_notes())\n\n# Test 4: Append notes (doesn't overwrite)\nprint(\"\\n4. Appending notes (keeps existing)...\")\nappend_note(\"Call dentist tomorrow\")\nappend_note(\"Finish Python homework\")\nappend_note(\"Buy groceries\")\nprint(\"✓ Notes appended\")\n\n# Test 5: Read all notes\nprint(\"\\n5. Reading all notes...\")\nprint(\"--- Notes Content ---\")\nprint(read_notes())\nprint(\"--- End of Notes ---\")\n\n# Test 6: Count lines\nprint(\"\\n6. Counting notes...\")\nfile = open(\"notes.txt\", \"r\")\nlines = file.readlines()\nfile.close()\nprint(f\"Total notes: {len(lines)}\")\nfor i, line in enumerate(lines, 1):\n    print(f\"  {i}. {line.strip()}\")\n\nprint(\"\\n✓ Note-taking app working correctly!\")",
+      "explanation": "The solution demonstrates:\n1. **write_note()** uses 'w' mode, which OVERWRITES existing content\n2. **append_note()** uses 'a' mode, which ADDS to existing content\n3. **read_notes()** uses try/except to handle FileNotFoundError gracefully\n4. **Always close files** with file.close() to save changes\n5. **Add \\n manually** when writing because write() doesn't add it automatically\n\nThe key difference: 'w' mode replaces everything, 'a' mode adds to the end.",
+      "output": "==================================================\nSIMPLE NOTE-TAKING APP\n==================================================\n\n1. Reading notes (no file exists yet)...\nNo notes found. Create a note first!\n\n2. Writing first note...\n✓ Note written\n\nCurrent notes:\nRemember to buy milk\n\n\n3. Writing new note (this overwrites previous!)...\n✓ Note written\n\nCurrent notes:\nThis is the only note now\n\n\n4. Appending notes (keeps existing)...\n✓ Notes appended\n\n5. Reading all notes...\n--- Notes Content ---\nThis is the only note now\nCall dentist tomorrow\nFinish Python homework\nBuy groceries\n\n--- End of Notes ---\n\n6. Counting notes...\nTotal notes: 4\n  1. This is the only note now\n  2. Call dentist tomorrow\n  3. Finish Python homework\n  4. Buy groceries\n\n✓ Note-taking app working correctly!",
+      "common_mistakes": [
+        {
+          "mistake": "Forgetting to close the file",
+          "wrong_code": "file = open(\"data.txt\", \"w\")\nfile.write(\"Hello\")\n# Missing file.close()!",
+          "correct_code": "file = open(\"data.txt\", \"w\")\nfile.write(\"Hello\")\nfile.close()  # MUST close!",
+          "explanation": "If you don't close the file, changes might not be saved, and the file remains locked (other programs can't access it). Always call close(), or use 'with' statement (next lesson) which auto-closes."
+        },
+        {
+          "mistake": "Not adding \\n when writing lines",
+          "wrong_code": "file = open(\"data.txt\", \"w\")\nfile.write(\"Line 1\")\nfile.write(\"Line 2\")\nfile.close()\n# Result: \"Line 1Line 2\" (no newline!)",
+          "correct_code": "file = open(\"data.txt\", \"w\")\nfile.write(\"Line 1\\n\")\nfile.write(\"Line 2\\n\")\nfile.close()\n# Result: \"Line 1\\nLine 2\\n\"",
+          "explanation": "write() doesn't add newlines automatically. If you want separate lines, add \\n at the end of each string. Without it, everything runs together."
+        },
+        {
+          "mistake": "Confusing 'w' and 'a' modes",
+          "wrong_code": "# Thinking this adds to file...\nfile = open(\"data.txt\", \"w\")\nfile.write(\"New line\")\nfile.close()\n# Actually ERASES everything first!",
+          "correct_code": "# To ADD to existing file:\nfile = open(\"data.txt\", \"a\")\nfile.write(\"New line\\n\")\nfile.close()",
+          "explanation": "'w' mode OVERWRITES (deletes all existing content). 'a' mode APPENDS (adds to end without deleting). Choose carefully based on whether you want to replace or add!"
+        },
+        {
+          "mistake": "Not handling FileNotFoundError when reading",
+          "wrong_code": "file = open(\"missing.txt\", \"r\")\ncontent = file.read()\n# Crashes if file doesn't exist!",
+          "correct_code": "try:\n    file = open(\"missing.txt\", \"r\")\n    content = file.read()\n    file.close()\nexcept FileNotFoundError:\n    print(\"File not found!\")",
+          "explanation": "Opening a non-existent file in 'r' mode raises FileNotFoundError. Always use try/except when reading files that might not exist. 'w' and 'a' modes create the file automatically, so no error."
+        },
+        {
+          "mistake": "Not stripping \\n when reading lines",
+          "wrong_code": "file = open(\"data.txt\", \"r\")\nlines = file.readlines()\nfor line in lines:\n    print(line)  # Prints extra blank lines\nfile.close()",
+          "correct_code": "file = open(\"data.txt\", \"r\")\nlines = file.readlines()\nfor line in lines:\n    print(line.strip())  # Remove \\n\nfile.close()",
+          "explanation": "readline() and readlines() include the \\n at the end of each line. Use .strip() to remove it, or you'll get extra blank lines when printing."
+        }
+      ]
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Files persist data** beyond program execution. Unlike variables, file content stays after the program ends.",
+        "**open(filename, mode)** opens a file. Returns a file object you can read from or write to.",
+        "**Always close files** with file.close() to save changes and free resources. Without closing, changes may not be saved!",
+        "**Read methods:** read() (entire file as string), readline() (one line), readlines() (list of lines), or iterate with for line in file:",
+        "**Write method:** write(string) writes content. Must add \\n yourself for new lines! write() doesn't add it automatically.",
+        "**File modes:** 'r' (read, file must exist), 'w' (write, OVERWRITES existing), 'a' (append, adds to end without erasing).",
+        "**'w' mode is destructive:** Opens in write mode ERASES all existing content! Use 'a' to add without erasing.",
+        "**Handle FileNotFoundError** when reading files that might not exist. Use try/except for robust code.",
+        "**strip() removes \\n:** When reading lines, use line.strip() to remove trailing newline characters.",
+        "**Next lesson:** Context managers with 'with' statement - a better way that auto-closes files!"
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "What happens if you don't close a file after opening it?",
+        "options": [
+          "Nothing - Python closes it automatically",
+          "Changes might not be saved and the file remains locked",
+          "The program crashes",
+          "The file gets deleted"
+        ],
+        "correct_answer": 1,
+        "explanation": "If you don't close a file, changes might not be saved (buffered data isn't flushed to disk), and the file remains locked, preventing other programs from accessing it. Always call file.close() or use 'with' statement (which auto-closes)."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "What's the difference between 'w' and 'a' file modes?",
+        "options": [
+          "They're the same",
+          "'w' overwrites existing content, 'a' adds to the end without erasing",
+          "'w' is for Windows, 'a' is for all systems",
+          "'a' is faster than 'w'"
+        ],
+        "correct_answer": 1,
+        "explanation": "'w' (write) mode OVERWRITES - it erases all existing content and starts fresh. 'a' (append) mode ADDS to the end without erasing existing content. Choose 'w' to replace, 'a' to add. Both create the file if it doesn't exist."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "Why do you need to add \\n when using write()?",
+        "options": [
+          "You don't - write() adds it automatically",
+          "write() doesn't add newlines automatically, so you must add \\n for line breaks",
+          "\\n makes the code run faster",
+          "It's only needed on Windows"
+        ],
+        "correct_answer": 1,
+        "explanation": "write() writes exactly what you give it - it doesn't add newlines automatically. If you want separate lines, you must add \\n at the end: file.write('Line 1\\n'). Without \\n, everything runs together: 'Line 1Line 2'."
+      }
+    ]
+  }
+}
