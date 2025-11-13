@@ -1,0 +1,270 @@
+{
+  "title": "Module 6 Quiz: Functions",
+  "module_id": 6,
+  "passing_score": 70,
+  "description": "Test your mastery of functions: function basics, parameters, return values, scope, default/keyword arguments, lambda functions, and built-in functions. You need 14/20 correct (70%) to pass.",
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": "What is the correct syntax to define a function named 'calculate' in Python?",
+      "options": [
+        "function calculate():",
+        "def calculate():",
+        "func calculate:",
+        "define calculate():"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use 'def calculate():' to define a function. 'def' is the keyword for defining functions, followed by the function name, parentheses (even if empty), and a colon. The function body must be indented."
+    },
+    {
+      "id": 2,
+      "type": "multiple_choice",
+      "question": "What happens when you define a function but don't call it?\n\ndef greet():\n    print('Hello')",
+      "options": [
+        "The function code runs immediately",
+        "Python stores the function but doesn't execute it",
+        "You get an error",
+        "The function is automatically called once"
+      ],
+      "correct_answer": 1,
+      "explanation": "When you define a function, Python stores it in memory but doesn't execute it. The code inside only runs when you explicitly CALL the function using 'greet()'. Defining is like writing a recipe, calling is like cooking it."
+    },
+    {
+      "id": 3,
+      "type": "multiple_choice",
+      "question": "What's the difference between parameters and arguments?",
+      "options": [
+        "They're the same thing",
+        "Parameters are in the definition, arguments are values passed when calling",
+        "Parameters are for strings, arguments are for numbers",
+        "Arguments are in the definition, parameters are when calling"
+      ],
+      "correct_answer": 1,
+      "explanation": "PARAMETERS are variables in the function DEFINITION (def greet(name):). ARGUMENTS are the actual VALUES passed when CALLING (greet('Alice')). Think: parameters are placeholders, arguments are the real data that fills them."
+    },
+    {
+      "id": 4,
+      "type": "multiple_choice",
+      "question": "What does this function return?\n\ndef calculate(x):\n    result = x * 3\n    print(result)\n\nvalue = calculate(5)",
+      "options": [
+        "15",
+        "None",
+        "5",
+        "Error"
+      ],
+      "correct_answer": 1,
+      "explanation": "This function returns None because there's no 'return' statement! It PRINTS 15 to the screen, but 'value' will be None. Functions without 'return' automatically return None. To fix: add 'return result' at the end."
+    },
+    {
+      "id": 5,
+      "type": "multiple_choice",
+      "question": "What is the scope of a variable created inside a function?",
+      "options": [
+        "Global - accessible everywhere",
+        "Local - only inside that function",
+        "Module - accessible in the whole file",
+        "Protected - needs special access"
+      ],
+      "correct_answer": 1,
+      "explanation": "Variables created INSIDE a function have LOCAL scope - they only exist inside that function and disappear when it returns. They can't be accessed from outside. This prevents functions from interfering with each other's variables."
+    },
+    {
+      "id": 6,
+      "type": "multiple_choice",
+      "question": "What happens if you assign to a variable inside a function that has the same name as a global variable?",
+      "options": [
+        "You modify the global variable",
+        "You get a syntax error",
+        "You create a new local variable that shadows the global",
+        "Python asks which one you meant"
+      ],
+      "correct_answer": 2,
+      "explanation": "You create a NEW LOCAL variable that SHADOWS (hides) the global one. Inside the function, you'll use the local version. The global variable remains unchanged. This is Python's default behavior to protect globals from accidental modification."
+    },
+    {
+      "id": 7,
+      "type": "multiple_choice",
+      "question": "When does a local variable's lifetime end?",
+      "options": [
+        "When the program ends",
+        "When the function returns",
+        "After 60 seconds",
+        "When you explicitly delete it"
+      ],
+      "correct_answer": 1,
+      "explanation": "Local variables die (are removed from memory) when the function RETURNS. They're created when the function is called and destroyed when it ends. This automatic cleanup is a benefit of local scope - Python manages the memory for you."
+    },
+    {
+      "id": 8,
+      "type": "multiple_choice",
+      "question": "What does this function call do?\n\ndef greet(name, greeting='Hello'):\n    print(f'{greeting}, {name}!')\n\ngreet('Alice')",
+      "options": [
+        "Causes an error - missing argument",
+        "Prints 'Hello, Alice!'",
+        "Prints ', Alice!'",
+        "Prints 'greeting, Alice!'"
+      ],
+      "correct_answer": 1,
+      "explanation": "Prints 'Hello, Alice!' because 'greeting' has a DEFAULT value of 'Hello'. When you don't provide a value for 'greeting', Python uses the default. Default arguments make parameters optional with sensible fallback values."
+    },
+    {
+      "id": 9,
+      "type": "multiple_choice",
+      "question": "Which function call is INVALID?\n\ndef create_user(name, email, age=18):\n    pass",
+      "options": [
+        "create_user('Alice', 'a@email.com')",
+        "create_user('Alice', 'a@email.com', 25)",
+        "create_user(name='Alice', email='a@email.com')",
+        "create_user('Alice', age=25)"
+      ],
+      "correct_answer": 3,
+      "explanation": "Option D is INVALID because it's missing the REQUIRED parameter 'email'. 'name' and 'email' have no defaults so they're required. 'age' has a default so it's optional. You must provide all required parameters when calling."
+    },
+    {
+      "id": 10,
+      "type": "multiple_choice",
+      "question": "What happens if you use a positional argument after a keyword argument?\n\ngreet(name='Alice', 'Hi')",
+      "options": [
+        "It works fine",
+        "SyntaxError - positional after keyword",
+        "The keyword is ignored",
+        "Both become keyword arguments"
+      ],
+      "correct_answer": 1,
+      "explanation": "You get a SyntaxError! Once you use a keyword argument (name='Alice'), ALL following arguments must also be keyword arguments. You can't go back to positional. Rule: positional arguments must come BEFORE keyword arguments."
+    },
+    {
+      "id": 11,
+      "type": "multiple_choice",
+      "question": "Why should you avoid using an empty list [] as a default argument?",
+      "options": [
+        "It causes a syntax error",
+        "Lists can't be default arguments",
+        "The same list object is shared across all function calls",
+        "It makes the function slower"
+      ],
+      "correct_answer": 2,
+      "explanation": "The SAME list object is shared across ALL calls! Mutable defaults (lists, dicts) are created ONCE when the function is defined, not each time it's called. Data from previous calls persists, causing bugs. Use 'None' as default and create a new list inside the function."
+    },
+    {
+      "id": 12,
+      "type": "multiple_choice",
+      "question": "What is a lambda function?",
+      "options": [
+        "A function from the Lambda library",
+        "An anonymous function defined in a single expression",
+        "A faster version of regular functions",
+        "A function that can only take one parameter"
+      ],
+      "correct_answer": 1,
+      "explanation": "A lambda is an ANONYMOUS (unnamed) function defined in a SINGLE EXPRESSION. It's a shortcut for simple functions: 'lambda x: x * 2' is equivalent to 'def func(x): return x * 2'. Use for simple operations, especially with map/filter/sorted."
+    },
+    {
+      "id": 13,
+      "type": "multiple_choice",
+      "question": "What's the correct lambda function to double a number?",
+      "options": [
+        "lambda x: x * 2",
+        "lambda: x * 2",
+        "lambda x return x * 2",
+        "lambda (x): x * 2"
+      ],
+      "correct_answer": 0,
+      "explanation": "The correct syntax is 'lambda x: x * 2'. Format: lambda parameters: expression. No parentheses around parameter, no 'return' keyword (it's implicit), just a colon and the expression. The result is automatically returned."
+    },
+    {
+      "id": 14,
+      "type": "multiple_choice",
+      "question": "What does map() do?\n\nnumbers = [1, 2, 3]\nresult = list(map(lambda x: x * 2, numbers))",
+      "options": [
+        "Filters items that match a condition",
+        "Applies a function to every item in the list",
+        "Sorts the list",
+        "Finds the maximum value"
+      ],
+      "correct_answer": 1,
+      "explanation": "map() APPLIES A FUNCTION to EVERY ITEM in a list. Here, it doubles each number: [1, 2, 3] becomes [2, 4, 6]. It's like a list comprehension: [x * 2 for x in numbers]. Returns a map object, so use list() to convert."
+    },
+    {
+      "id": 15,
+      "type": "multiple_choice",
+      "question": "What does filter() do?\n\nnumbers = [1, 2, 3, 4, 5]\nresult = list(filter(lambda x: x > 3, numbers))",
+      "options": [
+        "[1, 2, 3]",
+        "[4, 5]",
+        "[True, True, False, False, False]",
+        "[2, 3, 4, 5, 6]"
+      ],
+      "correct_answer": 1,
+      "explanation": "filter() KEEPS ONLY items where the function returns True. The lambda 'x > 3' is True for 4 and 5, so result is [4, 5]. It doesn't transform items (that's map's job), just decides which to keep. Like: [x for x in numbers if x > 3]."
+    },
+    {
+      "id": 16,
+      "type": "multiple_choice",
+      "question": "What does the 'key' parameter do in sorted()?\n\nwords = ['apple', 'pie', 'banana']\nsorted(words, key=lambda w: len(w))",
+      "options": [
+        "Filters words that don't match",
+        "Determines what value to compare when sorting",
+        "Encrypts the words",
+        "Reverses the sorting order"
+      ],
+      "correct_answer": 1,
+      "explanation": "The 'key' parameter specifies what VALUE to COMPARE when sorting. Here, 'lambda w: len(w)' extracts the length, so words are sorted by length: ['pie', 'apple', 'banana'] (3, 5, 6 chars). Without key, it would sort alphabetically."
+    },
+    {
+      "id": 17,
+      "type": "multiple_choice",
+      "question": "When should you use a lambda function instead of def?",
+      "options": [
+        "Always - lambdas are better",
+        "For simple, one-expression functions used once",
+        "For complex functions with multiple statements",
+        "Never - def is always better"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use lambda for SIMPLE, ONE-EXPRESSION functions used ONCE (especially with map/filter/sorted). Use 'def' for: complex logic, multiple statements, functions needing docstrings, or functions used in many places. Lambda = quick and simple, def = reusable and documented."
+    },
+    {
+      "id": 18,
+      "type": "multiple_choice",
+      "question": "What can't a lambda function do that a regular function can?",
+      "options": [
+        "Take parameters",
+        "Return values",
+        "Have multiple statements and docstrings",
+        "Be assigned to a variable"
+      ],
+      "correct_answer": 2,
+      "explanation": "Lambda functions are LIMITED to a SINGLE EXPRESSION - they can't have multiple statements, assignments, docstrings, or explicit 'return'. Regular functions can have all of these. Both can take parameters, return values, and be assigned to variables."
+    },
+    {
+      "id": 19,
+      "type": "multiple_choice",
+      "question": "What should a professional function include?",
+      "options": [
+        "Just a name and some code",
+        "A descriptive name, docstring, validation, and meaningful return value",
+        "Only a return statement",
+        "Global variables for sharing data"
+      ],
+      "correct_answer": 1,
+      "explanation": "Professional functions need: (1) Clear descriptive name, (2) Comprehensive docstring explaining purpose/parameters/returns, (3) Input validation for edge cases, (4) Meaningful return values. This makes functions reusable, maintainable, testable, and easy to understand."
+    },
+    {
+      "id": 20,
+      "type": "multiple_choice",
+      "question": "What does 'if __name__ == \"__main__\":' do?",
+      "options": [
+        "Checks if the function name is 'main'",
+        "Code only runs when file is executed directly, not when imported",
+        "Creates a main function",
+        "Required for all Python programs"
+      ],
+      "correct_answer": 1,
+      "explanation": "Code inside 'if __name__ == \"__main__\":' only runs when the file is EXECUTED DIRECTLY (python file.py), NOT when imported as a module. Perfect for test code - the functions are available for import, but tests don't run automatically. Not required, but very useful."
+    }
+  ],
+  "completion_message": "Excellent work completing Module 6! You've mastered functions - the foundation of all programming! You understand function basics, parameters, return values, variable scope, default/keyword arguments, lambda functions, and built-in functions like map/filter/sorted. You can now write clean, reusable, professional code! Ready for Module 7: Dictionaries & Sets?",
+  "retry_message": "Review the lessons that gave you trouble and try again. Focus on: the difference between defining and calling functions, parameters vs arguments, return vs print, local vs global scope, default argument syntax, lambda syntax, and how map/filter/sorted work. Functions are crucial - master them!"
+}
