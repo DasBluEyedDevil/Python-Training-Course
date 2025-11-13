@@ -1,0 +1,270 @@
+{
+  "title": "Module 4 Quiz: Loops - Repetition Made Easy",
+  "module_id": 4,
+  "passing_score": 70,
+  "description": "Test your mastery of while loops, for loops, loop control (break/continue/pass), nested loops, and practical loop applications. You need 14/20 correct (70%) to pass.",
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": "What are the three essential parts of a while loop?",
+      "options": [
+        "start, middle, end",
+        "initialize, condition, update",
+        "input, process, output",
+        "declaration, execution, termination"
+      ],
+      "correct_answer": 1,
+      "explanation": "Every while loop needs three parts: (1) Initialize the control variable before the loop, (2) Condition to check each iteration, (3) Update the variable inside the loop to eventually make the condition False. Forgetting the update causes infinite loops!"
+    },
+    {
+      "id": 2,
+      "type": "multiple_choice",
+      "question": "What will this code output?\n\ncount = 5\nwhile count > 0:\n    print(count)\n    count = count - 1",
+      "options": [
+        "5 4 3 2 1",
+        "5 4 3 2 1 0",
+        "4 3 2 1 0",
+        "Infinite loop"
+      ],
+      "correct_answer": 0,
+      "explanation": "The loop starts with count=5. It prints 5, then decrements to 4. This continues (4, 3, 2, 1). When count becomes 0, the condition 'count > 0' is False, so the loop stops. Zero is NOT printed because the loop exits before that print happens."
+    },
+    {
+      "id": 3,
+      "type": "multiple_choice",
+      "question": "What causes an infinite loop?",
+      "options": [
+        "Using while instead of for",
+        "Forgetting to update the loop variable",
+        "Using a condition that's initially True",
+        "Having too many iterations"
+      ],
+      "correct_answer": 1,
+      "explanation": "Infinite loops happen when you forget to update the loop variable, so the condition never becomes False. For example: 'count = 1; while count < 10: print(count)' loops forever because count never changes. Always update your loop variable!"
+    },
+    {
+      "id": 4,
+      "type": "multiple_choice",
+      "question": "What does range(5) generate?",
+      "options": [
+        "1, 2, 3, 4, 5",
+        "0, 1, 2, 3, 4",
+        "0, 1, 2, 3, 4, 5",
+        "5, 4, 3, 2, 1"
+      ],
+      "correct_answer": 1,
+      "explanation": "range(5) generates 0, 1, 2, 3, 4 - it starts at 0 by default and stops BEFORE 5. This is called 'exclusive end' - the stop value is never included. To get 1-5, use range(1, 6)."
+    },
+    {
+      "id": 5,
+      "type": "multiple_choice",
+      "question": "What's the difference between range(5) and range(1, 6)?",
+      "options": [
+        "They're identical",
+        "range(5) is 0-4, range(1,6) is 1-5",
+        "range(5) is 1-5, range(1,6) is 1-6",
+        "range(1,6) includes 6"
+      ],
+      "correct_answer": 1,
+      "explanation": "range(5) generates 0, 1, 2, 3, 4 (starts at 0, stops before 5). range(1, 6) generates 1, 2, 3, 4, 5 (starts at 1, stops before 6). Both produce 5 numbers, but range(1, 6) is shifted up by 1."
+    },
+    {
+      "id": 6,
+      "type": "multiple_choice",
+      "question": "How do you create a countdown from 5 to 1 using range()?",
+      "options": [
+        "range(5, 1)",
+        "range(5, 0, -1)",
+        "range(1, 5, -1)",
+        "range(-5, -1)"
+      ],
+      "correct_answer": 1,
+      "explanation": "range(5, 0, -1) generates 5, 4, 3, 2, 1. The format is range(start, stop, step). Start at 5, stop before 0, step by -1 (count down). You MUST include the negative step, otherwise range() produces nothing (can't count up from 5 to 0)."
+    },
+    {
+      "id": 7,
+      "type": "multiple_choice",
+      "question": "What does the 'break' statement do?",
+      "options": [
+        "Pauses the loop temporarily",
+        "Skips to the next iteration",
+        "Exits the loop immediately",
+        "Stops the entire program"
+      ],
+      "correct_answer": 2,
+      "explanation": "'break' exits the loop immediately, skipping any remaining iterations. For example, searching a list: once you find what you're looking for, break exits early rather than checking the rest. It ONLY exits the loop, not the entire program."
+    },
+    {
+      "id": 8,
+      "type": "multiple_choice",
+      "question": "What does the 'continue' statement do?",
+      "options": [
+        "Exits the loop",
+        "Skips the rest of the current iteration and jumps to the next",
+        "Resumes a paused loop",
+        "Repeats the current iteration"
+      ],
+      "correct_answer": 1,
+      "explanation": "'continue' skips the rest of the current iteration and jumps directly to the next iteration. For example, 'if x % 2 == 0: continue; print(x)' skips even numbers - when continue runs, it jumps back to the loop start without executing print(x)."
+    },
+    {
+      "id": 9,
+      "type": "multiple_choice",
+      "question": "What will this code print?\n\nfor num in range(1, 6):\n    if num == 3:\n        continue\n    print(num)",
+      "options": [
+        "1 2 3 4 5",
+        "1 2 4 5",
+        "3",
+        "1 2"
+      ],
+      "correct_answer": 1,
+      "explanation": "The loop iterates 1, 2, 3, 4, 5. When num is 3, 'continue' skips the rest of that iteration (including print), so 3 doesn't print. All other numbers (1, 2, 4, 5) print normally. Output: 1 2 4 5."
+    },
+    {
+      "id": 10,
+      "type": "multiple_choice",
+      "question": "When does the 'else' clause after a for loop execute?",
+      "options": [
+        "Always after the loop",
+        "Only if the loop encounters a break",
+        "Only if the loop completes without break",
+        "Never - for loops can't have else"
+      ],
+      "correct_answer": 2,
+      "explanation": "The else clause after a for/while loop only executes if the loop completes normally (without encountering break). If break exits early, else is skipped. This is useful for search: 'else' means 'not found'. It's Python's unique feature - most languages don't have loop else!"
+    },
+    {
+      "id": 11,
+      "type": "multiple_choice",
+      "question": "What will this code output?\n\nfor i in range(3):\n    if i == 5:\n        break\nelse:\n    print('Done')",
+      "options": [
+        "Nothing",
+        "Done",
+        "0 1 2 Done",
+        "Error"
+      ],
+      "correct_answer": 1,
+      "explanation": "'Done' prints. The loop runs 0, 1, 2 (i never equals 5, so break never executes). Since the loop completes normally without break, the else clause runs and prints 'Done'."
+    },
+    {
+      "id": 12,
+      "type": "multiple_choice",
+      "question": "What's the purpose of 'pass' in a loop?",
+      "options": [
+        "Skips to next iteration like continue",
+        "Exits the loop like break",
+        "Does nothing - placeholder for empty code block",
+        "Passes control to outer loop"
+      ],
+      "correct_answer": 2,
+      "explanation": "'pass' does literally nothing - it's a placeholder for syntactically required but empty code blocks. For example: 'if error: pass' means 'if there's an error, do nothing (I'll implement this later)'. It's useful during development or when you want to explicitly ignore a condition."
+    },
+    {
+      "id": 13,
+      "type": "multiple_choice",
+      "question": "How many times will 'X' print?\n\nfor i in range(4):\n    for j in range(3):\n        print('X')",
+      "options": [
+        "4",
+        "3",
+        "7",
+        "12"
+      ],
+      "correct_answer": 3,
+      "explanation": "Nested loops multiply iterations: outer (4 times) × inner (3 times each) = 12 total. The outer loop runs 4 times, and for EACH of those 4 iterations, the inner loop runs completely (3 times). Total: 4 × 3 = 12."
+    },
+    {
+      "id": 14,
+      "type": "multiple_choice",
+      "question": "What will this nested loop output?\n\nfor row in range(2):\n    for col in range(3):\n        print('*', end='')\n    print()",
+      "options": [
+        "******",
+        "***<br>***",
+        "**<br>**<br>**",
+        "*<br>*<br>*<br>*<br>*<br>*"
+      ],
+      "correct_answer": 1,
+      "explanation": "The outer loop runs 2 times (2 rows). For each row, the inner loop prints 3 stars without newlines (end=''). Then print() adds a newline AFTER each row. Result: 2 rows of 3 stars each (*** on one line, then *** on the next line)."
+    },
+    {
+      "id": 15,
+      "type": "multiple_choice",
+      "question": "In nested loops, what does 'break' affect?",
+      "options": [
+        "Exits all nested loops",
+        "Exits only the innermost loop it's in",
+        "Exits the outermost loop",
+        "Exits the program"
+      ],
+      "correct_answer": 1,
+      "explanation": "'break' ONLY exits the loop it's directly inside (the innermost loop). The outer loop continues normally. To break out of multiple loops, you need a flag variable or use a function with return. This is a common source of bugs!"
+    },
+    {
+      "id": 16,
+      "type": "multiple_choice",
+      "question": "What's the best loop choice for 'run until user types quit'?",
+      "options": [
+        "for loop with large range",
+        "while True with break on quit",
+        "while input != 'quit'",
+        "Nested for loops"
+      ],
+      "correct_answer": 1,
+      "explanation": "'while True' with a break on quit is the standard pattern for indefinite loops (loops that run until a specific event). It's clearer than 'while input != quit' which requires awkward initialization. Pattern: while True → get input → if quit: break → process."
+    },
+    {
+      "id": 17,
+      "type": "multiple_choice",
+      "question": "How do you validate user input with a loop?",
+      "options": [
+        "for i in range(3): get_input()",
+        "while True:<br>&nbsp;&nbsp;try:<br>&nbsp;&nbsp;&nbsp;&nbsp;value = int(input())<br>&nbsp;&nbsp;&nbsp;&nbsp;break<br>&nbsp;&nbsp;except:<br>&nbsp;&nbsp;&nbsp;&nbsp;continue",
+        "if input() == valid: continue",
+        "while input() != valid: pass"
+      ],
+      "correct_answer": 1,
+      "explanation": "Option B is correct: 'while True' loop that tries to convert input, breaks on success, continues on failure. This pattern keeps prompting until valid input. try/except catches invalid conversions (like int('abc')), and continue loops back to ask again."
+    },
+    {
+      "id": 18,
+      "type": "multiple_choice",
+      "question": "What's an accumulator in a loop?",
+      "options": [
+        "A variable that stores the loop counter",
+        "A variable that builds up a result across iterations",
+        "The condition that controls the loop",
+        "Another name for the loop variable"
+      ],
+      "correct_answer": 1,
+      "explanation": "An accumulator is a variable that builds up a result across loop iterations. Common examples: total (sum), count (counter), product (multiplication), max/min (tracking). Pattern: initialize before loop (total = 0), update in loop (total = total + value), use after loop (average = total / count)."
+    },
+    {
+      "id": 19,
+      "type": "multiple_choice",
+      "question": "When should you use a for loop instead of while?",
+      "options": [
+        "When you know exactly how many iterations you need",
+        "When the condition is complex",
+        "When you need an infinite loop",
+        "for and while are interchangeable always"
+      ],
+      "correct_answer": 0,
+      "explanation": "Use 'for' when you know the number of iterations in advance (iterate 10 times, process each item in a list). Use 'while' when iterations depend on a condition that might change unpredictably (loop until user quits, until value > 100). for = count-based, while = condition-based."
+    },
+    {
+      "id": 20,
+      "type": "multiple_choice",
+      "question": "What's wrong with this code?\n\nfor i in range(5):\n    total = 0\n    total = total + i\nprint(total)",
+      "options": [
+        "Nothing is wrong",
+        "total is reset to 0 each iteration",
+        "range(5) should be range(1, 6)",
+        "Missing break statement"
+      ],
+      "correct_answer": 1,
+      "explanation": "The bug: 'total = 0' is INSIDE the loop, so it resets to 0 every iteration! You never accumulate anything. Fix: Move 'total = 0' BEFORE the loop. This is a very common mistake with accumulators - initialize outside, update inside."
+    }
+  ],
+  "completion_message": "Excellent work completing Module 4! You've mastered while loops, for loops with range(), loop control (break/continue/pass/else), nested loops, and practical applications like menus, games, and data analysis. You can now build programs with sophisticated repetition and iteration! Ready for Module 5: Lists & Tuples?",
+  "retry_message": "Review the lessons that gave you trouble and try again. Focus on: the three parts of while loops, how range() works, the difference between break and continue, when loop else runs, and how nested loops multiply iterations. Understanding loops is crucial for everything ahead!"
+}
