@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block title %}Module {{ module.id }}: {{ module.title }}{% endblock %}
+
+{% block content %}
+<div class="module-view-container">
+    <!-- Breadcrumb Navigation -->
+    <nav class="breadcrumb">
+        <a href="/">Home</a>
+        <span class="separator">›</span>
+        <span class="current">Module {{ module.id }}</span>
+    </nav>
+
+    <!-- Module Header -->
+    <div class="module-view-header">
+        <div class="module-icon-large">{{ module.icon }}</div>
+        <div class="module-view-info">
+            <h1 class="module-view-title">Module {{ module.id }}: {{ module.title }}</h1>
+            <p class="module-view-subtitle">{{ module.subtitle }}</p>
+            <div class="module-view-meta">
+                <span class="meta-item">📚 {{ module.lessons }} Lessons</span>
+                <span class="meta-item">📝 1 Quiz</span>
+                <span class="meta-item" id="module-progress-text">0% Complete</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Module Progress -->
+    <div class="module-progress-section">
+        <div class="progress-header">
+            <h3>Your Progress</h3>
+            <span class="progress-percentage" id="module-progress-percentage">0%</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="module-progress-fill" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <!-- Lesson List -->
+    <div class="lessons-list">
+        <h2 class="section-title">Lessons</h2>
+
+        <div class="lessons-grid" id="lessons-grid">
+            <!-- Lessons will be populated here -->
+        </div>
+    </div>
+
+    <!-- Module Quiz -->
+    <div class="module-quiz-section">
+        <div class="quiz-card">
+            <div class="quiz-card-header">
+                <span class="quiz-card-icon">📝</span>
+                <h3>Module Quiz</h3>
+            </div>
+            <p class="quiz-card-description">Test your knowledge of this module's concepts</p>
+            <a href="/quiz/{{ module.id }}" class="btn btn-primary" id="quiz-btn">Take Quiz</a>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="module-navigation">
+        {% if module.id > 1 %}
+        <a href="/module/{{ module.id - 1 }}" class="btn btn-secondary">← Previous Module</a>
+        {% else %}
+        <span class="btn btn-disabled">← Previous Module</span>
+        {% endif %}
+
+        <a href="/" class="btn btn-secondary">Back to Home</a>
+
+        {% if module.id < 14 %}
+        <a href="/module/{{ module.id + 1 }}" class="btn btn-primary">Next Module →</a>
+        {% else %}
+        <span class="btn btn-disabled">Next Module →</span>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    const moduleId = {{ module.id }};
+    const totalLessons = {{ module.lessons }};
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const progressTracker = new ProgressTracker();
+        const progress = progressTracker.getModuleProgress(moduleId);
+
+        // Update progress display
+        const percentage = Math.round((progress.completed / progress.total) * 100);
+        document.getElementById('module-progress-percentage').textContent = percentage + '%';
+        document.getElementById('module-progress-fill').style.width = percentage + '%';
+        document.getElementById('module-progress-text').textContent = percentage + '% Complete';
+
+        // Generate lesson cards
+        const lessonsGrid = document.getElementById('lessons-grid');
+
+        for (let i = 1; i <= totalLessons; i++) {
+            const isComplete = progressTracker.isLessonComplete(moduleId, i);
+            const lessonCard = document.createElement('div');
+            lessonCard.className = 'lesson-card' + (isComplete ? ' completed' : '');
+
+            lessonCard.innerHTML = `
+                <div class="lesson-card-header">
+                    <span class="lesson-number">Lesson ${i}</span>
+                    ${isComplete ? '<span class="completion-badge">✓</span>' : ''}
+                </div>
+                <div class="lesson-card-body">
+                    <a href="/lesson/${moduleId}/${i}" class="lesson-link">
+                        ${isComplete ? 'Review Lesson' : 'Start Lesson'} →
+                    </a>
+                </div>
+            `;
+
+            lessonsGrid.appendChild(lessonCard);
+        }
+
+        // Enable quiz button only if all lessons are complete
+        if (percentage === 100) {
+            document.getElementById('quiz-btn').classList.remove('disabled');
+        } else {
+            const quizBtn = document.getElementById('quiz-btn');
+            quizBtn.classList.add('disabled');
+            quizBtn.addEventListener('click', function(e) {
+                if (percentage < 100) {
+                    e.preventDefault();
+                    alert('Please complete all lessons before taking the quiz!');
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

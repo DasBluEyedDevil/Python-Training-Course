@@ -1,0 +1,85 @@
+{
+  "lesson_id": 1,
+  "module_id": 6,
+  "title": "Function Basics - Reusable Code Blocks",
+  "duration": "25 minutes",
+  "objectives": [
+    "Understand what functions are and why they're essential",
+    "Learn the basic syntax for defining and calling functions",
+    "Create simple functions that perform specific tasks",
+    "Master the def keyword and function naming conventions"
+  ],
+  "sections": [
+    {
+      "role": "The Simplifier",
+      "title": "The Concept",
+      "content": "<h3>📦 Functions: Your Code's Building Blocks</h3><p><strong>Real-World Analogy First:</strong></p><p>Imagine you're a chef in a busy restaurant. Every time a customer orders \"scrambled eggs,\" you don't reinvent the recipe from scratch. Instead, you follow the same established recipe every time:</p><ul><li>🥚 Crack 3 eggs into bowl</li><li>🥛 Add 2 tablespoons milk</li><li>🧈 Melt butter in pan</li><li>🍳 Cook and stir until done</li></ul><p>This recipe is like a <strong>function</strong> in Python! You define the steps once, give it a name (\"make_scrambled_eggs\"), and then whenever you need scrambled eggs, you just call that recipe by name instead of writing out all the steps again.</p><hr><p><strong>Now The Technical Term:</strong></p><p>A <strong>function</strong> is a reusable block of code that performs a specific task. Instead of writing the same code over and over, you write it once in a function and then \"call\" that function whenever you need it.</p><p><strong>Why Functions Are Essential:</strong></p><ul><li>✅ <strong>Don't Repeat Yourself (DRY):</strong> Write code once, use it many times</li><li>✅ <strong>Organization:</strong> Break big programs into smaller, manageable pieces</li><li>✅ <strong>Readability:</strong> Function names explain what code does</li><li>✅ <strong>Maintenance:</strong> Fix bugs in one place instead of many</li><li>✅ <strong>Testing:</strong> Test individual pieces independently</li></ul><p>Think of functions as the verbs of programming - they <em>do</em> things! Just like you use verbs in everyday language (\"walk\", \"eat\", \"calculate\"), you'll use functions to tell your program to perform actions.</p>"
+    },
+    {
+      "role": "The Coder",
+      "title": "Code Example",
+      "content": "<h3>💻 Your First Function</h3><p>Let's create a simple function that greets a user. We'll define it once and then call it multiple times:</p>",
+      "code": "# DEFINING a function (creating the recipe)\ndef greet():\n    \"\"\"Display a friendly greeting message.\"\"\"\n    print(\"👋 Hello! Welcome to Python functions!\")\n    print(\"Functions make code reusable and organized.\")\n    print(\"---\")\n\n# The function is defined but hasn't run yet!\nprint(\"Function defined. Now let's use it...\\n\")\n\n# CALLING the function (following the recipe)\ngreet()  # First time\n\nprint(\"\\nCalling it again...\\n\")\ngreet()  # Second time\n\nprint(\"\\nAnd one more time!\\n\")\ngreet()  # Third time\n\nprint(\"\\n✨ We wrote the greeting code once but used it three times!\")",
+      "output": "Function defined. Now let's use it...\n\n👋 Hello! Welcome to Python functions!\nFunctions make code reusable and organized.\n---\n\nCalling it again...\n\n👋 Hello! Welcome to Python functions!\nFunctions make code reusable and organized.\n---\n\nAnd one more time!\n\n👋 Hello! Welcome to Python functions!\nFunctions make code reusable and organized.\n---\n\n✨ We wrote the greeting code once but used it three times!"
+    },
+    {
+      "role": "The Simplifier",
+      "title": "Syntax Breakdown",
+      "content": "<h3>🔍 Understanding Function Syntax</h3><p>Let's break down every part of a function definition:</p><pre><code>def greet():\n    \"\"\"Display a friendly greeting message.\"\"\"\n    print(\"Hello!\")\n    print(\"Welcome!\")</code></pre><p><strong>Part 1: The <code>def</code> Keyword</strong></p><ul><li>📌 <code>def</code> stands for \"define\"</li><li>📌 Tells Python: \"I'm about to create a new function\"</li><li>📌 Always lowercase: <code>def</code>, never <code>Def</code> or <code>DEF</code></li></ul><p><strong>Part 2: The Function Name</strong></p><ul><li>📌 <code>greet</code> is the name we chose for this function</li><li>📌 <strong>Naming Rules:</strong> Same as variables (lowercase, underscores, descriptive)</li><li>📌 Use verb names: <code>calculate_total()</code>, <code>send_email()</code>, <code>validate_input()</code></li><li>📌 Make names clear: <code>greet_user()</code> is better than <code>g()</code></li></ul><p><strong>Part 3: The Parentheses <code>()</code></strong></p><ul><li>📌 Required even when empty!</li><li>📌 Later, we'll put \"parameters\" inside (inputs to the function)</li><li>📌 For now: <code>()</code> means \"this function takes no inputs\"</li></ul><p><strong>Part 4: The Colon <code>:</code></strong></p><ul><li>📌 Signals the start of the function body</li><li>📌 Just like <code>if</code> and <code>for</code> statements!</li><li>📌 Missing colon = SyntaxError</li></ul><p><strong>Part 5: The Docstring (Optional but Recommended)</strong></p><ul><li>📌 <code>\"\"\"Display a friendly greeting message.\"\"\"</code></li><li>📌 A triple-quoted string explaining what the function does</li><li>📌 Helps other programmers (and future you!) understand the function</li><li>📌 Shows up in help documentation</li></ul><p><strong>Part 6: The Function Body (Indented Code)</strong></p><ul><li>📌 <strong>MUST be indented</strong> (usually 4 spaces)</li><li>📌 All indented lines belong to the function</li><li>📌 When indentation stops, the function ends</li><li>📌 This code only runs when the function is <em>called</em>, not when it's defined</li></ul><hr><p><strong>Calling a Function:</strong></p><pre><code>greet()  # Function name + parentheses = execute the function</code></pre><ul><li>✅ Use the function name</li><li>✅ Add parentheses <code>()</code></li><li>✅ Python runs all the code inside the function</li><li>✅ Then continues with the next line after the function call</li></ul><p><strong>⚠️ Common Mistake:</strong></p><pre><code># WITHOUT parentheses = doesn't call the function!\ngreet  # This just refers to the function, doesn't run it\n\n# WITH parentheses = calls the function!\ngreet()  # This executes the code inside</code></pre>"
+    },
+    {
+      "role": "The Coder",
+      "title": "Exercise",
+      "content": "<h3>✏️ Your Turn: Create a Fortune Cookie Function</h3><p><strong>Challenge:</strong> Create a function called <code>fortune_cookie()</code> that displays a random fortune message. The function should print:</p><ul><li>A decorative header</li><li>A fortune message of your choice</li><li>A decorative footer</li></ul><p>Then call the function three times to simulate getting three fortune cookies!</p><p><strong>Requirements:</strong></p><ol><li>Function name: <code>fortune_cookie</code></li><li>No parameters (empty parentheses)</li><li>Uses <code>print()</code> to display the fortune</li><li>Include a docstring explaining what it does</li><li>Call the function exactly 3 times</li></ol><p><strong>Example Output:</strong></p><pre>🥠 ════════════════════════════════\n   Your fortune: A pleasant surprise is waiting for you!\n🥠 ════════════════════════════════\n\n🥠 ════════════════════════════════\n   Your fortune: A pleasant surprise is waiting for you!\n🥠 ════════════════════════════════\n\n🥠 ════════════════════════════════\n   Your fortune: A pleasant surprise is waiting for you!\n🥠 ════════════════════════════════</pre>",
+      "starter_code": "# Define your fortune_cookie function here\ndef fortune_cookie():\n    # Your docstring here\n    \n    # Print decorative header\n    \n    # Print fortune message\n    \n    # Print decorative footer\n    pass  # Remove this line when you add your code\n\n# Call the function three times\n# Your code here\n"
+    },
+    {
+      "role": "The Coder",
+      "title": "Solution",
+      "content": "<h3>✅ Solution: Fortune Cookie Function</h3>",
+      "code": "# Define the fortune_cookie function\ndef fortune_cookie():\n    \"\"\"Display a fortune cookie message with decorative borders.\"\"\"\n    print(\"🥠 ═══════════════════════════════════════════════\")\n    print(\"   Your fortune: A pleasant surprise is waiting for you!\")\n    print(\"🥠 ═══════════════════════════════════════════════\")\n    print()  # Blank line for spacing\n\n# Call the function three times\nprint(\"Opening fortune cookie #1:\\n\")\nfortune_cookie()\n\nprint(\"Opening fortune cookie #2:\\n\")\nfortune_cookie()\n\nprint(\"Opening fortune cookie #3:\\n\")\nfortune_cookie()\n\nprint(\"🎉 You've read three fortunes!\")",
+      "output": "Opening fortune cookie #1:\n\n🥠 ═══════════════════════════════════════════════\n   Your fortune: A pleasant surprise is waiting for you!\n🥠 ═══════════════════════════════════════════════\n\nOpening fortune cookie #2:\n\n🥠 ═══════════════════════════════════════════════\n   Your fortune: A pleasant surprise is waiting for you!\n🥠 ═══════════════════════════════════════════════\n\nOpening fortune cookie #3:\n\n🥠 ═══════════════════════════════════════════════\n   Your fortune: A pleasant surprise is waiting for you!\n🥠 ═══════════════════════════════════════════════\n\n🎉 You've read three fortunes!",
+      "explanation": "<h3>📚 How It Works:</h3><ol><li><strong>Function Definition (Lines 1-6):</strong><ul><li><code>def fortune_cookie():</code> creates a new function named \"fortune_cookie\"</li><li>The docstring explains what the function does</li><li>Four <code>print()</code> statements create the fortune message</li><li>The empty <code>print()</code> adds spacing between fortunes</li></ul></li><li><strong>Function Calls (Lines 8-18):</strong><ul><li>We call <code>fortune_cookie()</code> three separate times</li><li>Each call executes all the code inside the function</li><li>The output appears three times - same message, same formatting</li></ul></li><li><strong>The Power of Functions:</strong><ul><li>We wrote the fortune display code <strong>once</strong> (lines 2-6)</li><li>We used it <strong>three times</strong> by calling the function</li><li>If we want to change the fortune, we only change it in <strong>one place</strong></li></ul></li></ol><h3>⚠️ Common Mistakes:</h3><ol><li><strong>Forgetting Parentheses When Calling:</strong><pre><code># ❌ WRONG - doesn't call the function\nfortune_cookie\n\n# ✅ CORRECT - calls the function\nfortune_cookie()</code></pre></li><li><strong>Forgetting the Colon After def:</strong><pre><code># ❌ WRONG\ndef fortune_cookie()\n    print(\"Fortune\")\n\n# ✅ CORRECT\ndef fortune_cookie():\n    print(\"Fortune\")</code></pre></li><li><strong>Not Indenting the Function Body:</strong><pre><code># ❌ WRONG - IndentationError\ndef fortune_cookie():\nprint(\"Fortune\")\n\n# ✅ CORRECT - body is indented\ndef fortune_cookie():\n    print(\"Fortune\")</code></pre></li><li><strong>Calling Before Defining:</strong><pre><code># ❌ WRONG - NameError: 'fortune_cookie' is not defined\nfortune_cookie()  # Called before it's defined\n\ndef fortune_cookie():\n    print(\"Fortune\")\n\n# ✅ CORRECT - define first, then call\ndef fortune_cookie():\n    print(\"Fortune\")\n\nfortune_cookie()  # Now it works!</code></pre></li><li><strong>Typo in Function Name:</strong><pre><code>def fortune_cookie():\n    print(\"Fortune\")\n\n# ❌ WRONG - typo in name\nfortune_cooky()  # NameError - no function called 'fortune_cooky'\n\n# ✅ CORRECT - exact match\nfortune_cookie()</code></pre></li></ol><h3>💡 Pro Tips:</h3><ul><li>✅ Define all functions at the top of your file (before calling them)</li><li>✅ Use descriptive names that explain what the function does</li><li>✅ Always include a docstring, even a short one</li><li>✅ Test each function immediately after creating it</li><li>✅ One function = one clear purpose (not multiple unrelated tasks)</li></ul>"
+    },
+    {
+      "role": "Summary",
+      "title": "Key Takeaways",
+      "content": "<h3>🎯 Essential Points to Remember:</h3><ol><li><strong>Functions are reusable code blocks:</strong><ul><li>Write code once, use it many times</li><li>Like recipes: define the steps, then follow them whenever needed</li></ul></li><li><strong>Basic syntax:</strong><pre><code>def function_name():\n    \"\"\"Docstring explaining what it does.\"\"\"\n    # Code to execute\n    # Must be indented</code></pre></li><li><strong>Two steps to using functions:</strong><ul><li><strong>Define:</strong> <code>def function_name():</code> (write the code once)</li><li><strong>Call:</strong> <code>function_name()</code> (execute it whenever needed)</li></ul></li><li><strong>Function names follow variable rules:</strong><ul><li>Lowercase with underscores: <code>calculate_total()</code></li><li>Use verbs (actions): <code>display_menu()</code>, <code>save_file()</code></li><li>Descriptive, not cryptic: <code>validate_email()</code> not <code>ve()</code></li></ul></li><li><strong>The parentheses <code>()</code> are required:</strong><ul><li>When defining: <code>def greet():</code></li><li>When calling: <code>greet()</code></li><li>Forgetting them is a very common mistake!</li></ul></li><li><strong>Function body must be indented:</strong><ul><li>All code inside the function needs consistent indentation</li><li>Python uses indentation to know what's inside the function</li></ul></li><li><strong>Functions don't run when defined:</strong><ul><li>Defining a function just creates it</li><li>The code inside only runs when you <em>call</em> the function</li></ul></li><li><strong>Always define before calling:</strong><ul><li>Python must see the <code>def</code> statement before you call the function</li><li>Put function definitions at the top of your file</li></ul></li></ol><h3>🚀 Coming Up Next:</h3><p>In the next lesson, you'll learn about <strong>parameters and return values</strong> - how to send information <em>into</em> functions and get results <em>back</em>. This will make your functions infinitely more powerful and flexible!</p>"
+    }
+  ],
+  "checkpoint_quiz": [
+    {
+      "question": "What is the correct way to define a function named 'say_hello' in Python?",
+      "options": [
+        "function say_hello():",
+        "def say_hello():",
+        "define say_hello:",
+        "func say_hello():"
+      ],
+      "correct_answer": 1,
+      "explanation": "The correct syntax is 'def say_hello():' - you use the 'def' keyword, followed by the function name, parentheses, and a colon. The body must be indented on the next line."
+    },
+    {
+      "question": "What happens when you define a function but don't call it?",
+      "options": [
+        "The function code runs immediately",
+        "Python stores the function but doesn't execute it",
+        "You get a SyntaxError",
+        "The function is deleted"
+      ],
+      "correct_answer": 1,
+      "explanation": "When you define a function, Python stores it in memory but doesn't execute it. The code inside only runs when you CALL the function using its name with parentheses, like 'say_hello()'."
+    },
+    {
+      "question": "Which of these correctly calls a function named 'display_menu'?",
+      "options": [
+        "display_menu",
+        "display_menu[]",
+        "display_menu()",
+        "call display_menu()"
+      ],
+      "correct_answer": 2,
+      "explanation": "The correct way is 'display_menu()' - use the function name followed by parentheses. Without parentheses, you're just referring to the function object, not calling it. Python doesn't use 'call' keyword or square brackets."
+    }
+  ]
+}

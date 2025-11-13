@@ -1,0 +1,271 @@
+{% extends "base.html" %}
+
+{% block title %}{{ lesson.title }} - Module {{ module_id }}{% endblock %}
+
+{% block content %}
+<div class="lesson-container">
+    <!-- Breadcrumb Navigation -->
+    <nav class="breadcrumb">
+        <a href="/">Home</a>
+        <span class="separator">›</span>
+        <a href="/module/{{ module_id }}">Module {{ module_id }}</a>
+        <span class="separator">›</span>
+        <span class="current">Lesson {{ lesson_id }}</span>
+    </nav>
+
+    <!-- Lesson Header -->
+    <div class="lesson-header">
+        <div class="lesson-meta">
+            <span class="lesson-badge">Lesson {{ lesson_id }}</span>
+            <span class="module-badge">{{ module.icon }} Module {{ module_id }}: {{ module.title }}</span>
+        </div>
+        <h1 class="lesson-title">{{ lesson.title }}</h1>
+        {% if lesson.estimated_time %}
+        <p class="lesson-time">⏱️ Estimated time: {{ lesson.estimated_time }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Lesson Content -->
+    <div class="lesson-content">
+        <!-- The Simplifier: Concept Section -->
+        <section class="lesson-section concept-section">
+            <div class="section-header">
+                <span class="section-icon">🧩</span>
+                <h2>The Concept</h2>
+                <span class="agent-badge">The Simplifier</span>
+            </div>
+            <div class="section-content">
+                {{ lesson.concept | safe }}
+            </div>
+        </section>
+
+        <!-- The Coder: Code Example Section -->
+        <section class="lesson-section code-section">
+            <div class="section-header">
+                <span class="section-icon">💻</span>
+                <h2>Code Example</h2>
+                <span class="agent-badge">The Coder</span>
+            </div>
+            <div class="section-content">
+                <div class="code-example">
+                    <div class="code-header">
+                        <span class="code-label">{{ lesson.code_example.language | default('Python') }}</span>
+                        <button class="copy-btn" data-copy-target="code-example-1">Copy</button>
+                    </div>
+                    <pre><code id="code-example-1" class="language-python">{{ lesson.code_example.code }}</code></pre>
+                </div>
+                {% if lesson.code_example.output %}
+                <div class="code-output">
+                    <div class="output-header">Output:</div>
+                    <pre><code>{{ lesson.code_example.output }}</code></pre>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- The Simplifier: Syntax Breakdown Section -->
+        <section class="lesson-section breakdown-section">
+            <div class="section-header">
+                <span class="section-icon">🔍</span>
+                <h2>Syntax Breakdown</h2>
+                <span class="agent-badge">The Simplifier</span>
+            </div>
+            <div class="section-content">
+                {{ lesson.syntax_breakdown | safe }}
+            </div>
+        </section>
+
+        <!-- The Coder: Interactive Exercise Section -->
+        <section class="lesson-section exercise-section">
+            <div class="section-header">
+                <span class="section-icon">✏️</span>
+                <h2>Interactive Exercise</h2>
+                <span class="agent-badge">The Coder</span>
+            </div>
+            <div class="section-content">
+                <div class="exercise-instructions">
+                    {{ lesson.exercise.instructions | safe }}
+                </div>
+
+                <div class="code-editor-container">
+                    <div class="editor-header">
+                        <span class="editor-label">Your Code</span>
+                        <div class="editor-actions">
+                            <button class="btn btn-sm btn-secondary" id="reset-code">Reset</button>
+                            <button class="btn btn-sm btn-primary" id="run-code">▶ Run Code</button>
+                        </div>
+                    </div>
+                    <textarea id="code-editor" class="code-editor">{{ lesson.exercise.starter_code }}</textarea>
+                </div>
+
+                <div class="code-output-container" id="output-container" style="display: none;">
+                    <div class="output-header">
+                        <span>Output</span>
+                        <button class="clear-output" id="clear-output">Clear</button>
+                    </div>
+                    <pre id="code-output" class="code-output"></pre>
+                </div>
+
+                <div class="exercise-hints" id="hints-section">
+                    <button class="btn btn-sm btn-secondary" id="show-hint">💡 Show Hint</button>
+                    <div class="hint-content" id="hint-content" style="display: none;">
+                        {{ lesson.exercise.hint | safe }}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Coder: Solution Section -->
+        <section class="lesson-section solution-section">
+            <div class="section-header">
+                <span class="section-icon">✅</span>
+                <h2>Solution & Explanation</h2>
+                <span class="agent-badge">The Coder</span>
+            </div>
+            <div class="section-content">
+                <button class="btn btn-secondary" id="toggle-solution">Show Solution</button>
+
+                <div class="solution-content" id="solution-content" style="display: none;">
+                    <div class="code-example">
+                        <div class="code-header">
+                            <span class="code-label">Solution</span>
+                            <button class="copy-btn" data-copy-target="solution-code">Copy</button>
+                        </div>
+                        <pre><code id="solution-code" class="language-python">{{ lesson.solution.code }}</code></pre>
+                    </div>
+
+                    <div class="explanation">
+                        <h3>Explanation</h3>
+                        {{ lesson.solution.explanation | safe }}
+                    </div>
+
+                    <div class="common-mistakes">
+                        <h3>⚠️ Common Sticking Points</h3>
+                        {{ lesson.solution.common_mistakes | safe }}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Takeaways -->
+        {% if lesson.key_takeaways %}
+        <section class="lesson-section takeaways-section">
+            <div class="section-header">
+                <span class="section-icon">🎯</span>
+                <h2>Key Takeaways</h2>
+            </div>
+            <div class="section-content">
+                {{ lesson.key_takeaways | safe }}
+            </div>
+        </section>
+        {% endif %}
+    </div>
+
+    <!-- Lesson Navigation -->
+    <div class="lesson-navigation">
+        <div class="nav-buttons">
+            {% if lesson_id > 1 %}
+            <a href="/lesson/{{ module_id }}/{{ lesson_id - 1 }}" class="btn btn-secondary">
+                ← Previous Lesson
+            </a>
+            {% else %}
+            <span class="btn btn-disabled">← Previous Lesson</span>
+            {% endif %}
+
+            <button class="btn btn-success" id="mark-complete">
+                Mark as Complete ✓
+            </button>
+
+            {% if lesson_id < module.lessons %}
+            <a href="/lesson/{{ module_id }}/{{ lesson_id + 1 }}" class="btn btn-primary">
+                Next Lesson →
+            </a>
+            {% else %}
+            <a href="/quiz/{{ module_id }}" class="btn btn-primary">
+                Take Module Quiz →
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    const moduleId = {{ module_id }};
+    const lessonId = {{ lesson_id }};
+    const starterCode = `{{ lesson.exercise.starter_code }}`;
+</script>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/code-editor.js') }}"></script>
+<script>
+    // Initialize code editor
+    const editor = CodeMirror.fromTextArea(document.getElementById('code-editor'), {
+        mode: 'python',
+        theme: 'monokai',
+        lineNumbers: true,
+        indentUnit: 4,
+        tabSize: 4,
+        indentWithTabs: false,
+        lineWrapping: true,
+        matchBrackets: true,
+        autoCloseBrackets: true
+    });
+
+    // Reset code
+    document.getElementById('reset-code').addEventListener('click', function() {
+        editor.setValue(starterCode);
+    });
+
+    // Show hint
+    document.getElementById('show-hint').addEventListener('click', function() {
+        const hintContent = document.getElementById('hint-content');
+        if (hintContent.style.display === 'none') {
+            hintContent.style.display = 'block';
+            this.textContent = '🙈 Hide Hint';
+        } else {
+            hintContent.style.display = 'none';
+            this.textContent = '💡 Show Hint';
+        }
+    });
+
+    // Toggle solution
+    document.getElementById('toggle-solution').addEventListener('click', function() {
+        const solutionContent = document.getElementById('solution-content');
+        if (solutionContent.style.display === 'none') {
+            solutionContent.style.display = 'block';
+            this.textContent = 'Hide Solution';
+        } else {
+            solutionContent.style.display = 'none';
+            this.textContent = 'Show Solution';
+        }
+    });
+
+    // Mark lesson as complete
+    document.getElementById('mark-complete').addEventListener('click', function() {
+        const progressTracker = new ProgressTracker();
+        progressTracker.markLessonComplete(moduleId, lessonId);
+
+        this.classList.add('completed');
+        this.innerHTML = 'Completed ✓';
+
+        // Show success message
+        alert('Great job! Lesson marked as complete.');
+    });
+
+    // Copy code buttons
+    document.querySelectorAll('.copy-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const targetId = this.getAttribute('data-copy-target');
+            const code = document.getElementById(targetId).textContent;
+
+            navigator.clipboard.writeText(code).then(() => {
+                this.textContent = 'Copied!';
+                setTimeout(() => {
+                    this.textContent = 'Copy';
+                }, 2000);
+            });
+        });
+    });
+</script>
+{% endblock %}

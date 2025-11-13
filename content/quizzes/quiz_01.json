@@ -1,0 +1,177 @@
+{
+  "title": "Module 1 Quiz: The Absolute Basics",
+  "description": "Test your understanding of Python fundamentals: print(), input(), variables, and f-strings.",
+  "estimated_time": "10 minutes",
+  "passing_score": 70,
+  "questions": [
+    {
+      "question": "What does the <code>print()</code> function do in Python?",
+      "type": "multiple_choice",
+      "options": [
+        "It displays text or information on the screen",
+        "It saves information to a file",
+        "It asks the user for input",
+        "It performs mathematical calculations"
+      ],
+      "correct_answer": 0,
+      "explanation": "<code>print()</code> is used to display (or 'output') information to the user. Think of it as making the computer 'speak' or show something on the screen."
+    },
+    {
+      "question": "Which of the following is the correct way to display the text 'Hello, World!' in Python?",
+      "type": "multiple_choice",
+      "options": [
+        "print(Hello, World!)",
+        "print('Hello, World!')",
+        "Print('Hello, World!')",
+        "PRINT('Hello, World!')"
+      ],
+      "correct_answer": 1,
+      "explanation": "The correct answer is <code>print('Hello, World!')</code>. The text must be in quotation marks (either single or double), and 'print' must be lowercase because Python is case-sensitive."
+    },
+    {
+      "question": "What is the purpose of quotation marks around text in Python?",
+      "type": "multiple_choice",
+      "options": [
+        "They make the text bold",
+        "They tell Python that this is text (a string), not a command",
+        "They are optional and don't affect the code",
+        "They make the program run faster"
+      ],
+      "correct_answer": 1,
+      "explanation": "Quotation marks (either <code>\"\"</code> or <code>''</code>) tell Python to treat what's inside as literal text (called a 'string'), not as a command or variable name."
+    },
+    {
+      "question": "What does the <code>#</code> symbol do in Python code?",
+      "type": "multiple_choice",
+      "options": [
+        "It starts a new line",
+        "It creates a comment that Python ignores",
+        "It multiplies numbers",
+        "It ends a print statement"
+      ],
+      "correct_answer": 1,
+      "explanation": "The <code>#</code> symbol creates a comment. Everything after it on that line is ignored by Python. Comments are notes for humans to explain what the code does."
+    },
+    {
+      "question": "What does <code>input()</code> do?",
+      "type": "multiple_choice",
+      "options": [
+        "It displays text on the screen",
+        "It pauses the program and waits for the user to type something and press Enter",
+        "It deletes the user's previous answer",
+        "It generates a random number"
+      ],
+      "correct_answer": 1,
+      "explanation": "<code>input()</code> pauses your program and waits for the user to type a response and press Enter. It's like asking a question and waiting for an answer."
+    },
+    {
+      "question": "What is a variable in Python?",
+      "type": "multiple_choice",
+      "options": [
+        "A type of error message",
+        "A labeled storage box that holds information you can use later",
+        "A special Python keyword",
+        "A way to print text"
+      ],
+      "correct_answer": 1,
+      "explanation": "A variable is like a labeled box where you can store information (like a name, number, or answer) and use it later in your program. Example: <code>name = 'Alex'</code>"
+    },
+    {
+      "question": "What will this code display?<br><code>age = 25<br>print('Age:', age)</code>",
+      "type": "multiple_choice",
+      "options": [
+        "Age: age",
+        "Age: 25",
+        "25",
+        "It will cause an error"
+      ],
+      "correct_answer": 1,
+      "explanation": "It will display <code>Age: 25</code>. Python prints the text 'Age:' followed by the value stored in the variable <code>age</code>, which is 25."
+    },
+    {
+      "question": "What's the difference between <code>print(5 + 3)</code> and <code>print('5 + 3')</code>?",
+      "type": "multiple_choice",
+      "options": [
+        "There is no difference",
+        "The first calculates and shows 8; the second shows the text '5 + 3'",
+        "The first shows '5 + 3'; the second shows 8",
+        "Both cause errors"
+      ],
+      "correct_answer": 1,
+      "explanation": "<code>print(5 + 3)</code> calculates the math and displays <code>8</code>. <code>print('5 + 3')</code> treats it as text and displays <code>5 + 3</code>. Quotes make it text; no quotes make it code to execute."
+    },
+    {
+      "question": "What does <code>'=' * 20</code> create in Python?",
+      "type": "multiple_choice",
+      "options": [
+        "The number 20",
+        "An error message",
+        "A string with 20 equal signs: ====================",
+        "The text '= * 20'"
+      ],
+      "correct_answer": 2,
+      "explanation": "In Python, you can multiply a string by a number to repeat it. <code>'=' * 20</code> creates a string with 20 equal signs: <code>====================</code>. Great for creating decorative lines!"
+    },
+    {
+      "question": "What's the purpose of the <code>f</code> in <code>f'Hello, {name}!'</code>?",
+      "type": "multiple_choice",
+      "options": [
+        "It makes the text italic",
+        "It tells Python this is a formatted string that can include variables in curly braces",
+        "It's a typo and should be removed",
+        "It makes the program run faster"
+      ],
+      "correct_answer": 1,
+      "explanation": "The <code>f</code> before a string makes it an f-string (formatted string). This allows you to insert variable values directly into the string using <code>{variable_name}</code>. It's cleaner than using lots of commas!"
+    },
+    {
+      "question": "What's wrong with this code?<br><code>age = input('How old are you? ')<br>future_age = age + 10<br>print(future_age)</code>",
+      "type": "multiple_choice",
+      "options": [
+        "Nothing, it will work perfectly",
+        "You can't add 10 to a string; you need int(age) + 10",
+        "The variable name 'age' is not allowed",
+        "You can't use input() and print() in the same program"
+      ],
+      "correct_answer": 1,
+      "explanation": "<code>input()</code> always returns a string (text), even if the user types a number. You must convert it with <code>int()</code> before doing math: <code>future_age = int(age) + 10</code>"
+    },
+    {
+      "question": "True or False: Python is case-sensitive, so <code>print</code> and <code>Print</code> are different things.",
+      "type": "true_false",
+      "correct_answer": "true",
+      "explanation": "True! Python is case-sensitive. <code>print()</code> is the correct function name; <code>Print()</code> or <code>PRINT()</code> will cause an error because Python doesn't recognize them."
+    },
+    {
+      "question": "What will this code display?<br><code>name = 'Alex'<br>print(f'Hello, {name}!')</code>",
+      "type": "code_output",
+      "code": "name = 'Alex'\nprint(f'Hello, {name}!')",
+      "options": [
+        "Hello, {name}!",
+        "Hello, Alex!",
+        "Hello, name!",
+        "It will cause an error"
+      ],
+      "correct_answer": 1,
+      "explanation": "The output is <code>Hello, Alex!</code>. The f-string replaces <code>{name}</code> with the value stored in the <code>name</code> variable, which is 'Alex'."
+    },
+    {
+      "question": "True or False: Comments (lines starting with #) make your code run faster.",
+      "type": "true_false",
+      "correct_answer": "false",
+      "explanation": "False! Comments are completely ignored by Python when it runs your code. They don't affect speed at all. Their purpose is to help humans understand the code, not to change how it runs."
+    },
+    {
+      "question": "What's the best practice for creating an input prompt?",
+      "type": "multiple_choice",
+      "options": [
+        "input('Enter name:')",
+        "input('Enter name: ')",
+        "input('Enter name')",
+        "All of the above are equally good"
+      ],
+      "correct_answer": 1,
+      "explanation": "The best practice is <code>input('Enter name: ')</code> with a space after the colon. This makes the user's input appear cleanly separated from the prompt, improving readability."
+    }
+  ]
+}

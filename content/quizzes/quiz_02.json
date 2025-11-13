@@ -1,0 +1,244 @@
+{
+  "title": "Module 2 Quiz: Variables, Data Types & Operators",
+  "module_id": 2,
+  "passing_score": 70,
+  "description": "Test your understanding of variables, data types, type conversion, and operators. You need 13/18 correct (70%) to pass.",
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": "Which of the following is a valid variable name in Python?",
+      "options": [
+        "my-variable",
+        "2nd_place",
+        "user_age",
+        "for"
+      ],
+      "correct_answer": 2,
+      "explanation": "Option C (user_age) is correct. Variable names can contain letters, numbers, and underscores, but cannot start with a number (eliminates B), cannot contain hyphens (eliminates A), and cannot be Python keywords like 'for' (eliminates D)."
+    },
+    {
+      "id": 2,
+      "type": "multiple_choice",
+      "question": "What data type is the value True?",
+      "options": [
+        "string",
+        "integer",
+        "boolean",
+        "float"
+      ],
+      "correct_answer": 2,
+      "explanation": "True (and False) are boolean values. Booleans represent true/false, yes/no, on/off conditions and are fundamental to decision-making in programs."
+    },
+    {
+      "id": 3,
+      "type": "multiple_choice",
+      "question": "What will this code print?\n\nx = \"10\"\ny = \"5\"\nprint(x + y)",
+      "options": [
+        "15",
+        "105",
+        "\"105\"",
+        "Error"
+      ],
+      "correct_answer": 1,
+      "explanation": "The output is \"105\" (not 15). Since both x and y are strings (text in quotes), the + operator concatenates (joins) them together rather than adding them mathematically. String + String = combined string."
+    },
+    {
+      "id": 4,
+      "type": "multiple_choice",
+      "question": "Which function checks the data type of a variable?",
+      "options": [
+        "check()",
+        "datatype()",
+        "type()",
+        "typeof()"
+      ],
+      "correct_answer": 2,
+      "explanation": "The type() function returns the data type of a variable. For example, type(5) returns <class 'int'> and type(\"hello\") returns <class 'str'>."
+    },
+    {
+      "id": 5,
+      "type": "multiple_choice",
+      "question": "What will this code output?\n\nprice = 19.99\nprint(type(price))",
+      "options": [
+        "<class 'int'>",
+        "<class 'float'>",
+        "<class 'str'>",
+        "19.99"
+      ],
+      "correct_answer": 1,
+      "explanation": "19.99 is a decimal number, so Python stores it as a float. The type() function will return <class 'float'>. Any number with a decimal point is automatically a float."
+    },
+    {
+      "id": 6,
+      "type": "multiple_choice",
+      "question": "What happens when you try to run this code?\n\nage = int(\"twenty-five\")",
+      "options": [
+        "age becomes 25",
+        "age becomes \"25\"",
+        "ValueError occurs",
+        "age becomes 0"
+      ],
+      "correct_answer": 2,
+      "explanation": "You get a ValueError! The int() function can only convert strings that contain actual digits like \"25\". It cannot convert word representations of numbers like \"twenty-five\". Always convert strings that look like numbers: \"123\" works, \"one hundred\" doesn't."
+    },
+    {
+      "id": 7,
+      "type": "multiple_choice",
+      "question": "What's the correct way to convert user input to a decimal number?",
+      "options": [
+        "num = input(\"Enter number: \")",
+        "num = int(input(\"Enter number: \"))",
+        "num = float(input(\"Enter number: \"))",
+        "num = str(input(\"Enter number: \"))"
+      ],
+      "correct_answer": 2,
+      "explanation": "Use float(input(...)) to convert user input to a decimal number. The input() function always returns a string, so we need float() to convert it. Option B (int) only handles whole numbers, and Option A leaves it as a string."
+    },
+    {
+      "id": 8,
+      "type": "multiple_choice",
+      "question": "What will this code print?\n\nresult = 15 // 4\nprint(result)",
+      "options": [
+        "3.75",
+        "3",
+        "4",
+        "3.0"
+      ],
+      "correct_answer": 1,
+      "explanation": "Floor division (//) gives only the whole number part: 15 ÷ 4 = 3.75, but // drops the decimal, giving us 3. Regular division (/) would give 3.75, but // gives only whole pieces."
+    },
+    {
+      "id": 9,
+      "type": "multiple_choice",
+      "question": "What does the modulo operator (%) return?\n\nresult = 17 % 5",
+      "options": [
+        "The quotient (3.4)",
+        "The whole number quotient (3)",
+        "The remainder (2)",
+        "An error"
+      ],
+      "correct_answer": 2,
+      "explanation": "The modulo (%) operator returns the remainder after division. 17 ÷ 5 = 3 with 2 left over. So 17 % 5 = 2. This is perfect for finding leftovers, checking if numbers are even/odd, or converting units."
+    },
+    {
+      "id": 10,
+      "type": "multiple_choice",
+      "question": "What will this code output?\n\nprint(2 ** 3)",
+      "options": [
+        "6",
+        "5",
+        "8",
+        "9"
+      ],
+      "correct_answer": 2,
+      "explanation": "The ** operator is exponentiation (power). 2 ** 3 means 2 × 2 × 2 = 8. Don't confuse ** with * (multiplication): 2 * 3 = 6, but 2 ** 3 = 8."
+    },
+    {
+      "id": 11,
+      "type": "multiple_choice",
+      "question": "What's the result of this expression?\n\nresult = 10 - 2 * 3",
+      "options": [
+        "24",
+        "4",
+        "16",
+        "0"
+      ],
+      "correct_answer": 1,
+      "explanation": "Python follows PEMDAS (order of operations). Multiplication happens before subtraction: 2 * 3 = 6, then 10 - 6 = 4. If you wanted 24, you'd need parentheses: (10 - 2) * 3."
+    },
+    {
+      "id": 12,
+      "type": "multiple_choice",
+      "question": "Which line will cause an error?",
+      "options": [
+        "x = int(\"42\")",
+        "y = float(\"3.14\")",
+        "z = int(\"3.14\")",
+        "w = str(42)"
+      ],
+      "correct_answer": 2,
+      "explanation": "Option C causes a ValueError! int() cannot directly convert a decimal string like \"3.14\" to an integer. You'd need int(float(\"3.14\")) to do it in two steps, or just use \"3\" instead of \"3.14\". All other conversions are valid."
+    },
+    {
+      "id": 13,
+      "type": "multiple_choice",
+      "question": "What's the difference between / and // operators?",
+      "options": [
+        "They do the same thing",
+        "/ gives decimals, // gives whole numbers only",
+        "/ is faster than //",
+        "// only works with even numbers"
+      ],
+      "correct_answer": 1,
+      "explanation": "/ (regular division) always returns a float with decimals, even for even divisions: 10 / 2 = 5.0. // (floor division) returns only the whole number part: 10 // 2 = 5 (integer). Use / for precise calculations, // when you only need whole pieces."
+    },
+    {
+      "id": 14,
+      "type": "multiple_choice",
+      "question": "What data type does input() always return?",
+      "options": [
+        "Integer",
+        "Float",
+        "String",
+        "It depends on what the user types"
+      ],
+      "correct_answer": 2,
+      "explanation": "input() ALWAYS returns a string, regardless of what the user types. Even if they type \"123\", you get the string \"123\", not the number 123. This is why we need int() or float() to convert it to a number for calculations."
+    },
+    {
+      "id": 15,
+      "type": "multiple_choice",
+      "question": "How do you check if a number is even using the modulo operator?",
+      "options": [
+        "number / 2 == 0",
+        "number // 2 == 0",
+        "number % 2 == 0",
+        "number ** 2 == 0"
+      ],
+      "correct_answer": 2,
+      "explanation": "A number is even if it has NO remainder when divided by 2. So number % 2 == 0 checks this. For example: 10 % 2 = 0 (even), but 11 % 2 = 1 (odd). The modulo operator is perfect for checking divisibility."
+    },
+    {
+      "id": 16,
+      "type": "multiple_choice",
+      "question": "What will this code output?\n\nname = \"Python\"\nversion = 3\nprint(type(name), type(version))",
+      "options": [
+        "<class 'str'> <class 'str'>",
+        "<class 'int'> <class 'int'>",
+        "<class 'str'> <class 'int'>",
+        "Python 3"
+      ],
+      "correct_answer": 2,
+      "explanation": "name is a string (text in quotes) and version is an integer (whole number with no quotes). So type(name) returns <class 'str'> and type(version) returns <class 'int'>."
+    },
+    {
+      "id": 17,
+      "type": "multiple_choice",
+      "question": "In a calculator program, why would you use float() for numbers instead of int()?",
+      "options": [
+        "float() is faster than int()",
+        "float() can handle both whole numbers and decimals",
+        "int() doesn't work with input()",
+        "You should always use int() instead"
+      ],
+      "correct_answer": 1,
+      "explanation": "float() can handle both 5 and 5.5, while int() only handles whole numbers. For a calculator, users might enter 19.99 or 3.14, so float() is more flexible. Plus, float() can still handle whole numbers: float(\"5\") works fine and gives 5.0."
+    },
+    {
+      "id": 18,
+      "type": "multiple_choice",
+      "question": "What will happen if you run this code?\n\nresult = \"5\" * 3\nprint(result)",
+      "options": [
+        "15",
+        "8",
+        "\"555\"",
+        "Error"
+      ],
+      "correct_answer": 2,
+      "explanation": "When you multiply a string by a number, Python repeats the string! \"5\" * 3 gives \"555\" (the string \"5\" repeated 3 times). This is different from 5 * 3 (without quotes), which would give 15. String multiplication is actually useful for creating patterns or separators!"
+    }
+  ],
+  "completion_message": "Great job completing Module 2! You've mastered variables, data types, type conversion, and operators - the fundamental building blocks of Python programming. You're ready to move on to Module 3: Making Decisions!",
+  "retry_message": "Don't worry! Review the lessons that gave you trouble and try again. Focus on understanding the difference between data types, how type conversion works, and when to use each operator. You've got this!"
+}

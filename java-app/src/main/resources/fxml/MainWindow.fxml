@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="mainContainer" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.pythonlearning.controller.MainWindowController">
+
+    <!-- Top: Header with title and progress -->
+    <top>
+        <VBox styleClass="header">
+            <HBox alignment="CENTER_LEFT" spacing="20" styleClass="title-bar">
+                <padding>
+                    <Insets top="15" right="20" bottom="15" left="20"/>
+                </padding>
+                <Label text="🐍 Python Learning Platform" styleClass="app-title">
+                    <font>
+                        <Font name="System Bold" size="24"/>
+                    </font>
+                </Label>
+                <Region HBox.hgrow="ALWAYS"/>
+                <VBox alignment="CENTER_RIGHT" spacing="5">
+                    <Label fx:id="progressLabel" text="0% Complete" styleClass="progress-label"/>
+                    <ProgressBar fx:id="progressBar" progress="0" prefWidth="200"/>
+                </VBox>
+            </HBox>
+
+            <HBox alignment="CENTER_LEFT" spacing="10" styleClass="subtitle-bar">
+                <padding>
+                    <Insets top="10" right="20" bottom="10" left="20"/>
+                </padding>
+                <Label fx:id="moduleTitle" text="Select a module to begin" styleClass="module-title">
+                    <font>
+                        <Font size="16"/>
+                    </font>
+                </Label>
+            </HBox>
+        </VBox>
+    </top>
+
+    <!-- Left: Module Navigation -->
+    <left>
+        <VBox styleClass="sidebar" prefWidth="300" spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <Label text="📚 Course Modules" styleClass="sidebar-title">
+                <font>
+                    <Font name="System Bold" size="14"/>
+                </font>
+            </Label>
+
+            <ListView fx:id="moduleListView" VBox.vgrow="ALWAYS"/>
+
+            <Separator/>
+
+            <VBox spacing="5" styleClass="info-box">
+                <padding>
+                    <Insets top="10" right="10" bottom="10" left="10"/>
+                </padding>
+                <Label text="📖 Philosophy:" styleClass="info-label">
+                    <font>
+                        <Font name="System Bold" size="12"/>
+                    </font>
+                </Label>
+                <Label text="Concept First, Jargon Last" wrapText="true" styleClass="info-text"/>
+                <Label text="Every lesson starts with real-world analogies before introducing technical terms."
+                       wrapText="true" styleClass="info-text" style="-fx-font-size: 10px;"/>
+            </VBox>
+        </VBox>
+    </left>
+
+    <!-- Center: Lesson Content -->
+    <center>
+        <VBox spacing="10" styleClass="content-panel">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <!-- Lesson Header -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label fx:id="lessonTitle" text="Welcome to Python Learning!" styleClass="lesson-title">
+                    <font>
+                        <Font name="System Bold" size="20"/>
+                    </font>
+                </Label>
+            </HBox>
+
+            <Separator/>
+
+            <!-- Scrollable Content Area -->
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="content-scroll">
+                <VBox fx:id="contentArea" spacing="15">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+
+                    <!-- Welcome message -->
+                    <VBox spacing="10" styleClass="welcome-box">
+                        <Label text="Welcome to Python Learning Platform!" styleClass="welcome-title">
+                            <font>
+                                <Font name="System Bold" size="18"/>
+                            </font>
+                        </Label>
+                        <Label text="Select a module from the left sidebar to begin your journey from zero to full-stack developer."
+                               wrapText="true" styleClass="welcome-text"/>
+                        <Label text="✨ Features:" styleClass="feature-title">
+                            <font>
+                                <Font name="System Bold" size="14"/>
+                            </font>
+                        </Label>
+                        <Label text="• 14 comprehensive modules with 73 interactive lessons" wrapText="true"/>
+                        <Label text="• Real-world analogies before technical jargon" wrapText="true"/>
+                        <Label text="• Interactive code exercises with solutions" wrapText="true"/>
+                        <Label text="• Progress tracking and quizzes" wrapText="true"/>
+                        <Label text="• From absolute beginner to job-ready developer" wrapText="true"/>
+                    </VBox>
+                </VBox>
+            </ScrollPane>
+
+            <!-- Navigation Buttons -->
+            <HBox alignment="CENTER" spacing="20" styleClass="navigation-bar">
+                <padding>
+                    <Insets top="10" bottom="0"/>
+                </padding>
+                <Button fx:id="prevLessonBtn" text="← Previous Lesson" styleClass="nav-button"/>
+                <Button fx:id="markCompleteBtn" text="✓ Mark Complete" styleClass="complete-button"/>
+                <Button fx:id="nextLessonBtn" text="Next Lesson →" styleClass="nav-button"/>
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

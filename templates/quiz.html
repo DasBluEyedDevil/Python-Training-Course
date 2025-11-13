@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz - Module {{ module_id }}: {{ module.title }}{% endblock %}
+
+{% block content %}
+<div class="quiz-container">
+    <!-- Breadcrumb Navigation -->
+    <nav class="breadcrumb">
+        <a href="/">Home</a>
+        <span class="separator">›</span>
+        <a href="/module/{{ module_id }}">Module {{ module_id }}</a>
+        <span class="separator">›</span>
+        <span class="current">Quiz</span>
+    </nav>
+
+    <!-- Quiz Header -->
+    <div class="quiz-header">
+        <div class="quiz-meta">
+            <span class="module-badge">{{ module.icon }} Module {{ module_id }}</span>
+        </div>
+        <h1 class="quiz-title">{{ quiz.title }}</h1>
+        <p class="quiz-description">{{ quiz.description }}</p>
+        <div class="quiz-info">
+            <span class="quiz-stat">📝 {{ quiz.questions | length }} Questions</span>
+            <span class="quiz-stat">⏱️ ~{{ quiz.estimated_time }}</span>
+            <span class="quiz-stat">🎯 Passing: {{ quiz.passing_score }}%</span>
+        </div>
+    </div>
+
+    <!-- Quiz Content -->
+    <div class="quiz-content" id="quiz-content">
+        <div class="quiz-progress">
+            <div class="progress-text">Question <span id="current-question">1</span> of {{ quiz.questions | length }}</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="quiz-progress-fill" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <form id="quiz-form">
+            {% for question in quiz.questions %}
+            <div class="question-card" id="question-{{ loop.index }}" style="display: {% if loop.index == 1 %}block{% else %}none{% endif %}">
+                <div class="question-header">
+                    <h2 class="question-title">Question {{ loop.index }}</h2>
+                    <span class="question-type">{{ question.type }}</span>
+                </div>
+
+                <div class="question-text">{{ question.question | safe }}</div>
+
+                {% if question.code %}
+                <div class="question-code">
+                    <pre><code class="language-python">{{ question.code }}</code></pre>
+                </div>
+                {% endif %}
+
+                <div class="question-options">
+                    {% if question.type == 'multiple_choice' %}
+                        {% for option in question.options %}
+                        <label class="option-label">
+                            <input type="radio" name="question_{{ loop.index0 + 1 }}" value="{{ loop.index0 }}" class="option-input">
+                            <span class="option-text">{{ option }}</span>
+                            <span class="option-indicator"></span>
+                        </label>
+                        {% endfor %}
+                    {% elif question.type == 'true_false' %}
+                        <label class="option-label">
+                            <input type="radio" name="question_{{ loop.index0 + 1 }}" value="true" class="option-input">
+                            <span class="option-text">True</span>
+                            <span class="option-indicator"></span>
+                        </label>
+                        <label class="option-label">
+                            <input type="radio" name="question_{{ loop.index0 + 1 }}" value="false" class="option-input">
+                            <span class="option-text">False</span>
+                            <span class="option-indicator"></span>
+                        </label>
+                    {% elif question.type == 'code_output' %}
+                        {% for option in question.options %}
+                        <label class="option-label">
+                            <input type="radio" name="question_{{ loop.index0 + 1 }}" value="{{ loop.index0 }}" class="option-input">
+                            <span class="option-text"><code>{{ option }}</code></span>
+                            <span class="option-indicator"></span>
+                        </label>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="question-explanation" id="explanation-{{ loop.index }}" style="display: none;">
+                    <div class="explanation-header">
+                        <span class="explanation-icon">💡</span>
+                        <strong>Explanation:</strong>
+                    </div>
+                    <div class="explanation-text">{{ question.explanation | safe }}</div>
+                </div>
+
+                <div class="question-navigation">
+                    {% if loop.index > 1 %}
+                    <button type="button" class="btn btn-secondary prev-question" data-question="{{ loop.index }}">
+                        ← Previous
+                    </button>
+                    {% endif %}
+
+                    {% if loop.index < quiz.questions | length %}
+                    <button type="button" class="btn btn-primary next-question" data-question="{{ loop.index }}">
+                        Next →
+                    </button>
+                    {% else %}
+                    <button type="button" class="btn btn-success" id="submit-quiz">
+                        Submit Quiz
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </form>
+    </div>
+
+    <!-- Quiz Results -->
+    <div class="quiz-results" id="quiz-results" style="display: none;">
+        <div class="results-header">
+            <div class="results-icon" id="results-icon">🎉</div>
+            <h2 class="results-title" id="results-title">Quiz Complete!</h2>
+            <div class="results-score">
+                <div class="score-circle">
+                    <span class="score-value" id="score-value">0</span>
+                    <span class="score-label">%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-stats">
+            <div class="stat-item">
+                <span class="stat-label">Correct</span>
+                <span class="stat-value" id="correct-count">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Incorrect</span>
+                <span class="stat-value" id="incorrect-count">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Total</span>
+                <span class="stat-value">{{ quiz.questions | length }}</span>
+            </div>
+        </div>
+
+        <div class="results-message" id="results-message"></div>
+
+        <div class="results-actions">
+            <button class="btn btn-secondary" id="review-answers">Review Answers</button>
+            <button class="btn btn-primary" id="retake-quiz">Retake Quiz</button>
+            {% if module_id < 14 %}
+            <a href="/module/{{ module_id + 1 }}" class="btn btn-success">Next Module →</a>
+            {% else %}
+            <a href="/lesson/13/6" class="btn btn-success">Start Capstone Project →</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    const quizData = {{ quiz | tojson }};
+    const moduleId = {{ module_id }};
+    const passingScore = {{ quiz.passing_score }};
+</script>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/quiz-engine.js') }}"></script>
+{% endblock %}

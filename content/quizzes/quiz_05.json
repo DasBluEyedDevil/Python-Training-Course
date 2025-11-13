@@ -1,0 +1,270 @@
+{
+  "title": "Module 5 Quiz: Lists & Tuples",
+  "module_id": 5,
+  "passing_score": 70,
+  "description": "Test your mastery of lists, tuples, slicing, list methods, and list comprehensions. You need 14/20 correct (70%) to pass.",
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": "What is the index of the first item in a Python list?",
+      "options": [
+        "1",
+        "0",
+        "-1",
+        "First"
+      ],
+      "correct_answer": 1,
+      "explanation": "The first item is at index 0. Python uses zero-based indexing, meaning indices start at 0, not 1. This is true for all sequences (lists, tuples, strings). Remember: index 0 = first, index 1 = second, etc."
+    },
+    {
+      "id": 2,
+      "type": "multiple_choice",
+      "question": "How do you access the last item of a list without knowing its length?",
+      "options": [
+        "my_list[last]",
+        "my_list[end]",
+        "my_list[-1]",
+        "my_list[len(my_list)]"
+      ],
+      "correct_answer": 2,
+      "explanation": "my_list[-1] accesses the last item. Negative indices count from the end: -1 is last, -2 is second to last, etc. my_list[len(my_list)] would cause an IndexError because indices go from 0 to len-1, not len."
+    },
+    {
+      "id": 3,
+      "type": "multiple_choice",
+      "question": "What does this code do?\n\nfruits = ['Apple', 'Banana']\nfruits.append('Cherry')",
+      "options": [
+        "Replaces 'Banana' with 'Cherry'",
+        "Adds 'Cherry' to the beginning",
+        "Adds 'Cherry' to the end",
+        "Creates a new list"
+      ],
+      "correct_answer": 2,
+      "explanation": "append() adds an item to the END of the list. After this code, fruits = ['Apple', 'Banana', 'Cherry']. append() is the most common way to add items to lists and always adds to the end."
+    },
+    {
+      "id": 4,
+      "type": "multiple_choice",
+      "question": "What's the difference between remove() and pop()?\n\nnums = [1, 2, 3, 4]",
+      "options": [
+        "No difference, they're the same",
+        "remove() takes a value, pop() takes an index",
+        "pop() returns the removed item, remove() doesn't",
+        "Both B and C are correct"
+      ],
+      "correct_answer": 3,
+      "explanation": "Both B and C are correct! remove(value) finds and removes the first occurrence of a VALUE (nums.remove(3) removes the 3). pop(index) or pop() removes by POSITION and RETURNS the removed item (item = nums.pop(2) removes index 2 and stores it in item)."
+    },
+    {
+      "id": 5,
+      "type": "multiple_choice",
+      "question": "What will this code print?\n\nresult = nums.sort()\nprint(result)",
+      "options": [
+        "The sorted list",
+        "None",
+        "The original list",
+        "Error"
+      ],
+      "correct_answer": 1,
+      "explanation": "This prints None! sort() modifies the list IN PLACE and returns None (not the sorted list). After this, nums is sorted, but result is None. This is a very common mistake. If you want a sorted copy, use: result = sorted(nums)."
+    },
+    {
+      "id": 6,
+      "type": "multiple_choice",
+      "question": "What does this slice return?\n\nnums = [0, 1, 2, 3, 4, 5]\nresult = nums[1:4]",
+      "options": [
+        "[1, 2, 3, 4]",
+        "[1, 2, 3]",
+        "[0, 1, 2, 3]",
+        "[2, 3, 4]"
+      ],
+      "correct_answer": 1,
+      "explanation": "The result is [1, 2, 3]. In slice notation [start:stop], start is inclusive but stop is EXCLUSIVE. So [1:4] gets indices 1, 2, 3 - index 4 is NOT included. This is one of the most important rules of slicing!"
+    },
+    {
+      "id": 7,
+      "type": "multiple_choice",
+      "question": "How do you get the last 3 items of a list?",
+      "options": [
+        "my_list[3:]",
+        "my_list[-3:]",
+        "my_list[:3]",
+        "my_list[:-3]"
+      ],
+      "correct_answer": 1,
+      "explanation": "my_list[-3:] gets the last 3 items. The -3 starts at the third item from the end, and omitting the stop means 'go to the end'. my_list[3:] would get from index 3 to end (not necessarily last 3). my_list[:3] gets first 3."
+    },
+    {
+      "id": 8,
+      "type": "multiple_choice",
+      "question": "What does nums[::-1] do?",
+      "options": [
+        "Deletes all items",
+        "Reverses the list",
+        "Gets every other item",
+        "Creates an error"
+      ],
+      "correct_answer": 1,
+      "explanation": "nums[::-1] reverses the list! The -1 step means 'go backwards'. Starting from the end (default when step is negative), going to the beginning (default), stepping by -1 gives you all items in reverse order. This is the Pythonic way to reverse!"
+    },
+    {
+      "id": 9,
+      "type": "multiple_choice",
+      "question": "What's the difference between lists and tuples?",
+      "options": [
+        "Lists use [], tuples use ()",
+        "Lists are mutable, tuples are immutable",
+        "Tuples are faster and use less memory",
+        "All of the above"
+      ],
+      "correct_answer": 3,
+      "explanation": "All of the above! Lists use square brackets [] and are mutable (can be changed). Tuples use parentheses () and are immutable (cannot be changed after creation). Tuples are also faster and use less memory. Use tuples for fixed data, lists for data that changes."
+    },
+    {
+      "id": 10,
+      "type": "multiple_choice",
+      "question": "What happens when you try to modify a tuple?\n\ncoords = (10, 20)\ncoords[0] = 30",
+      "options": [
+        "The tuple is modified successfully",
+        "A new tuple is created",
+        "TypeError: tuple object does not support item assignment",
+        "The change is silently ignored"
+      ],
+      "correct_answer": 2,
+      "explanation": "You get a TypeError because tuples are immutable - they cannot be modified after creation. You can't change, add, or remove items. If you need to 'modify' a tuple, you must create a new one. This immutability is the key difference from lists."
+    },
+    {
+      "id": 11,
+      "type": "multiple_choice",
+      "question": "What's the correct syntax for a single-item tuple?",
+      "options": [
+        "(42)",
+        "(42,)",
+        "[42]",
+        "tuple(42)"
+      ],
+      "correct_answer": 1,
+      "explanation": "The correct answer is (42,) with a trailing comma. Without the comma, (42) is just an integer wrapped in parentheses. The comma is what makes it a tuple! This is a very common mistake. For multiple items the comma is between items, but for one item it must trail."
+    },
+    {
+      "id": 12,
+      "type": "multiple_choice",
+      "question": "What does this code do?\n\na = 5\nb = 10\na, b = b, a",
+      "options": [
+        "Creates a syntax error",
+        "Sets both to 10",
+        "Swaps the values of a and b",
+        "Creates a tuple"
+      ],
+      "correct_answer": 2,
+      "explanation": "This swaps the values! a becomes 10 and b becomes 5. This works through tuple packing/unpacking: b, a creates the tuple (10, 5), then a, b = unpacks it. This is the Pythonic way to swap variables in one line!"
+    },
+    {
+      "id": 13,
+      "type": "multiple_choice",
+      "question": "What does this list comprehension create?\n\n[x * 2 for x in range(5)]",
+      "options": [
+        "[0, 1, 2, 3, 4]",
+        "[0, 2, 4, 6, 8]",
+        "[2, 4, 6, 8, 10]",
+        "[1, 2, 3, 4, 5]"
+      ],
+      "correct_answer": 1,
+      "explanation": "The result is [0, 2, 4, 6, 8]. range(5) generates 0, 1, 2, 3, 4, and each is multiplied by 2. So: 0*2=0, 1*2=2, 2*2=4, 3*2=6, 4*2=8. List comprehensions transform each item according to the expression."
+    },
+    {
+      "id": 14,
+      "type": "multiple_choice",
+      "question": "What's the difference between these two?\n\nA: [x for x in nums if x > 0]\nB: [x if x > 0 else 0 for x in nums]",
+      "options": [
+        "They're identical",
+        "A filters items, B transforms all items",
+        "A transforms, B filters",
+        "Neither will work"
+      ],
+      "correct_answer": 1,
+      "explanation": "A filters (keeps only positive numbers, removes others). B transforms ALL items: positive numbers stay as-is, but non-positive become 0. The 'if' at the END (A) is a filter. The 'if-else' BEFORE the 'for' (B) is a conditional expression transforming every item."
+    },
+    {
+      "id": 15,
+      "type": "multiple_choice",
+      "question": "Which comprehension gets only even numbers from 0-9?",
+      "options": [
+        "[x for x in range(10)]",
+        "[x for x in range(10) if x % 2 == 0]",
+        "[x if x % 2 == 0 for x in range(10)]",
+        "[x % 2 == 0 for x in range(10)]"
+      ],
+      "correct_answer": 1,
+      "explanation": "Option B is correct: [x for x in range(10) if x % 2 == 0]. The 'if' at the end filters, keeping only items where x % 2 == 0 (even numbers). Result: [0, 2, 4, 6, 8]. Option C would cause a syntax error (if without else)."
+    },
+    {
+      "id": 16,
+      "type": "multiple_choice",
+      "question": "What does this do?\n\nflat = [num for row in matrix for num in row]",
+      "options": [
+        "Creates a syntax error",
+        "Flattens a 2D list into a 1D list",
+        "Creates a 2D list",
+        "Transposes the matrix"
+      ],
+      "correct_answer": 1,
+      "explanation": "This flattens a 2D list! For a matrix [[1,2], [3,4]], this produces [1, 2, 3, 4]. Read as: 'For each row in matrix, for each num in row, take num'. It's a nested comprehension that extracts all values from nested lists."
+    },
+    {
+      "id": 17,
+      "type": "multiple_choice",
+      "question": "What will this output?\n\nwords = ['hi', 'hello', 'hey']\nlengths = [len(word) for word in words]\nprint(lengths)",
+      "options": [
+        "['hi', 'hello', 'hey']",
+        "[2, 5, 3]",
+        "8",
+        "3"
+      ],
+      "correct_answer": 1,
+      "explanation": "This prints [2, 5, 3]. The comprehension creates a new list where each item is the LENGTH of the corresponding word. len('hi')=2, len('hello')=5, len('hey')=3. This is a common pattern: transform list items using a function."
+    },
+    {
+      "id": 18,
+      "type": "multiple_choice",
+      "question": "What's wrong with using list comprehensions for side effects?\n\n[print(x) for x in numbers]",
+      "options": [
+        "Nothing is wrong",
+        "Creates a wasteful list of None values",
+        "print() doesn't work in comprehensions",
+        "Syntax error"
+      ],
+      "correct_answer": 1,
+      "explanation": "Option B is correct: it creates a wasteful list of None values (since print() returns None). List comprehensions are for CREATING lists, not for side effects like printing. For side effects, use a regular for loop: 'for x in numbers: print(x)'."
+    },
+    {
+      "id": 19,
+      "type": "multiple_choice",
+      "question": "For a list of 5 items, what is the last valid positive index?",
+      "options": [
+        "5",
+        "4",
+        "6",
+        "-1"
+      ],
+      "correct_answer": 1,
+      "explanation": "The last valid positive index is 4 (len(list) - 1 = 5 - 1 = 4). Indices go from 0 to 4 for a 5-item list. Index 5 would cause IndexError. Note: -1 is also valid and refers to the last item, but the question asks for positive index."
+    },
+    {
+      "id": 20,
+      "type": "multiple_choice",
+      "question": "When should you use a tuple instead of a list?",
+      "options": [
+        "When data won't change",
+        "For dictionary keys",
+        "For faster iteration",
+        "All of the above"
+      ],
+      "correct_answer": 3,
+      "explanation": "All of the above! Use tuples when: (1) Data is fixed and won't change (coordinates, RGB values), (2) You need it as a dictionary key (only immutable types can be keys), (3) Performance matters (tuples are faster and use less memory). Lists are for data that changes, tuples for fixed data."
+    }
+  ],
+  "completion_message": "Excellent work completing Module 5! You've mastered lists (creation, indexing, methods, slicing), tuples (immutable sequences), list comprehensions (Pythonic transformations), and real-world data structures. You can now efficiently process, transform, and analyze collections of data! Ready for Module 6: Functions?",
+  "retry_message": "Review the lessons that gave you trouble and try again. Focus on: zero-based indexing, the difference between methods that modify vs return, slice notation [start:stop:step], tuple immutability, and list comprehension syntax. Understanding collections is fundamental for all programming ahead!"
+}

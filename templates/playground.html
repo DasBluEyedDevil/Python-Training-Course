@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+
+{% block title %}Python Playground - Interactive Code Editor{% endblock %}
+
+{% block content %}
+<div class="playground-container">
+    <div class="playground-header">
+        <h1 class="playground-title">🎮 Python Playground</h1>
+        <p class="playground-subtitle">Experiment with Python code in real-time</p>
+    </div>
+
+    <div class="playground-content">
+        <div class="editor-panel">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <span class="panel-icon">💻</span>
+                    <span>Code Editor</span>
+                </div>
+                <div class="editor-actions">
+                    <button class="btn btn-sm btn-secondary" id="clear-editor">Clear</button>
+                    <button class="btn btn-sm btn-secondary" id="load-example">Load Example</button>
+                    <button class="btn btn-sm btn-primary" id="run-playground-code">▶ Run Code</button>
+                </div>
+            </div>
+            <div class="editor-body">
+                <textarea id="playground-editor" class="playground-editor"># Welcome to the Python Playground!
+# Write your Python code here and click "Run Code" to see the results
+
+print("Hello, Python!")
+
+# Try some basic math
+result = 10 + 5
+print(f"10 + 5 = {result}")
+
+# Create a simple function
+def greet(name):
+    return f"Hello, {name}!"
+
+print(greet("World"))
+</textarea>
+            </div>
+        </div>
+
+        <div class="output-panel">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <span class="panel-icon">📄</span>
+                    <span>Output</span>
+                </div>
+                <div class="output-actions">
+                    <button class="btn btn-sm btn-secondary" id="clear-playground-output">Clear Output</button>
+                </div>
+            </div>
+            <div class="output-body">
+                <pre id="playground-output" class="playground-output">Click "Run Code" to see output...</pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="playground-info">
+        <div class="info-card">
+            <h3>ℹ️ About the Playground</h3>
+            <p>The Python Playground is a safe environment to experiment with Python code. Note that for security reasons, some features like file I/O and network access are restricted.</p>
+            <p><strong>Supported:</strong> Variables, functions, classes, data structures, loops, conditionals, and most standard library functions.</p>
+            <p><strong>Note:</strong> This is a simulated environment. For full Python functionality, install Python on your local machine.</p>
+        </div>
+
+        <div class="info-card">
+            <h3>📚 Quick Examples</h3>
+            <div class="example-buttons">
+                <button class="btn btn-sm btn-secondary example-btn" data-example="variables">Variables</button>
+                <button class="btn btn-sm btn-secondary example-btn" data-example="functions">Functions</button>
+                <button class="btn btn-sm btn-secondary example-btn" data-example="loops">Loops</button>
+                <button class="btn btn-sm btn-secondary example-btn" data-example="lists">Lists</button>
+                <button class="btn btn-sm btn-secondary example-btn" data-example="classes">Classes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Code examples
+    const codeExamples = {
+        variables: `# Working with Variables
+name = "Python"
+version = 3.14
+is_awesome = True
+
+print(f"Language: {name}")
+print(f"Version: {version}")
+print(f"Is Awesome: {is_awesome}")`,
+
+        functions: `# Creating and Using Functions
+def calculate_area(length, width):
+    """Calculate the area of a rectangle"""
+    return length * width
+
+def greet(name, greeting="Hello"):
+    """Greet someone with a custom message"""
+    return f"{greeting}, {name}!"
+
+# Using the functions
+area = calculate_area(5, 3)
+print(f"Area: {area}")
+
+message = greet("Python")
+print(message)`,
+
+        loops: `# Working with Loops
+# For loop
+print("Counting to 5:")
+for i in range(1, 6):
+    print(i)
+
+# While loop
+print("\\nCountdown from 5:")
+count = 5
+while count > 0:
+    print(count)
+    count -= 1
+print("Blast off!")
+
+# Loop through a list
+fruits = ["apple", "banana", "orange"]
+print("\\nFruits:")
+for fruit in fruits:
+    print(f"- {fruit}")`,
+
+        lists: `# Working with Lists
+# Creating lists
+numbers = [1, 2, 3, 4, 5]
+fruits = ["apple", "banana", "orange"]
+
+# List methods
+fruits.append("grape")
+fruits.insert(0, "strawberry")
+
+print("Fruits:", fruits)
+print("First fruit:", fruits[0])
+print("Last fruit:", fruits[-1])
+
+# List comprehension
+squares = [x**2 for x in range(1, 6)]
+print("Squares:", squares)
+
+# Filtering
+even_numbers = [x for x in numbers if x % 2 == 0]
+print("Even numbers:", even_numbers)`,
+
+        classes: `# Object-Oriented Programming
+class Dog:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def bark(self):
+        return f"{self.name} says Woof!"
+
+    def get_age_in_dog_years(self):
+        return self.age * 7
+
+# Create instances
+my_dog = Dog("Buddy", 3)
+your_dog = Dog("Max", 5)
+
+# Use the objects
+print(my_dog.bark())
+print(f"{my_dog.name} is {my_dog.get_age_in_dog_years()} in dog years")
+
+print(your_dog.bark())
+print(f"{your_dog.name} is {your_dog.get_age_in_dog_years()} in dog years")`
+    };
+
+    // Initialize CodeMirror editor
+    const playgroundEditor = CodeMirror.fromTextArea(document.getElementById('playground-editor'), {
+        mode: 'python',
+        theme: 'monokai',
+        lineNumbers: true,
+        indentUnit: 4,
+        tabSize: 4,
+        indentWithTabs: false,
+        lineWrapping: true,
+        matchBrackets: true,
+        autoCloseBrackets: true,
+        extraKeys: {
+            "Ctrl-Enter": function() { document.getElementById('run-playground-code').click(); },
+            "Cmd-Enter": function() { document.getElementById('run-playground-code').click(); }
+        }
+    });
+
+    // Clear editor
+    document.getElementById('clear-editor').addEventListener('click', function() {
+        playgroundEditor.setValue('');
+        playgroundEditor.focus();
+    });
+
+    // Load example
+    document.getElementById('load-example').addEventListener('click', function() {
+        playgroundEditor.setValue(codeExamples.variables);
+    });
+
+    // Load specific examples
+    document.querySelectorAll('.example-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const exampleType = this.getAttribute('data-example');
+            playgroundEditor.setValue(codeExamples[exampleType]);
+        });
+    });
+
+    // Run code (simulated - in production, this would call a Python execution API)
+    document.getElementById('run-playground-code').addEventListener('click', function() {
+        const code = playgroundEditor.getValue();
+        const output = document.getElementById('playground-output');
+
+        output.textContent = 'Simulating Python execution...\n\n';
+        output.textContent += '⚠️ Note: This is a demonstration version.\n';
+        output.textContent += 'For actual code execution, the platform would use:\n';
+        output.textContent += '- Pyodide (Python in WebAssembly)\n';
+        output.textContent += '- Or a secure server-side Python execution environment\n\n';
+        output.textContent += 'Code received:\n';
+        output.textContent += '─'.repeat(50) + '\n';
+        output.textContent += code + '\n';
+        output.textContent += '─'.repeat(50) + '\n\n';
+        output.textContent += 'In a production environment, the output would appear here.';
+    });
+
+    // Clear output
+    document.getElementById('clear-playground-output').addEventListener('click', function() {
+        document.getElementById('playground-output').textContent = 'Click "Run Code" to see output...';
+    });
+</script>
+{% endblock %}
