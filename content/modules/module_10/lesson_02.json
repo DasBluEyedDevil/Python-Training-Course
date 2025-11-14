@@ -1,0 +1,103 @@
+{
+  "lesson_id": "10_02",
+  "title": "Creating Your Own Modules",
+  "module_id": 10,
+  "order_index": 2,
+  "description": "Learn to organize code into reusable modules. Create your own modules, understand __name__ == '__main__', and structure projects professionally.",
+  "estimated_minutes": 25,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: Your Personal Library",
+      "content": "**A module is just a .py file with functions/classes you can import.**\n\nInstead of copying the same functions between projects, create a module once and import it everywhere!\n\n**Example:** You write utility functions for string formatting:\n```python\n# utils.py\ndef capitalize_words(text):\n    return text.title()\n\ndef remove_spaces(text):\n    return text.replace(' ', '')\n```\n\nNow use it in any project:\n```python\n# my_app.py\nimport utils\nresult = utils.capitalize_words('hello world')\n```\n\n**Benefits:**\n1. **Reusability** - Write once, use everywhere\n2. **Organization** - Keep related code together\n3. **Testing** - Test modules independently\n4. **Collaboration** - Share code with team"
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Creating a Module",
+      "code": "# First, create a module file: math_utils.py\n# (In real project, save as separate file)\n\nmath_utils_code = '''\ndef add(a, b):\n    \"\"\"Add two numbers.\"\"\"\n    return a + b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers.\"\"\"\n    return a * b\n\ndef is_even(n):\n    \"\"\"Check if number is even.\"\"\"\n    return n % 2 == 0\n\nPI = 3.14159\n\nif __name__ == \"__main__\":\n    # This code runs only when file is executed directly\n    print(\"Testing math_utils...\")\n    print(f\"5 + 3 = {add(5, 3)}\")\n    print(f\"5 * 3 = {multiply(5, 3)}\")\n    print(f\"Is 4 even? {is_even(4)}\")\n'''\n\n# Save the module\nfrom pathlib import Path\nPath('math_utils.py').write_text(math_utils_code)\n\nprint(\"=== Created math_utils.py module ===\")\nprint(math_utils_code)\nprint()\n\n# Now import and use it\nimport math_utils\n\nprint(\"=== Using the Module ===\")\nprint(f\"10 + 5 = {math_utils.add(10, 5)}\")\nprint(f\"10 * 5 = {math_utils.multiply(10, 5)}\")\nprint(f\"Is 7 even? {math_utils.is_even(7)}\")\nprint(f\"Pi constant: {math_utils.PI}\")",
+      "explanation": "**Key concepts:**\n1. Module = .py file with functions/classes/variables\n2. Import with `import filename` (no .py extension!)\n3. `if __name__ == '__main__':` - Code that runs only when file executed directly, not when imported\n4. Can define constants, functions, classes in module",
+      "output": "=== Created math_utils.py module ===\ndef add(a, b):\n    \"\"\"Add two numbers.\"\"\"\n    return a + b\n\ndef multiply(a, b):\n    \"\"\"Multiply two numbers.\"\"\"\n    return a * b\n\ndef is_even(n):\n    \"\"\"Check if number is even.\"\"\"\n    return n % 2 == 0\n\nPI = 3.14159\n\nif __name__ == \"__main__\":\n    print(\"Testing math_utils...\")\n    print(f\"5 + 3 = {add(5, 3)}\")\n    print(f\"5 * 3 = {multiply(5, 3)}\")\n    print(f\"Is 4 even? {is_even(4)}\")\n\n=== Using the Module ===\n10 + 5 = 15\n10 * 5 = 50\nIs 7 even? False\nPi constant: 3.14159"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown",
+      "content": "**Creating a module:**\n```python\n# my_module.py\ndef my_function():\n    return \"Hello\"\n\nMY_CONSTANT = 42\n```\n\n**Using your module:**\n```python\n# main.py\nimport my_module\nresult = my_module.my_function()\n```\n\n**The __name__ == '__main__' pattern:**\n```python\n# my_module.py\ndef helper():\n    return \"I'm a helper\"\n\nif __name__ == \"__main__\":\n    # Runs only when: python my_module.py\n    # Does NOT run when: import my_module\n    print(\"Testing module...\")\n    print(helper())\n```\n\n**Why use __name__ == '__main__'?**\n- Test code while developing\n- Demo module functionality\n- Provide CLI interface\n- Code runs when executed directly, not when imported"
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise",
+      "instruction": "Create a `string_utils.py` module with:\n1. `reverse(text)` - Reverse a string\n2. `count_vowels(text)` - Count vowels\n3. Test code in `if __name__ == '__main__':`",
+      "starter_code": "# Create string_utils.py module\n\ndef reverse(text):\n    # TODO: Return reversed text\n    pass\n\ndef count_vowels(text):\n    # TODO: Count a, e, i, o, u (case-insensitive)\n    pass\n\nif __name__ == \"__main__\":\n    # TODO: Test your functions\n    pass",
+      "hint": "reverse: text[::-1], count_vowels: sum(1 for char in text.lower() if char in 'aeiou')"
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution",
+      "solution_code": "# string_utils.py\n\ndef reverse(text):\n    \"\"\"Reverse a string.\"\"\"\n    return text[::-1]\n\ndef count_vowels(text):\n    \"\"\"Count vowels in text.\"\"\"\n    vowels = 'aeiou'\n    return sum(1 for char in text.lower() if char in vowels)\n\nif __name__ == \"__main__\":\n    print(\"=== Testing string_utils ===\")\n    \n    test_text = \"Hello World\"\n    print(f\"Original: {test_text}\")\n    print(f\"Reversed: {reverse(test_text)}\")\n    print(f\"Vowels: {count_vowels(test_text)}\")\n    \n    test_text2 = \"Python Programming\"\n    print(f\"\\nOriginal: {test_text2}\")\n    print(f\"Reversed: {reverse(test_text2)}\")\n    print(f\"Vowels: {count_vowels(test_text2)}\")",
+      "explanation": "Complete module with functions and test code. When run directly (python string_utils.py), tests run. When imported, only functions are available.",
+      "output": "=== Testing string_utils ===\nOriginal: Hello World\nReversed: dlroW olleH\nVowels: 3\n\nOriginal: Python Programming\nReversed: gnimmargorP nohtyP\nVowels: 4",
+      "common_mistakes": [
+        {
+          "mistake": "Including .py when importing",
+          "wrong_code": "import my_module.py",
+          "correct_code": "import my_module",
+          "explanation": "Never include .py extension when importing. Python knows it's a .py file."
+        }
+      ]
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Module = any .py file.** Can contain functions, classes, variables.",
+        "**Import your module:** `import my_module` (no .py!)",
+        "**if __name__ == '__main__':' - Code runs only when file executed directly",
+        "**Use modules for:** Organizing code, reusability, testing",
+        "**Module must be in same directory or Python path to import**"
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "What happens to code inside 'if __name__ == \"__main__\":' when the module is imported?",
+        "options": [
+          "It runs normally",
+          "It doesn't run (only runs when file executed directly)",
+          "It causes an error",
+          "It runs twice"
+        ],
+        "correct_answer": 1,
+        "explanation": "Code inside if __name__ == '__main__': only runs when the file is executed directly (python mymodule.py), NOT when imported. This is perfect for tests and demos."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "How do you import a module file named 'utilities.py'?",
+        "options": [
+          "import utilities.py",
+          "import utilities",
+          "from utilities.py import *",
+          "import 'utilities'"
+        ],
+        "correct_answer": 1,
+        "explanation": "Use import utilities (no .py extension). Python knows to look for utilities.py file."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "What can you put in a module?",
+        "options": [
+          "Only functions",
+          "Only classes",
+          "Functions, classes, variables, and constants",
+          "Only one function"
+        ],
+        "correct_answer": 2,
+        "explanation": "Modules can contain anything: functions, classes, variables, constants. They're just Python files with reusable code."
+      }
+    ]
+  }
+}

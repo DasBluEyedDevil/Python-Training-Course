@@ -1,0 +1,269 @@
+{
+  "quiz_id": 10,
+  "module_id": 10,
+  "title": "Module 10: Modules & Packages - Comprehensive Quiz",
+  "description": "Test your understanding of Python modules, packages, imports, virtual environments, and third-party packages. 70% required to pass.",
+  "passing_score": 70,
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": "What is the correct way to import only the sqrt function from the math module?",
+      "options": [
+        "import sqrt from math",
+        "from math import sqrt",
+        "import math.sqrt",
+        "from sqrt import math"
+      ],
+      "correct_answer": 1,
+      "explanation": "'from math import sqrt' imports only the sqrt function, allowing you to use it directly as sqrt() instead of math.sqrt()."
+    },
+    {
+      "id": 2,
+      "type": "multiple_choice",
+      "question": "What does 'import pandas as pd' do?",
+      "options": [
+        "Imports pandas with error checking",
+        "Imports pandas and creates an alias 'pd'",
+        "Partially imports pandas",
+        "Imports pandas data files"
+      ],
+      "correct_answer": 1,
+      "explanation": "The 'as' keyword creates an alias. 'import pandas as pd' lets you use 'pd' instead of 'pandas', a common convention for brevity."
+    },
+    {
+      "id": 3,
+      "type": "multiple_choice",
+      "question": "What is the purpose of 'if __name__ == \"__main__\":'?",
+      "options": [
+        "To check if the module name is correct",
+        "To run code only when the file is executed directly, not when imported",
+        "To validate the main function",
+        "To set the module's name"
+      ],
+      "correct_answer": 1,
+      "explanation": "This allows code to run when the file is executed directly, but not when it's imported as a module. Essential for creating reusable modules with test code."
+    },
+    {
+      "id": 4,
+      "type": "multiple_choice",
+      "question": "When you import a module, what gets executed?",
+      "options": [
+        "Only function definitions",
+        "All code in the module",
+        "Only class definitions",
+        "Nothing until you call a function"
+      ],
+      "correct_answer": 1,
+      "explanation": "All top-level code in a module executes when it's imported. This is why we use 'if __name__ == \"__main__\":' to prevent test code from running during imports."
+    },
+    {
+      "id": 5,
+      "type": "multiple_choice",
+      "question": "What makes a directory a Python package?",
+      "options": [
+        "Having .py files inside it",
+        "Being named with lowercase letters",
+        "Having an __init__.py file",
+        "Being registered with pip"
+      ],
+      "correct_answer": 2,
+      "explanation": "A directory becomes a package when it contains an __init__.py file. This file can be empty or contain initialization code."
+    },
+    {
+      "id": 6,
+      "type": "multiple_choice",
+      "question": "What is the purpose of __init__.py in a package?",
+      "options": [
+        "To initialize variables only",
+        "To mark the directory as a package and optionally run initialization code",
+        "To store configuration settings",
+        "To list all files in the package"
+      ],
+      "correct_answer": 1,
+      "explanation": "__init__.py marks a directory as a Python package and runs when the package is imported. It can contain initialization code, imports, and define __all__."
+    },
+    {
+      "id": 7,
+      "type": "multiple_choice",
+      "question": "In a package, what does 'from . import module' mean?",
+      "options": [
+        "Import from the current file",
+        "Import from the current package",
+        "Import from all packages",
+        "Import everything from module"
+      ],
+      "correct_answer": 1,
+      "explanation": "The dot (.) refers to the current package. 'from . import module' is a relative import from the same package level."
+    },
+    {
+      "id": 8,
+      "type": "multiple_choice",
+      "question": "What does __all__ define in a module or package?",
+      "options": [
+        "All variables in the module",
+        "What gets imported with 'from module import *'",
+        "All functions that must be defined",
+        "All required dependencies"
+      ],
+      "correct_answer": 1,
+      "explanation": "__all__ is a list of strings defining what gets exported when someone uses 'from module import *'. It controls the public API."
+    },
+    {
+      "id": 9,
+      "type": "multiple_choice",
+      "question": "What command creates a virtual environment named 'venv'?",
+      "options": [
+        "pip create venv",
+        "virtualenv venv",
+        "python -m venv venv",
+        "python create-venv venv"
+      ],
+      "correct_answer": 2,
+      "explanation": "'python -m venv venv' uses Python's built-in venv module to create a virtual environment. The first 'venv' is the module, the second is the directory name."
+    },
+    {
+      "id": 10,
+      "type": "multiple_choice",
+      "question": "After creating a virtual environment on Linux/Mac, how do you activate it?",
+      "options": [
+        "python venv/activate",
+        "venv/bin/activate",
+        "source venv/bin/activate",
+        "activate venv"
+      ],
+      "correct_answer": 2,
+      "explanation": "'source venv/bin/activate' activates the virtual environment on Linux/Mac. On Windows, use 'venv\\Scripts\\activate' instead."
+    },
+    {
+      "id": 11,
+      "type": "multiple_choice",
+      "question": "What is the purpose of a virtual environment?",
+      "options": [
+        "To make Python run faster",
+        "To isolate project dependencies and avoid conflicts",
+        "To create virtual machines",
+        "To backup your code"
+      ],
+      "correct_answer": 1,
+      "explanation": "Virtual environments isolate each project's dependencies, preventing version conflicts. Each project can have different package versions without interfering with others."
+    },
+    {
+      "id": 12,
+      "type": "multiple_choice",
+      "question": "What command installs packages listed in requirements.txt?",
+      "options": [
+        "pip install requirements.txt",
+        "pip install -r requirements.txt",
+        "python install requirements.txt",
+        "pip install-all"
+      ],
+      "correct_answer": 1,
+      "explanation": "'pip install -r requirements.txt' installs all packages listed in the requirements.txt file. The -r flag means 'read from file'."
+    },
+    {
+      "id": 13,
+      "type": "multiple_choice",
+      "question": "How do you save your current environment's packages to requirements.txt?",
+      "options": [
+        "pip save requirements.txt",
+        "pip list > requirements.txt",
+        "pip freeze > requirements.txt",
+        "pip export requirements.txt"
+      ],
+      "correct_answer": 2,
+      "explanation": "'pip freeze > requirements.txt' outputs all installed packages with exact versions in the format needed for requirements.txt."
+    },
+    {
+      "id": 14,
+      "type": "multiple_choice",
+      "question": "In requirements.txt, what does 'requests>=2.31.0' mean?",
+      "options": [
+        "Install exactly version 2.31.0",
+        "Install version 2.31.0 or higher",
+        "Install version 2.31 or greater than 0",
+        "Install approximately version 2.31.0"
+      ],
+      "correct_answer": 1,
+      "explanation": ">= means 'greater than or equal to'. This allows version 2.31.0 or any newer version, ensuring you get security updates while avoiding breaking changes."
+    },
+    {
+      "id": 15,
+      "type": "multiple_choice",
+      "question": "Which package is the standard for making HTTP requests in Python?",
+      "options": [
+        "urllib",
+        "http",
+        "requests",
+        "web"
+      ],
+      "correct_answer": 2,
+      "explanation": "'requests' is the de facto standard HTTP library. It's much more user-friendly than the built-in urllib. Install with: pip install requests"
+    },
+    {
+      "id": 16,
+      "type": "multiple_choice",
+      "question": "What is pandas primarily used for?",
+      "options": [
+        "Web development",
+        "Data analysis and manipulation",
+        "HTTP requests",
+        "Image processing"
+      ],
+      "correct_answer": 1,
+      "explanation": "pandas is the premier data analysis library for Python. It's excellent for working with CSV/Excel files, data cleaning, analysis, and manipulation."
+    },
+    {
+      "id": 17,
+      "type": "multiple_choice",
+      "question": "Which package would you use to parse HTML when web scraping?",
+      "options": [
+        "requests",
+        "beautifulsoup4",
+        "html",
+        "scraper"
+      ],
+      "correct_answer": 1,
+      "explanation": "beautifulsoup4 is the standard for parsing HTML/XML. Typically used with requests: requests fetches the page, beautifulsoup4 parses it."
+    },
+    {
+      "id": 18,
+      "type": "multiple_choice",
+      "question": "What is Flask?",
+      "options": [
+        "A testing framework",
+        "A web framework for building websites and APIs",
+        "A data analysis library",
+        "A virtual environment tool"
+      ],
+      "correct_answer": 1,
+      "explanation": "Flask is a lightweight web framework for building websites and APIs. It's popular for its simplicity and flexibility."
+    },
+    {
+      "id": 19,
+      "type": "multiple_choice",
+      "question": "Why should you avoid 'from module import *'?",
+      "options": [
+        "It's slower than other import methods",
+        "It imports everything, polluting namespace and making code unclear",
+        "It doesn't work in Python 3",
+        "It requires special permissions"
+      ],
+      "correct_answer": 1,
+      "explanation": "Wildcard imports (*) make code unclear - you don't know where names come from. They can also cause naming conflicts. Explicit imports are better."
+    },
+    {
+      "id": 20,
+      "type": "multiple_choice",
+      "question": "Where do you find and search for Python packages to install?",
+      "options": [
+        "GitHub exclusively",
+        "PyPI (Python Package Index) at pypi.org",
+        "The Python website downloads section",
+        "Stack Overflow"
+      ],
+      "correct_answer": 1,
+      "explanation": "PyPI (pypi.org) is the official repository for Python packages. It hosts over 400,000 packages. pip installs packages from PyPI by default."
+    }
+  ]
+}

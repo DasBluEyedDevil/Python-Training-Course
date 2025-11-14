@@ -1,0 +1,99 @@
+{
+  "lesson_id": "10_05",
+  "title": "Popular Third-Party Packages",
+  "module_id": 10,
+  "order_index": 5,
+  "description": "Discover essential third-party packages that every Python developer should know. Learn what they do, when to use them, and see practical examples.",
+  "estimated_minutes": 30,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: Standing on the Shoulders of Giants",
+      "content": "**Don't reinvent the wheel!** For almost any task, someone has already written a great library.\n\n**Essential Categories:**\n\n**1. Web Development:**\n- **Flask** - Lightweight web framework\n- **Django** - Full-featured web framework\n- **FastAPI** - Modern, fast API framework\n- **requests** - HTTP library (much better than urllib!)\n\n**2. Data Science:**\n- **pandas** - Data analysis (Excel on steroids)\n- **numpy** - Numerical computing\n- **matplotlib** - Data visualization\n- **scikit-learn** - Machine learning\n\n**3. Web Scraping:**\n- **beautifulsoup4** - Parse HTML/XML\n- **selenium** - Browser automation\n- **scrapy** - Web crawling framework\n\n**4. Utilities:**\n- **python-dotenv** - Load environment variables\n- **pytest** - Testing framework\n- **black** - Code formatter\n- **pillow** - Image processing\n\n**How to choose packages:**\n1. Check PyPI downloads\n2. Look at GitHub stars\n3. Read documentation quality\n4. Check last update date\n5. Review issue tracker"
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Popular Packages Demo",
+      "code": "# Note: These examples show usage. Install with: pip install <package>\n\nprint(\"=== requests - HTTP Made Easy ===\")\nprint(\"\"\"\n# Without requests (painful!):\nimport urllib.request\nresponse = urllib.request.urlopen('https://api.github.com')\ndata = response.read().decode('utf-8')\n\n# With requests (easy!):\nimport requests\nresponse = requests.get('https://api.github.com')\ndata = response.json()  # Auto-parses JSON!\n\"\"\")\n\nprint(\"\\n=== pandas - Data Analysis ===\")\nprint(\"\"\"\nimport pandas as pd\n\n# Read CSV\ndf = pd.read_csv('data.csv')\n\n# Quick stats\nprint(df.describe())\n\n# Filter data\nfiltered = df[df['age'] > 25]\n\n# Group and aggregate\nby_city = df.groupby('city')['salary'].mean()\n\n# Export to Excel\ndf.to_excel('output.xlsx')\n\"\"\")\n\nprint(\"\\n=== Flask - Web Framework ===\")\nprint(\"\"\"\nfrom flask import Flask\napp = Flask(__name__)\n\n@app.route('/')\ndef home():\n    return 'Hello, World!'\n\n@app.route('/api/users/<int:user_id>')\ndef get_user(user_id):\n    return {'id': user_id, 'name': 'Alice'}\n\nif __name__ == '__main__':\n    app.run(debug=True)\n\"\"\")\n\nprint(\"\\n=== beautifulsoup4 - Web Scraping ===\")\nprint(\"\"\"\nfrom bs4 import BeautifulSoup\nimport requests\n\n# Fetch webpage\nresponse = requests.get('https://example.com')\nsoup = BeautifulSoup(response.content, 'html.parser')\n\n# Extract data\ntitle = soup.find('title').text\nlinks = [a['href'] for a in soup.find_all('a')]\nheadings = soup.find_all('h2')\n\"\"\")\n\nprint(\"\\n=== python-dotenv - Environment Variables ===\")\nprint(\"\"\"\n# .env file:\n# DATABASE_URL=postgresql://localhost/mydb\n# SECRET_KEY=my-secret-key\n\nfrom dotenv import load_dotenv\nimport os\n\nload_dotenv()  # Load from .env file\n\ndb_url = os.getenv('DATABASE_URL')\nsecret = os.getenv('SECRET_KEY')\n\"\"\")\n\nprint(\"\\n=== Package Combinations ===\")\nprint(\"\"\"\nCommon project stacks:\n\nWeb API:\n  - FastAPI (framework)\n  - pydantic (data validation)\n  - sqlalchemy (database)\n  - requests (external APIs)\n\nData Pipeline:\n  - pandas (data processing)\n  - sqlalchemy (database)\n  - schedule (task scheduling)\n  - python-dotenv (config)\n\nWeb Scraping:\n  - requests (fetch pages)\n  - beautifulsoup4 (parse HTML)\n  - pandas (organize data)\n  - openpyxl (export to Excel)\n\"\"\")",
+      "explanation": "**Key packages and what they're best for:**\n- **requests**: HTTP requests (APIs, web scraping)\n- **pandas**: Data analysis, CSV/Excel manipulation\n- **Flask/FastAPI**: Building web apps and APIs\n- **beautifulsoup4**: Parsing HTML/XML\n- **python-dotenv**: Managing config/secrets\n\n**Installation:** `pip install package-name`",
+      "output": "=== requests - HTTP Made Easy ===\n\n# Without requests (painful!):\nimport urllib.request\nresponse = urllib.request.urlopen('https://api.github.com')\ndata = response.read().decode('utf-8')\n\n# With requests (easy!):\nimport requests\nresponse = requests.get('https://api.github.com')\ndata = response.json()  # Auto-parses JSON!\n\n=== pandas - Data Analysis ===\nimport pandas as pd\n\n# Read CSV\ndf = pd.read_csv('data.csv')\n\n# Quick stats\nprint(df.describe())\n\n# Filter data\nfiltered = df[df['age'] > 25]\n\n# Group and aggregate\nby_city = df.groupby('city')['salary'].mean()\n\n# Export to Excel\ndf.to_excel('output.xlsx')\n\n=== Flask - Web Framework ===\nfrom flask import Flask\napp = Flask(__name__)\n\n@app.route('/')\ndef home():\n    return 'Hello, World!'\n\n@app.route('/api/users/<int:user_id>')\ndef get_user(user_id):\n    return {'id': user_id, 'name': 'Alice'}\n\nif __name__ == '__main__':\n    app.run(debug=True)\n\n=== beautifulsoup4 - Web Scraping ===\nfrom bs4 import BeautifulSoup\nimport requests\n\n# Fetch webpage\nresponse = requests.get('https://example.com')\nsoup = BeautifulSoup(response.content, 'html.parser')\n\n# Extract data\ntitle = soup.find('title').text\nlinks = [a['href'] for a in soup.find_all('a')]\nheadings = soup.find_all('h2')\n\n=== python-dotenv - Environment Variables ===\n# .env file:\n# DATABASE_URL=postgresql://localhost/mydb\n# SECRET_KEY=my-secret-key\n\nfrom dotenv import load_dotenv\nimport os\n\nload_dotenv()  # Load from .env file\n\ndb_url = os.getenv('DATABASE_URL')\nsecret = os.getenv('SECRET_KEY')\n\n=== Package Combinations ===\nCommon project stacks:\n\nWeb API:\n  - FastAPI (framework)\n  - pydantic (data validation)\n  - sqlalchemy (database)\n  - requests (external APIs)\n\nData Pipeline:\n  - pandas (data processing)\n  - sqlalchemy (database)\n  - schedule (task scheduling)\n  - python-dotenv (config)\n\nWeb Scraping:\n  - requests (fetch pages)\n  - beautifulsoup4 (parse HTML)\n  - pandas (organize data)\n  - openpyxl (export to Excel)"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown",
+      "content": "**Finding packages:**\n```bash\n# Search PyPI\npip search keyword  # (disabled, use pypi.org instead)\n\n# Browse at https://pypi.org\n# Check GitHub for popular projects\n```\n\n**Installing:**\n```bash\n# Basic install\npip install requests\n\n# Specific version\npip install requests==2.31.0\n\n# Upgrade\npip install --upgrade requests\n\n# With extras\npip install fastapi[all]  # Installs optional dependencies\n```\n\n**Common package patterns:**\n```python\n# requests - HTTP\nimport requests\nresponse = requests.get(url)\ndata = response.json()\n\n# pandas - Data\nimport pandas as pd\ndf = pd.read_csv('file.csv')\n\n# flask - Web\nfrom flask import Flask\napp = Flask(__name__)\n\n# beautifulsoup - Parsing\nfrom bs4 import BeautifulSoup\nsoup = BeautifulSoup(html, 'html.parser')\n```"
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise",
+      "instruction": "Research and create requirements.txt for a data analysis project that needs:\n- Data reading/writing\n- HTTP requests\n- Data visualization\n- Testing",
+      "starter_code": "# TODO: Research packages for:\n# 1. CSV/Excel operations\n# 2. HTTP requests\n# 3. Plotting graphs\n# 4. Unit testing\n\nrequirements = \"\"\"\n# TODO: Add packages\n\"\"\"\n\nfrom pathlib import Path\nPath('requirements.txt').write_text(requirements)\nprint(requirements)",
+      "hint": "Popular choices: pandas, requests, matplotlib, pytest"
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution",
+      "solution_code": "from pathlib import Path\n\nrequirements = \"\"\"\n# Data Analysis Project Dependencies\n\n# Data manipulation\npandas>=1.5.0\nnumpy>=1.24.0\n\n# HTTP requests\nrequests>=2.31.0\n\n# Data visualization\nmatplotlib>=3.7.0\nseaborn>=0.12.0  # Statistical visualization\n\n# Excel support\nopenpyxl>=3.1.0\nxlrd>=2.0.0\n\n# Testing\npytest>=7.4.0\npytest-cov>=4.1.0  # Code coverage\n\n# Utilities\npython-dotenv>=1.0.0\njupyter>=1.0.0  # Interactive notebooks\n\"\"\".strip()\n\nPath('requirements.txt').write_text(requirements)\n\nprint(\"✓ Created requirements.txt\\n\")\nprint(requirements)\n\nprint(\"\\n=== Package Purposes ===\")\nprint(\"pandas: Data analysis and manipulation\")\nprint(\"requests: HTTP requests to APIs\")\nprint(\"matplotlib: Creating plots and graphs\")\nprint(\"pytest: Unit testing framework\")\nprint(\"python-dotenv: Environment variable management\")\nprint(\"jupyter: Interactive development notebooks\")",
+      "explanation": "Complete requirements.txt with:\n- Core data science stack (pandas, numpy)\n- HTTP capabilities (requests)\n- Visualization (matplotlib, seaborn)\n- Testing (pytest)\n- Utilities (dotenv, jupyter)",
+      "output": "✓ Created requirements.txt\n\n# Data Analysis Project Dependencies\n\n# Data manipulation\npandas>=1.5.0\nnumpy>=1.24.0\n\n# HTTP requests\nrequests>=2.31.0\n\n# Data visualization\nmatplotlib>=3.7.0\nseaborn>=0.12.0  # Statistical visualization\n\n# Excel support\nopenpyxl>=3.1.0\nxlrd>=2.0.0\n\n# Testing\npytest>=7.4.0\npytest-cov>=4.1.0  # Code coverage\n\n# Utilities\npython-dotenv>=1.0.0\njupyter>=1.0.0  # Interactive notebooks\n\n=== Package Purposes ===\npandas: Data analysis and manipulation\nrequests: HTTP requests to APIs\nmatplotlib: Creating plots and graphs\npytest: Unit testing framework\npython-dotenv: Environment variable management\njupyter: Interactive development notebooks",
+      "common_mistakes": []
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Don't reinvent the wheel** - Use existing packages for common tasks",
+        "**requests** - Best HTTP library (APIs, web scraping)",
+        "**pandas** - Data analysis and Excel/CSV manipulation",
+        "**Flask/FastAPI** - Web frameworks for APIs and websites",
+        "**beautifulsoup4** - HTML/XML parsing for web scraping",
+        "**pytest** - Modern testing framework",
+        "**Check PyPI** (pypi.org) for packages. 400,000+ available!",
+        "**Always use virtual environments** when installing packages"
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "Which package is best for making HTTP requests?",
+        "options": [
+          "urllib",
+          "requests",
+          "http",
+          "web"
+        ],
+        "correct_answer": 1,
+        "explanation": "requests is the de facto standard for HTTP in Python. Much easier than urllib. Install with: pip install requests"
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "What is pandas used for?",
+        "options": [
+          "Web scraping",
+          "Data analysis and CSV/Excel manipulation",
+          "HTTP requests",
+          "Web frameworks"
+        ],
+        "correct_answer": 1,
+        "explanation": "pandas is the premier data analysis library. Think Excel on steroids. Great for CSV/Excel files, data cleaning, and analysis."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "Which package would you use for web scraping HTML?",
+        "options": [
+          "requests",
+          "pandas",
+          "beautifulsoup4",
+          "flask"
+        ],
+        "correct_answer": 2,
+        "explanation": "beautifulsoup4 parses HTML/XML. Use requests to fetch the page, beautifulsoup4 to parse it. Together they're the classic web scraping combo."
+      }
+    ]
+  }
+}
