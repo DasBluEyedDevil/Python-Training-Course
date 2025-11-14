@@ -1,0 +1,270 @@
+{
+  "quiz_id": "14",
+  "title": "Module 14 Quiz: Sharing Your Work",
+  "module_id": 14,
+  "description": "Test your knowledge of project planning, version control, testing, documentation, and deployment practices.",
+  "estimated_minutes": 20,
+  "passing_score": 70,
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": "In a layered architecture, which layer should handle business logic and validation?",
+      "options": [
+        "Repository layer",
+        "Service layer",
+        "Model layer",
+        "Controller/API layer"
+      ],
+      "correct_answer": 1,
+      "explanation": "The service layer handles business logic, validation, and coordinates operations between the API layer and repository layer."
+    },
+    {
+      "id": 2,
+      "type": "multiple_choice",
+      "question": "What is the purpose of a .gitignore file?",
+      "options": [
+        "To track important files",
+        "To list files that should not be tracked by Git",
+        "To configure Git settings",
+        "To document the project"
+      ],
+      "correct_answer": 1,
+      "explanation": ".gitignore specifies which files and directories Git should not track, such as .env files, virtual environments, and temporary files."
+    },
+    {
+      "id": 3,
+      "type": "multiple_choice",
+      "question": "What does the 'git add .' command do?",
+      "options": [
+        "Commits all changes",
+        "Stages all changes in the current directory",
+        "Pushes to remote repository",
+        "Creates a new branch"
+      ],
+      "correct_answer": 1,
+      "explanation": "'git add .' stages all changes in the current directory and subdirectories, preparing them to be committed."
+    },
+    {
+      "id": 4,
+      "type": "multiple_choice",
+      "question": "In Test-Driven Development (TDD), what is the correct order of steps?",
+      "options": [
+        "Write code → Write tests → Refactor",
+        "Red (failing test) → Green (passing code) → Refactor",
+        "Refactor → Test → Code",
+        "Test → Refactor → Code"
+      ],
+      "correct_answer": 1,
+      "explanation": "TDD follows Red-Green-Refactor: write a failing test (Red), write minimal code to pass (Green), then improve the code (Refactor)."
+    },
+    {
+      "id": 5,
+      "type": "multiple_choice",
+      "question": "In the test pyramid, which type of test should you have the MOST of?",
+      "options": [
+        "End-to-end tests",
+        "Integration tests",
+        "Unit tests",
+        "Manual tests"
+      ],
+      "correct_answer": 2,
+      "explanation": "Unit tests should be most numerous because they're fast, cheap, and test small isolated pieces. The pyramid: many unit tests, some integration tests, few E2E tests."
+    },
+    {
+      "id": 6,
+      "type": "multiple_choice",
+      "question": "What is a pytest fixture used for?",
+      "options": [
+        "To fix broken tests",
+        "To provide reusable setup/teardown code for tests",
+        "To mark tests as skipped",
+        "To run tests in parallel"
+      ],
+      "correct_answer": 1,
+      "explanation": "Fixtures provide reusable setup code (like creating test databases or objects) that multiple tests can use. They run before each test."
+    },
+    {
+      "id": 7,
+      "type": "multiple_choice",
+      "question": "What is the purpose of a docstring in Python?",
+      "options": [
+        "To comment out code",
+        "To document what a function/class does, its parameters, and return value",
+        "To format code automatically",
+        "To check for syntax errors"
+      ],
+      "correct_answer": 1,
+      "explanation": "Docstrings (triple-quoted strings) document functions, classes, and modules. They describe purpose, parameters, return values, and provide examples."
+    },
+    {
+      "id": 8,
+      "type": "multiple_choice",
+      "question": "What does PEP 8 define?",
+      "options": [
+        "Python's syntax rules",
+        "Python's style guide for code formatting",
+        "Python's performance benchmarks",
+        "Python's testing framework"
+      ],
+      "correct_answer": 1,
+      "explanation": "PEP 8 is Python's official style guide, defining conventions for naming, indentation, spacing, and code layout."
+    },
+    {
+      "id": 9,
+      "type": "multiple_choice",
+      "question": "What tool automatically formats Python code to be PEP 8 compliant?",
+      "options": [
+        "pytest",
+        "flake8",
+        "Black",
+        "mypy"
+      ],
+      "correct_answer": 2,
+      "explanation": "Black is an opinionated auto-formatter that formats Python code consistently. flake8 checks style, mypy checks types, pytest runs tests."
+    },
+    {
+      "id": 10,
+      "type": "multiple_choice",
+      "question": "What should you NEVER do when deploying to production?",
+      "options": [
+        "Use environment variables",
+        "Enable DEBUG mode",
+        "Use HTTPS",
+        "Configure logging"
+      ],
+      "correct_answer": 1,
+      "explanation": "DEBUG mode should NEVER be enabled in production as it exposes sensitive information and allows code execution via the browser."
+    },
+    {
+      "id": 11,
+      "type": "multiple_choice",
+      "question": "What is the purpose of a Procfile?",
+      "options": [
+        "To process user input",
+        "To tell deployment platforms how to run your app",
+        "To process database queries",
+        "To configure Python packages"
+      ],
+      "correct_answer": 1,
+      "explanation": "A Procfile tells platforms like Heroku what command to run to start your application (e.g., 'web: gunicorn app:app')."
+    },
+    {
+      "id": 12,
+      "type": "multiple_choice",
+      "question": "What is the main purpose of separating code into layers (Model, Service, Repository)?",
+      "options": [
+        "To make code run faster",
+        "To separate concerns and make code more testable and maintainable",
+        "To reduce file size",
+        "To comply with Python syntax"
+      ],
+      "correct_answer": 1,
+      "explanation": "Layered architecture separates concerns, making each layer independently testable, maintainable, and allowing changes to one layer without affecting others."
+    },
+    {
+      "id": 13,
+      "type": "multiple_choice",
+      "question": "What is the purpose of a Pull Request in Git workflow?",
+      "options": [
+        "To download code from remote",
+        "To request code review and discuss changes before merging",
+        "To delete a branch",
+        "To commit changes locally"
+      ],
+      "correct_answer": 1,
+      "explanation": "A Pull Request is a request to merge your changes into another branch, allowing for code review, discussion, and quality control before merging."
+    },
+    {
+      "id": 14,
+      "type": "multiple_choice",
+      "question": "In pytest, what does the @pytest.mark.parametrize decorator do?",
+      "options": [
+        "Marks tests to skip",
+        "Runs the same test with multiple sets of input data",
+        "Sets up test fixtures",
+        "Measures test performance"
+      ],
+      "correct_answer": 1,
+      "explanation": "@pytest.mark.parametrize allows you to run the same test function with multiple sets of input data, testing many cases efficiently."
+    },
+    {
+      "id": 15,
+      "type": "multiple_choice",
+      "question": "What should code comments focus on explaining?",
+      "options": [
+        "What the code does (the syntax)",
+        "Why the code does it (the reasoning)",
+        "How to run Python",
+        "The variable names"
+      ],
+      "correct_answer": 1,
+      "explanation": "Comments should explain WHY the code does something, not WHAT it does. The code itself shows what; comments provide context and reasoning."
+    },
+    {
+      "id": 16,
+      "type": "multiple_choice",
+      "question": "Why use gunicorn instead of Flask's development server in production?",
+      "options": [
+        "Gunicorn is faster and designed for production workloads",
+        "Gunicorn is required by Python",
+        "Flask's server doesn't work in production",
+        "Gunicorn is easier to configure"
+      ],
+      "correct_answer": 0,
+      "explanation": "Gunicorn is a production-grade WSGI server that handles multiple concurrent requests efficiently. Flask's dev server is single-threaded and not designed for production."
+    },
+    {
+      "id": 17,
+      "type": "multiple_choice",
+      "question": "What is CI/CD?",
+      "options": [
+        "Code Integration/Code Deployment",
+        "Continuous Integration/Continuous Deployment - automated testing and deployment",
+        "Customer Integration/Customer Development",
+        "Code Inspection/Code Documentation"
+      ],
+      "correct_answer": 1,
+      "explanation": "CI/CD means Continuous Integration and Continuous Deployment - automatically running tests on every commit and deploying passing code to production."
+    },
+    {
+      "id": 18,
+      "type": "multiple_choice",
+      "question": "What should NEVER be committed to a Git repository?",
+      "options": [
+        "Python source files",
+        "README.md",
+        ".env files with secrets and API keys",
+        "requirements.txt"
+      ],
+      "correct_answer": 2,
+      "explanation": "Sensitive files like .env containing secrets, passwords, or API keys should never be committed. Use .gitignore to exclude them."
+    },
+    {
+      "id": 19,
+      "type": "multiple_choice",
+      "question": "What is the main benefit of type hints in Python?",
+      "options": [
+        "Makes code run faster",
+        "Helps catch type errors early and improves IDE support",
+        "Required for Python to work",
+        "Automatically fixes bugs"
+      ],
+      "correct_answer": 1,
+      "explanation": "Type hints help catch type-related errors early (with tools like mypy) and provide better IDE autocomplete and documentation."
+    },
+    {
+      "id": 20,
+      "type": "multiple_choice",
+      "question": "In a professional project, what should a README.md file include?",
+      "options": [
+        "Only the project name",
+        "Project description, installation instructions, usage examples, and contributing guidelines",
+        "Just the source code",
+        "Only deployment instructions"
+      ],
+      "correct_answer": 1,
+      "explanation": "A good README includes: project description, features, installation steps, usage examples, configuration, contributing guidelines, and contact information."
+    }
+  ]
+}
