@@ -1,0 +1,105 @@
+{
+  "lesson_id": "11_02",
+  "title": "Class Attributes and Methods",
+  "module_id": 11,
+  "order_index": 2,
+  "description": "Understand the difference between instance and class attributes, and learn about class methods and static methods. Master when to use each type.",
+  "estimated_minutes": 30,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: Shared vs. Personal",
+      "content": "**Think of a car dealership:**\n\n**Instance Attributes** (Personal)\n- Each car has its own: color, mileage, VIN number\n- Different for every car\n- Defined in `__init__` with `self.attribute`\n\n**Class Attributes** (Shared)\n- All cars share: manufacturer name, warranty period\n- Same for every car\n- Defined directly in class, outside methods\n\n**Example:**\n```\nInstance (Personal):           Class (Shared):\n- My car is red               - All are Toyota\n- My car has 15k miles        - All have 3-year warranty\n- My VIN: ABC123              - All made in 2024\n```\n\n**Types of methods:**\n\n1. **Instance methods** (most common)\n   - Work with specific object (self)\n   - Can access instance AND class attributes\n\n2. **Class methods** (@classmethod)\n   - Work with the class itself (cls)\n   - Often used for alternative constructors\n\n3. **Static methods** (@staticmethod)\n   - Don't access instance or class\n   - Utility functions related to the class"
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Instance vs Class Attributes",
+      "code": "class Car:\n    # Class attributes (shared by all cars)\n    manufacturer = \"Toyota\"\n    warranty_years = 3\n    total_cars = 0  # Track how many cars created\n    \n    def __init__(self, model, color, price):\n        # Instance attributes (unique to each car)\n        self.model = model\n        self.color = color\n        self.price = price\n        self.mileage = 0\n        \n        # Increment class attribute\n        Car.total_cars += 1\n    \n    # Instance method (works with specific car)\n    def drive(self, miles):\n        self.mileage += miles\n        return f\"{self.color} {self.model} drove {miles} miles. Total: {self.mileage}\"\n    \n    def info(self):\n        return f\"{Car.manufacturer} {self.model} ({self.color}) - ${self.price} - {self.mileage} miles\"\n    \n    # Class method (works with the class)\n    @classmethod\n    def from_string(cls, car_string):\n        \"\"\"Alternative constructor from string 'Model,Color,Price'\"\"\"\n        model, color, price = car_string.split(',')\n        return cls(model, color, float(price))\n    \n    @classmethod\n    def get_total_cars(cls):\n        return f\"Total {cls.manufacturer} cars created: {cls.total_cars}\"\n    \n    # Static method (utility function)\n    @staticmethod\n    def is_luxury(price):\n        \"\"\"Check if price indicates luxury car\"\"\"\n        return price > 50000\n\n# Create cars normally\nprint(\"=== Creating Cars ===\")\ncar1 = Car(\"Camry\", \"Blue\", 28000)\ncar2 = Car(\"Corolla\", \"Red\", 23000)\ncar3 = Car(\"Avalon\", \"Black\", 42000)\n\nprint(car1.info())\nprint(car2.info())\nprint(car3.info())\n\nprint(\"\\n=== Class Attributes (Shared) ===\")\nprint(f\"Manufacturer: {Car.manufacturer}\")\nprint(f\"Warranty: {Car.warranty_years} years\")\nprint(Car.get_total_cars())\n\nprint(\"\\n=== Instance Attributes (Unique) ===\")\nprint(f\"Car 1 color: {car1.color}\")\nprint(f\"Car 2 model: {car2.model}\")\nprint(f\"Car 3 price: ${car3.price}\")\n\nprint(\"\\n=== Using Instance Method ===\")\nprint(car1.drive(100))\nprint(car1.drive(50))\nprint(car2.drive(200))\n\nprint(\"\\n=== Using Class Method (Alternative Constructor) ===\")\ncar4 = Car.from_string(\"RAV4,Silver,32000\")\nprint(car4.info())\nprint(Car.get_total_cars())\n\nprint(\"\\n=== Using Static Method ===\")\nprint(f\"Is $28,000 luxury? {Car.is_luxury(28000)}\")\nprint(f\"Is $42,000 luxury? {Car.is_luxury(42000)}\")\nprint(f\"Is car3 luxury? {Car.is_luxury(car3.price)}\")",
+      "explanation": "**Key differences:**\n\n**Instance Attributes:**\n- Defined with `self.attribute` in `__init__`\n- Unique to each object\n- Access with `self.attribute` or `obj.attribute`\n\n**Class Attributes:**\n- Defined directly in class body\n- Shared by all instances\n- Access with `ClassName.attribute` or `cls.attribute`\n\n**Method Types:**\n- `def method(self):` - Instance method\n- `@classmethod def method(cls):` - Class method\n- `@staticmethod def method():` - Static method",
+      "output": "=== Creating Cars ===\nToyota Camry (Blue) - $28000.0 - 0 miles\nToyota Corolla (Red) - $23000.0 - 0 miles\nToyota Avalon (Black) - $42000.0 - 0 miles\n\n=== Class Attributes (Shared) ===\nManufacturer: Toyota\nWarranty: 3 years\nTotal Toyota cars created: 3\n\n=== Instance Attributes (Unique) ===\nCar 1 color: Blue\nCar 2 model: Camry\nCar 3 price: $42000.0\n\n=== Using Instance Method ===\nBlue Camry drove 100 miles. Total: 100\nBlue Camry drove 50 miles. Total: 150\nRed Corolla drove 200 miles. Total: 200\n\n=== Using Class Method (Alternative Constructor) ===\nToyota RAV4 (Silver) - $32000.0 - 0 miles\nTotal Toyota cars created: 4\n\n=== Using Static Method ===\nIs $28,000 luxury? False\nIs $42,000 luxury? True\nIs car3 luxury? True"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown",
+      "content": "**Instance vs Class Attributes:**\n```python\nclass MyClass:\n    # Class attribute (shared)\n    class_var = \"shared by all\"\n    \n    def __init__(self):\n        # Instance attribute (unique)\n        self.instance_var = \"unique to each\"\n\nobj = MyClass()\nprint(obj.instance_var)  # Unique\nprint(MyClass.class_var) # Shared\n```\n\n**Method decorators:**\n```python\nclass MyClass:\n    # Instance method (most common)\n    def instance_method(self):\n        return f\"Instance: {self.attribute}\"\n    \n    # Class method\n    @classmethod\n    def class_method(cls):\n        return f\"Class: {cls.class_attribute}\"\n    \n    # Static method\n    @staticmethod\n    def static_method(arg):\n        return f\"Static: {arg}\"\n```\n\n**When to use each:**\n- **Instance method**: When you need object's data (self)\n- **Class method**: Alternative constructors, class-level operations\n- **Static method**: Utility functions that don't need instance/class data"
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise",
+      "instruction": "Create an Employee class with:\n- Class attributes: company_name, employee_count\n- Instance attributes: name, position, salary\n- Instance method: give_raise(amount)\n- Class method: from_dict(employee_dict)\n- Static method: is_valid_salary(amount)",
+      "starter_code": "class Employee:\n    # TODO: Add class attributes\n    \n    def __init__(self, name, position, salary):\n        # TODO: Set instance attributes\n        # TODO: Increment employee_count\n        pass\n    \n    def give_raise(self, amount):\n        # TODO: Increase salary\n        pass\n    \n    @classmethod\n    def from_dict(cls, emp_dict):\n        # TODO: Create employee from dictionary\n        # Example: {'name': 'John', 'position': 'Dev', 'salary': 75000}\n        pass\n    \n    @staticmethod\n    def is_valid_salary(amount):\n        # TODO: Return True if salary between 20k and 500k\n        pass\n\n# TODO: Create employees and test methods",
+      "hint": "Use cls.attribute for class attributes in class methods. Static methods don't use cls or self."
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution",
+      "solution_code": "class Employee:\n    # Class attributes (shared)\n    company_name = \"TechCorp\"\n    employee_count = 0\n    \n    def __init__(self, name, position, salary):\n        # Instance attributes (unique)\n        self.name = name\n        self.position = position\n        self.salary = salary\n        \n        # Increment class attribute\n        Employee.employee_count += 1\n        print(f\"Employee #{Employee.employee_count} hired: {name}\")\n    \n    # Instance method\n    def give_raise(self, amount):\n        old_salary = self.salary\n        self.salary += amount\n        print(f\"{self.name} got a ${amount} raise: ${old_salary} → ${self.salary}\")\n    \n    def info(self):\n        return f\"{self.name} - {self.position} at {Employee.company_name} (${self.salary})\"\n    \n    # Class method (alternative constructor)\n    @classmethod\n    def from_dict(cls, emp_dict):\n        \"\"\"Create employee from dictionary\"\"\"\n        return cls(\n            emp_dict['name'],\n            emp_dict['position'],\n            emp_dict['salary']\n        )\n    \n    @classmethod\n    def get_employee_count(cls):\n        return f\"{cls.company_name} has {cls.employee_count} employees\"\n    \n    # Static method (utility)\n    @staticmethod\n    def is_valid_salary(amount):\n        \"\"\"Check if salary is in valid range\"\"\"\n        return 20000 <= amount <= 500000\n\n# Create employees normally\nprint(\"=== Creating Employees ===\")\nemp1 = Employee(\"Alice\", \"Software Engineer\", 85000)\nemp2 = Employee(\"Bob\", \"Product Manager\", 95000)\n\nprint(\"\\n=== Employee Info ===\")\nprint(emp1.info())\nprint(emp2.info())\n\nprint(\"\\n=== Class Method: Alternative Constructor ===\")\nemp_data = {\n    'name': 'Charlie',\n    'position': 'Designer',\n    'salary': 70000\n}\nemp3 = Employee.from_dict(emp_data)\nprint(emp3.info())\n\nprint(\"\\n=== Using Class Attributes ===\")\nprint(Employee.get_employee_count())\nprint(f\"Company: {Employee.company_name}\")\n\nprint(\"\\n=== Instance Methods ===\")\nemp1.give_raise(10000)\nemp2.give_raise(5000)\n\nprint(\"\\n=== Static Method ===\")\nprint(f\"Is $30,000 valid? {Employee.is_valid_salary(30000)}\")\nprint(f\"Is $15,000 valid? {Employee.is_valid_salary(15000)}\")\nprint(f\"Is $600,000 valid? {Employee.is_valid_salary(600000)}\")\nprint(f\"Is Alice's salary valid? {Employee.is_valid_salary(emp1.salary)}\")\n\nprint(\"\\n=== Final Count ===\")\nprint(Employee.get_employee_count())",
+      "explanation": "**Complete Employee class demonstrating:**\n\n**Class Attributes:**\n- `company_name`: Shared by all employees\n- `employee_count`: Tracks total employees\n\n**Instance Attributes:**\n- `name`, `position`, `salary`: Unique to each employee\n\n**Instance Method:**\n- `give_raise()`: Modifies instance attribute\n\n**Class Method:**\n- `from_dict()`: Alternative constructor\n- Uses `cls` to create instance\n\n**Static Method:**\n- `is_valid_salary()`: Utility function\n- No access to instance or class needed",
+      "output": "=== Creating Employees ===\nEmployee #1 hired: Alice\nEmployee #2 hired: Bob\n\n=== Employee Info ===\nAlice - Software Engineer at TechCorp ($85000)\nBob - Product Manager at TechCorp ($95000)\n\n=== Class Method: Alternative Constructor ===\nEmployee #3 hired: Charlie\nCharlie - Designer at TechCorp ($70000)\n\n=== Using Class Attributes ===\nTechCorp has 3 employees\nCompany: TechCorp\n\n=== Instance Methods ===\nAlice got a $10000 raise: $85000 → $95000\nBob got a $5000 raise: $95000 → $100000\n\n=== Static Method ===\nIs $30,000 valid? True\nIs $15,000 valid? False\nIs $600,000 valid? False\nIs Alice's salary valid? True\n\n=== Final Count ===\nTechCorp has 3 employees",
+      "common_mistakes": [
+        "Using self.class_attribute instead of ClassName.class_attribute",
+        "Forgetting @classmethod or @staticmethod decorators",
+        "Using self in static methods",
+        "Using cls in static methods",
+        "Modifying class attributes accidentally via instance"
+      ]
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Instance attributes (self.x)** - Unique to each object",
+        "**Class attributes** - Shared by all instances",
+        "**Access class attributes with ClassName.attribute** - Not self",
+        "**Instance methods** - Use self, work with object data",
+        "**Class methods (@classmethod)** - Use cls, often alternative constructors",
+        "**Static methods (@staticmethod)** - No self/cls, utility functions",
+        "**cls parameter** - Refers to the class (like self for classes)",
+        "**Use class attributes for constants** - Values same for all instances"
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "What's the difference between instance and class attributes?",
+        "options": [
+          "There is no difference",
+          "Instance attributes are unique to each object, class attributes are shared by all",
+          "Class attributes are unique, instance attributes are shared",
+          "Instance attributes are faster"
+        ],
+        "correct_answer": 1,
+        "explanation": "Instance attributes (self.x) are unique to each object. Class attributes are defined in the class body and shared by all instances."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "When should you use a @classmethod?",
+        "options": [
+          "For every method in a class",
+          "When you need alternative constructors or class-level operations",
+          "When you don't want to use self",
+          "Never, they're deprecated"
+        ],
+        "correct_answer": 1,
+        "explanation": "Class methods are useful for alternative constructors (like from_string()) or operations that work with the class itself rather than specific instances."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "What's the difference between @staticmethod and @classmethod?",
+        "options": [
+          "No difference",
+          "Static methods don't receive cls or self, class methods receive cls",
+          "Static methods are faster",
+          "Class methods can't access class attributes"
+        ],
+        "correct_answer": 1,
+        "explanation": "Static methods don't receive cls or self - they're just regular functions organized in a class. Class methods receive cls and can access/modify class attributes."
+      }
+    ]
+  }
+}

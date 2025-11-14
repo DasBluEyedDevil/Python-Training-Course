@@ -1,0 +1,105 @@
+{
+  "lesson_id": "11_05",
+  "title": "Encapsulation and Properties",
+  "module_id": 11,
+  "order_index": 5,
+  "description": "Learn about encapsulation, data hiding, and the @property decorator. Understand private attributes, getters, setters, and how to control attribute access.",
+  "estimated_minutes": 30,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: Information Hiding",
+      "content": "**Encapsulation** = Bundling data with methods that operate on that data, and restricting direct access\n\n**Think of a car:**\n- You don't access engine internals directly\n- You use interface: steering wheel, pedals, gear shift\n- Engine details are hidden (encapsulated)\n- Prevents mistakes (can't accidentally break transmission)\n\n**In Python:**\n\n**Public** (normal attributes)\n```python\nself.name = \"John\"  # Anyone can access/modify\nobj.name = \"Jane\"   # Direct access\n```\n\n**Protected** (single underscore)\n```python\nself._internal = value  # Convention: \"please don't touch\"\n# Not enforced, just a hint to other developers\n```\n\n**Private** (double underscore)\n```python\nself.__secret = value  # Name mangling, harder to access\n# Becomes _ClassName__secret\n```\n\n**Why encapsulate?**\n\n1. **Validation** ✓\n   - Check values before setting\n   - Prevent invalid states\n\n2. **Controlled access** 🔒\n   - Read-only attributes\n   - Computed values\n\n3. **Change implementation** 🔧\n   - Modify internals without breaking code\n   - Maintain backward compatibility\n\n4. **Hide complexity** 🎭\n   - Simple interface, complex internals"
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Properties and Encapsulation",
+      "code": "class BankAccount:\n    def __init__(self, account_holder, initial_balance=0):\n        self.account_holder = account_holder  # Public\n        self._transaction_fee = 1.50          # Protected (by convention)\n        self.__balance = initial_balance       # Private (name mangled)\n        self.__pin = None                      # Private\n    \n    # Property: balance (read-only)\n    @property\n    def balance(self):\n        \"\"\"Read-only access to balance\"\"\"\n        return self.__balance\n    \n    # Property: pin (write-only via setter)\n    @property\n    def pin(self):\n        \"\"\"Can't read PIN!\"\"\"\n        raise AttributeError(\"PIN is write-only\")\n    \n    @pin.setter\n    def pin(self, value):\n        \"\"\"Set PIN with validation\"\"\"\n        if not isinstance(value, str) or len(value) != 4 or not value.isdigit():\n            raise ValueError(\"PIN must be 4 digits\")\n        self.__pin = value\n        print(\"PIN set successfully\")\n    \n    # Property with getter and setter\n    @property\n    def transaction_fee(self):\n        return self._transaction_fee\n    \n    @transaction_fee.setter\n    def transaction_fee(self, value):\n        if value < 0:\n            raise ValueError(\"Fee cannot be negative\")\n        self._transaction_fee = value\n    \n    # Methods that use private attributes\n    def deposit(self, amount):\n        if amount <= 0:\n            raise ValueError(\"Deposit must be positive\")\n        self.__balance += amount - self._transaction_fee\n        return f\"Deposited ${amount}. Fee: ${self._transaction_fee}. New balance: ${self.__balance}\"\n    \n    def withdraw(self, amount, pin):\n        if pin != self.__pin:\n            raise ValueError(\"Invalid PIN\")\n        if amount <= 0:\n            raise ValueError(\"Withdrawal must be positive\")\n        total = amount + self._transaction_fee\n        if total > self.__balance:\n            raise ValueError(\"Insufficient funds\")\n        self.__balance -= total\n        return f\"Withdrew ${amount}. Fee: ${self._transaction_fee}. New balance: ${self.__balance}\"\n\nprint(\"=== Creating Account ===\")\naccount = BankAccount(\"Alice\", 1000)\n\nprint(\"\\n=== Reading Balance (Property) ===\")\nprint(f\"Balance: ${account.balance}\")  # Uses @property\n\n# Try to modify balance directly (won't work!)\nprint(\"\\n=== Trying to Modify Balance Directly ===\")\ntry:\n    account.balance = 5000  # No setter defined!\nexcept AttributeError as e:\n    print(f\"Error: {e}\")\n\nprint(\"\\n=== Setting PIN (Property with Validation) ===\")\naccount.pin = \"1234\"  # Uses @pin.setter\n\n# Invalid PINs\nprint(\"\\n=== Invalid PIN Examples ===\")\ntry:\n    account.pin = \"123\"  # Too short\nexcept ValueError as e:\n    print(f\"Error: {e}\")\n\ntry:\n    account.pin = \"abcd\"  # Not digits\nexcept ValueError as e:\n    print(f\"Error: {e}\")\n\nprint(\"\\n=== Can't Read PIN ===\")\ntry:\n    print(account.pin)  # Raises AttributeError\nexcept AttributeError as e:\n    print(f\"Error: {e}\")\n\nprint(\"\\n=== Transaction Fee Property ===\")\nprint(f\"Current fee: ${account.transaction_fee}\")\naccount.transaction_fee = 2.00\nprint(f\"New fee: ${account.transaction_fee}\")\n\ntry:\n    account.transaction_fee = -5  # Validation!\nexcept ValueError as e:\n    print(f\"Error: {e}\")\n\nprint(\"\\n=== Using Methods ===\")\nprint(account.deposit(500))\nprint(account.withdraw(200, \"1234\"))\n\nprint(\"\\n=== Wrong PIN ===\")\ntry:\n    account.withdraw(100, \"9999\")\nexcept ValueError as e:\n    print(f\"Error: {e}\")\n\nprint(f\"\\nFinal balance: ${account.balance}\")\n\n# Demonstrate name mangling\nprint(\"\\n=== Name Mangling (Private Attributes) ===\")\nprint(f\"Can't access __balance directly: {hasattr(account, '__balance')}\")\nprint(f\"But it's stored as _BankAccount__balance: {hasattr(account, '_BankAccount__balance')}\")\nprint(\"(Don't do this in real code - defeats the purpose!)\")",
+      "explanation": "**@property decorator creates managed attributes:**\n\n**1. Read-only property:**\n```python\n@property\ndef balance(self):\n    return self.__balance\n```\nUsage: `account.balance` (looks like attribute, actually method)\n\n**2. Property with setter:**\n```python\n@property\ndef fee(self):\n    return self._fee\n\n@fee.setter\ndef fee(self, value):\n    if value < 0:\n        raise ValueError()\n    self._fee = value\n```\n\n**3. Write-only property:**\n- Getter raises AttributeError\n- Only setter works\n\n**Key benefits:**\n- Validation on setting\n- Read-only access\n- Computed values\n- Looks like attribute access",
+      "output": "=== Creating Account ===\n\n=== Reading Balance (Property) ===\nBalance: $1000\n\n=== Trying to Modify Balance Directly ===\nError: can't set attribute\n\n=== Setting PIN (Property with Validation) ===\nPIN set successfully\n\n=== Invalid PIN Examples ===\nError: PIN must be 4 digits\nError: PIN must be 4 digits\n\n=== Can't Read PIN ===\nError: PIN is write-only\n\n=== Transaction Fee Property ===\nCurrent fee: $1.5\nNew fee: $2.0\nError: Fee cannot be negative\n\n=== Using Methods ===\nDeposited $500. Fee: $2.0. New balance: $1498.0\nWithdrew $200. Fee: $2.0. New balance: $1296.0\n\n=== Wrong PIN ===\nError: Invalid PIN\n\nFinal balance: $1296.0\n\n=== Name Mangling (Private Attributes) ===\nCan't access __balance directly: False\nBut it's stored as _BankAccount__balance: True\n(Don't do this in real code - defeats the purpose!)"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown",
+      "content": "**Attribute access levels:**\n```python\nclass MyClass:\n    def __init__(self):\n        self.public = \"anyone can access\"\n        self._protected = \"convention: internal use\"\n        self.__private = \"name mangled\"\n```\n\n**Property (read-only):**\n```python\nclass MyClass:\n    def __init__(self):\n        self.__value = 0\n    \n    @property\n    def value(self):\n        return self.__value\n\nobj = MyClass()\nprint(obj.value)      # OK - calls getter\nobj.value = 10        # Error - no setter\n```\n\n**Property with setter:**\n```python\nclass MyClass:\n    def __init__(self):\n        self.__value = 0\n    \n    @property\n    def value(self):\n        return self.__value\n    \n    @value.setter\n    def value(self, val):\n        if val < 0:\n            raise ValueError(\"Must be positive\")\n        self.__value = val\n\nobj = MyClass()\nobj.value = 10        # OK - validated\nobj.value = -5        # Error - validation failed\n```\n\n**Property with deleter:**\n```python\n@value.deleter\ndef value(self):\n    print(\"Deleting value\")\n    del self.__value\n\ndel obj.value  # Calls deleter\n```"
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise",
+      "instruction": "Create a Temperature class that:\n- Stores temperature in Celsius (private)\n- Has celsius property (read/write with validation)\n- Has fahrenheit property (computed, read/write)\n- Has kelvin property (computed, read-only)\n- Validates: Celsius >= -273.15 (absolute zero)",
+      "starter_code": "class Temperature:\n    def __init__(self, celsius=0):\n        # TODO: Initialize with validation\n        pass\n    \n    @property\n    def celsius(self):\n        # TODO: Return celsius\n        pass\n    \n    @celsius.setter\n    def celsius(self, value):\n        # TODO: Validate and set celsius\n        pass\n    \n    @property\n    def fahrenheit(self):\n        # TODO: Convert celsius to fahrenheit\n        # Formula: (C * 9/5) + 32\n        pass\n    \n    @fahrenheit.setter\n    def fahrenheit(self, value):\n        # TODO: Convert fahrenheit to celsius and set\n        # Formula: (F - 32) * 5/9\n        pass\n    \n    @property\n    def kelvin(self):\n        # TODO: Convert celsius to kelvin (read-only!)\n        # Formula: C + 273.15\n        pass\n\n# TODO: Create temperature objects and test properties",
+      "hint": "Use self.__celsius for private storage. Validate >= -273.15 in celsius setter."
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution",
+      "solution_code": "class Temperature:\n    \"\"\"Temperature class with multiple unit support\"\"\"\n    \n    ABSOLUTE_ZERO = -273.15  # Celsius\n    \n    def __init__(self, celsius=0):\n        self.__celsius = None\n        self.celsius = celsius  # Use setter for validation\n    \n    @property\n    def celsius(self):\n        \"\"\"Get temperature in Celsius\"\"\"\n        return self.__celsius\n    \n    @celsius.setter\n    def celsius(self, value):\n        \"\"\"Set temperature in Celsius with validation\"\"\"\n        if value < self.ABSOLUTE_ZERO:\n            raise ValueError(\n                f\"Temperature cannot be below absolute zero ({self.ABSOLUTE_ZERO}°C)\"\n            )\n        self.__celsius = value\n    \n    @property\n    def fahrenheit(self):\n        \"\"\"Get temperature in Fahrenheit\"\"\"\n        return (self.__celsius * 9/5) + 32\n    \n    @fahrenheit.setter\n    def fahrenheit(self, value):\n        \"\"\"Set temperature in Fahrenheit\"\"\"\n        celsius = (value - 32) * 5/9\n        self.celsius = celsius  # Use celsius setter for validation\n    \n    @property\n    def kelvin(self):\n        \"\"\"Get temperature in Kelvin (read-only)\"\"\"\n        return self.__celsius + 273.15\n    \n    def __str__(self):\n        return f\"{self.celsius:.2f}°C = {self.fahrenheit:.2f}°F = {self.kelvin:.2f}K\"\n\n# Creating temperatures\nprint(\"=== Creating Temperature Objects ===\")\ntemp1 = Temperature(25)  # 25°C\nprint(temp1)\n\ntemp2 = Temperature(0)   # 0°C (freezing point)\nprint(temp2)\n\ntemp3 = Temperature(100) # 100°C (boiling point)\nprint(temp3)\n\nprint(\"\\n=== Reading Properties ===\")\nprint(f\"Temp1 in Celsius: {temp1.celsius}°C\")\nprint(f\"Temp1 in Fahrenheit: {temp1.fahrenheit}°F\")\nprint(f\"Temp1 in Kelvin: {temp1.kelvin}K\")\n\nprint(\"\\n=== Setting via Celsius ===\")\ntemp1.celsius = 30\nprint(temp1)\n\nprint(\"\\n=== Setting via Fahrenheit ===\")\ntemp1.fahrenheit = 68  # 68°F = 20°C\nprint(f\"Set to 68°F: {temp1}\")\n\nprint(\"\\n=== Kelvin is Read-Only ===\")\ntry:\n    temp1.kelvin = 300  # Can't set Kelvin!\nexcept AttributeError as e:\n    print(f\"Error: can't set attribute (Kelvin is read-only)\")\n\nprint(\"\\n=== Validation: Below Absolute Zero ===\")\ntry:\n    temp_invalid = Temperature(-300)  # Below absolute zero!\nexcept ValueError as e:\n    print(f\"Error: {e}\")\n\ntry:\n    temp1.celsius = -500\nexcept ValueError as e:\n    print(f\"Error: {e}\")\n\nprint(\"\\n=== Validation via Fahrenheit ===\")\ntry:\n    temp1.fahrenheit = -500  # Way below absolute zero in Fahrenheit\nexcept ValueError as e:\n    print(f\"Error: {e}\")\n\nprint(\"\\n=== Edge Case: Absolute Zero ===\")\nabs_zero = Temperature(-273.15)\nprint(f\"Absolute zero: {abs_zero}\")\n\nprint(\"\\n=== Practical Examples ===\")\nroom_temp = Temperature()\nroom_temp.fahrenheit = 72  # Set room temp in Fahrenheit\nprint(f\"Room temperature: {room_temp}\")\n\nbody_temp = Temperature()\nbody_temp.celsius = 37\nprint(f\"Body temperature: {body_temp}\")\n\nwater_boil = Temperature(100)\nprint(f\"Water boiling point: {water_boil}\")",
+      "explanation": "**Complete Temperature class with:**\n\n**1. Private storage:**\n- `self.__celsius` stores actual value\n\n**2. Celsius property:**\n- Getter returns stored value\n- Setter validates >= -273.15\n\n**3. Fahrenheit property:**\n- Getter computes from Celsius\n- Setter converts to Celsius, uses celsius setter for validation\n\n**4. Kelvin property:**\n- Getter computes from Celsius\n- No setter - read-only!\n\n**Benefits:**\n- Single source of truth (Celsius)\n- Automatic conversions\n- Validation in one place\n- Can't set impossible temperatures",
+      "output": "=== Creating Temperature Objects ===\n25.00°C = 77.00°F = 298.15K\n0.00°C = 32.00°F = 273.15K\n100.00°C = 212.00°F = 373.15K\n\n=== Reading Properties ===\nTemp1 in Celsius: 25°C\nTemp1 in Fahrenheit: 77.0°F\nTemp1 in Kelvin: 298.15K\n\n=== Setting via Celsius ===\n30.00°C = 86.00°F = 303.15K\n\n=== Setting via Fahrenheit ===\nSet to 68°F: 20.00°C = 68.00°F = 293.15K\n\n=== Kelvin is Read-Only ===\nError: can't set attribute (Kelvin is read-only)\n\n=== Validation: Below Absolute Zero ===\nError: Temperature cannot be below absolute zero (-273.15°C)\nError: Temperature cannot be below absolute zero (-273.15°C)\n\n=== Validation via Fahrenheit ===\nError: Temperature cannot be below absolute zero (-273.15°C)\n\n=== Edge Case: Absolute Zero ===\nAbsolute zero: -273.15°C = -459.67°F = 0.00K\n\n=== Practical Examples ===\nRoom temperature: 22.22°C = 72.00°F = 295.37K\nBody temperature: 37.00°C = 98.60°F = 310.15K\nWater boiling point: 100.00°C = 212.00°F = 373.15K",
+      "common_mistakes": [
+        "Forgetting to use @property decorator",
+        "Directly accessing private attributes instead of using property",
+        "Not validating in setter",
+        "Creating circular dependencies (setter calling setter)",
+        "Using same name for property and attribute (causes infinite recursion)"
+      ]
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Encapsulation = bundling data with methods** that control access",
+        "**Public (name)** - normal access by everyone",
+        "**Protected (_name)** - convention for internal use",
+        "**Private (__name)** - name mangling, harder to access",
+        "**@property decorator** - makes method look like attribute",
+        "**@property.setter** - validates and controls setting",
+        "**Read-only properties** - only @property, no setter",
+        "**Computed properties** - calculate value on-the-fly, no storage needed"
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "What does the @property decorator do?",
+        "options": [
+          "Makes an attribute private",
+          "Allows a method to be accessed like an attribute",
+          "Creates a class variable",
+          "Validates function parameters"
+        ],
+        "correct_answer": 1,
+        "explanation": "@property makes a method accessible like an attribute. You can call obj.method instead of obj.method(), and it enables getters/setters."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "What does double underscore (__) before an attribute name do?",
+        "options": [
+          "Makes it completely inaccessible",
+          "Triggers name mangling, making it harder to access from outside",
+          "Makes it a class variable",
+          "Nothing special"
+        ],
+        "correct_answer": 1,
+        "explanation": "Double underscore triggers name mangling - Python renames it to _ClassName__attribute. It's not truly private but discourages direct access."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "Why use property setters?",
+        "options": [
+          "To make code faster",
+          "To validate data before setting an attribute",
+          "To create multiple attributes",
+          "To inherit from parent classes"
+        ],
+        "correct_answer": 1,
+        "explanation": "Property setters allow you to validate data, enforce constraints, and control how attribute values are set, preventing invalid states."
+      }
+    ]
+  }
+}

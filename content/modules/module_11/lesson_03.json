@@ -1,0 +1,105 @@
+{
+  "lesson_id": "11_03",
+  "title": "Inheritance",
+  "module_id": 11,
+  "order_index": 3,
+  "description": "Learn how to create class hierarchies through inheritance. Understand parent and child classes, method overriding, and the super() function.",
+  "estimated_minutes": 30,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: Family Tree",
+      "content": "**Think of it like genetics:**\n\n**Parent Class (Base/Superclass)**\n- Defines common features\n- Example: Animal\n  - All animals: eat, sleep, breathe\n\n**Child Class (Derived/Subclass)**\n- Inherits from parent\n- Adds specific features\n- Examples:\n  - Dog (Animal) → adds bark()\n  - Cat (Animal) → adds meow()\n  - Bird (Animal) → adds fly()\n\n**Inheritance Benefits:**\n\n1. **Code Reuse** ♻️\n   - Write common code once in parent\n   - All children automatically get it\n\n2. **Organization** 📁\n   - Clear hierarchy\n   - Related classes grouped\n\n3. **Extensibility** 🔧\n   - Add new types easily\n   - Override behavior when needed\n\n4. **Polymorphism** 🎭\n   - Treat different types uniformly\n   - More on this in next lesson\n\n**Real-world examples:**\n- Vehicle → Car, Motorcycle, Truck\n- Shape → Circle, Square, Triangle\n- Employee → Manager, Developer, Designer\n- Account → CheckingAccount, SavingsAccount"
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Basic Inheritance",
+      "code": "# Parent class (base class)\nclass Animal:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n        print(f\"Animal created: {name}\")\n    \n    def eat(self):\n        return f\"{self.name} is eating\"\n    \n    def sleep(self):\n        return f\"{self.name} is sleeping\"\n    \n    def info(self):\n        return f\"{self.name} is {self.age} years old\"\n\n# Child class (derived class)\nclass Dog(Animal):  # Inherits from Animal\n    def __init__(self, name, age, breed):\n        # Call parent's __init__\n        super().__init__(name, age)\n        # Add dog-specific attribute\n        self.breed = breed\n    \n    def bark(self):\n        return f\"{self.name} says: Woof! Woof!\"\n    \n    # Override parent method\n    def info(self):\n        return f\"{self.name} is a {self.age}-year-old {self.breed}\"\n\nclass Cat(Animal):  # Also inherits from Animal\n    def __init__(self, name, age, indoor=True):\n        super().__init__(name, age)\n        self.indoor = indoor\n    \n    def meow(self):\n        return f\"{self.name} says: Meow!\"\n    \n    def info(self):\n        location = \"indoor\" if self.indoor else \"outdoor\"\n        return f\"{self.name} is a {self.age}-year-old {location} cat\"\n\nclass Bird(Animal):\n    def __init__(self, name, age, can_fly=True):\n        super().__init__(name, age)\n        self.can_fly = can_fly\n    \n    def chirp(self):\n        return f\"{self.name} says: Chirp chirp!\"\n    \n    def fly(self):\n        if self.can_fly:\n            return f\"{self.name} is flying!\"\n        return f\"{self.name} can't fly (maybe a penguin?)\"\n\nprint(\"=== Creating Animals ===\")\ndog = Dog(\"Buddy\", 3, \"Golden Retriever\")\ncat = Cat(\"Whiskers\", 2, indoor=True)\nbird = Bird(\"Tweety\", 1, can_fly=True)\npenguin = Bird(\"Pingu\", 5, can_fly=False)\n\nprint(\"\\n=== Inherited Methods (from Animal) ===\")\nprint(dog.eat())\nprint(cat.sleep())\nprint(bird.eat())\n\nprint(\"\\n=== Child-Specific Methods ===\")\nprint(dog.bark())\nprint(cat.meow())\nprint(bird.chirp())\nprint(bird.fly())\nprint(penguin.fly())\n\nprint(\"\\n=== Overridden info() Method ===\")\nprint(dog.info())\nprint(cat.info())\nprint(bird.info())\n\nprint(\"\\n=== Checking Inheritance ===\")\nprint(f\"Is dog an Animal? {isinstance(dog, Animal)}\")\nprint(f\"Is dog a Dog? {isinstance(dog, Dog)}\")\nprint(f\"Is dog a Cat? {isinstance(dog, Cat)}\")\nprint(f\"Is Dog a subclass of Animal? {issubclass(Dog, Animal)}\")",
+      "explanation": "**Key concepts:**\n\n**Inheritance syntax:**\n```python\nclass ChildClass(ParentClass):\n    ...\n```\n\n**super() function:**\n- Calls parent class methods\n- Common in `__init__` to initialize parent attributes\n- `super().__init__(args)` calls parent's constructor\n\n**Method overriding:**\n- Child can replace parent's method\n- Same name, different implementation\n- Dog overrides Animal's `info()` method\n\n**Inherited features:**\n- Dog, Cat, Bird all inherit `eat()` and `sleep()`\n- No need to rewrite common functionality",
+      "output": "=== Creating Animals ===\nAnimal created: Buddy\nAnimal created: Whiskers\nAnimal created: Tweety\nAnimal created: Pingu\n\n=== Inherited Methods (from Animal) ===\nBuddy is eating\nWhiskers is sleeping\nTweety is eating\n\n=== Child-Specific Methods ===\nBuddy says: Woof! Woof!\nWhiskers says: Meow!\nTweety says: Chirp chirp!\nTweety is flying!\nPingu can't fly (maybe a penguin?)\n\n=== Overridden info() Method ===\nBuddy is a 3-year-old Golden Retriever\nWhiskers is a 2-year-old indoor cat\nTweety is a 1-year-old Bird\n\n=== Checking Inheritance ===\nIs dog an Animal? True\nIs dog a Dog? True\nIs dog a Cat? False\nIs Dog a subclass of Animal? True"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown",
+      "content": "**Creating inheritance:**\n```python\n# Parent class\nclass Parent:\n    def __init__(self, x):\n        self.x = x\n    \n    def method(self):\n        return \"parent\"\n\n# Child class\nclass Child(Parent):  # Inherit from Parent\n    def __init__(self, x, y):\n        super().__init__(x)  # Call parent's __init__\n        self.y = y\n    \n    # Override parent method\n    def method(self):\n        return \"child\"\n```\n\n**super() function:**\n```python\nsuper().__init__(args)     # Call parent's __init__\nsuper().method(args)       # Call parent's method\n```\n\n**Multiple levels:**\n```python\nclass Grandparent:\n    pass\n\nclass Parent(Grandparent):\n    pass\n\nclass Child(Parent):\n    pass  # Child inherits from both Parent and Grandparent\n```\n\n**Checking relationships:**\n```python\nisinstance(obj, ClassName)  # Is obj an instance of ClassName?\nissubclass(Child, Parent)   # Is Child a subclass of Parent?\n```"
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise",
+      "instruction": "Create a Vehicle hierarchy:\n- Vehicle (parent): brand, year, start(), stop()\n- Car (child): num_doors, additional info\n- Motorcycle (child): has_sidecar, additional info\nBoth children should override info() and add specific methods",
+      "starter_code": "class Vehicle:\n    def __init__(self, brand, year):\n        # TODO: Set brand and year\n        pass\n    \n    def start(self):\n        # TODO: Return start message\n        pass\n    \n    def stop(self):\n        # TODO: Return stop message\n        pass\n    \n    def info(self):\n        # TODO: Return basic info\n        pass\n\nclass Car(Vehicle):\n    def __init__(self, brand, year, num_doors):\n        # TODO: Call parent __init__ and set num_doors\n        pass\n    \n    def info(self):\n        # TODO: Override with car-specific info\n        pass\n\nclass Motorcycle(Vehicle):\n    def __init__(self, brand, year, has_sidecar=False):\n        # TODO: Call parent __init__ and set has_sidecar\n        pass\n    \n    def info(self):\n        # TODO: Override with motorcycle-specific info\n        pass\n\n# TODO: Create vehicles and test methods",
+      "hint": "Use super().__init__() to call parent constructor. Override info() to provide specific details."
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution",
+      "solution_code": "class Vehicle:\n    \"\"\"Base class for all vehicles\"\"\"\n    \n    def __init__(self, brand, year):\n        self.brand = brand\n        self.year = year\n        self.is_running = False\n    \n    def start(self):\n        if not self.is_running:\n            self.is_running = True\n            return f\"{self.brand} started. Vroom!\"\n        return f\"{self.brand} is already running\"\n    \n    def stop(self):\n        if self.is_running:\n            self.is_running = False\n            return f\"{self.brand} stopped\"\n        return f\"{self.brand} is already stopped\"\n    \n    def info(self):\n        status = \"running\" if self.is_running else \"stopped\"\n        return f\"{self.year} {self.brand} ({status})\"\n\nclass Car(Vehicle):\n    \"\"\"Car class inheriting from Vehicle\"\"\"\n    \n    def __init__(self, brand, year, num_doors):\n        super().__init__(brand, year)\n        self.num_doors = num_doors\n    \n    def honk(self):\n        return f\"{self.brand}: BEEP BEEP!\"\n    \n    def info(self):\n        status = \"running\" if self.is_running else \"stopped\"\n        return f\"{self.year} {self.brand} - {self.num_doors}-door car ({status})\"\n\nclass Motorcycle(Vehicle):\n    \"\"\"Motorcycle class inheriting from Vehicle\"\"\"\n    \n    def __init__(self, brand, year, has_sidecar=False):\n        super().__init__(brand, year)\n        self.has_sidecar = has_sidecar\n    \n    def wheelie(self):\n        if self.is_running:\n            return f\"{self.brand} is doing a wheelie! 🏍️\"\n        return \"Start the motorcycle first!\"\n    \n    def info(self):\n        status = \"running\" if self.is_running else \"stopped\"\n        sidecar = \" with sidecar\" if self.has_sidecar else \"\"\n        return f\"{self.year} {self.brand} motorcycle{sidecar} ({status})\"\n\n# Create vehicles\nprint(\"=== Creating Vehicles ===\")\ncar = Car(\"Toyota Camry\", 2023, 4)\nmoto = Motorcycle(\"Harley Davidson\", 2022, has_sidecar=False)\nmoto_with_sidecar = Motorcycle(\"Ural\", 2021, has_sidecar=True)\n\nprint(car.info())\nprint(moto.info())\nprint(moto_with_sidecar.info())\n\nprint(\"\\n=== Starting Vehicles (Inherited Method) ===\")\nprint(car.start())\nprint(moto.start())\nprint(moto_with_sidecar.start())\n\nprint(\"\\n=== Vehicle-Specific Methods ===\")\nprint(car.honk())\nprint(moto.wheelie())\n\nprint(\"\\n=== Current Status ===\")\nprint(car.info())\nprint(moto.info())\n\nprint(\"\\n=== Stopping Vehicles ===\")\nprint(car.stop())\nprint(moto.stop())\n\nprint(\"\\n=== Inheritance Check ===\")\nprint(f\"Is car a Vehicle? {isinstance(car, Vehicle)}\")\nprint(f\"Is car a Car? {isinstance(car, Car)}\")\nprint(f\"Is car a Motorcycle? {isinstance(car, Motorcycle)}\")\nprint(f\"Is Car a subclass of Vehicle? {issubclass(Car, Vehicle)}\")\nprint(f\"Is Motorcycle a subclass of Vehicle? {issubclass(Motorcycle, Vehicle)}\")",
+      "explanation": "**Complete Vehicle hierarchy demonstrating:**\n\n**Parent class (Vehicle):**\n- Common attributes: brand, year, is_running\n- Common methods: start(), stop(), info()\n\n**Child classes:**\n- **Car**: Adds num_doors, honk() method\n- **Motorcycle**: Adds has_sidecar, wheelie() method\n\n**Key points:**\n- Both children call `super().__init__()` to initialize parent attributes\n- Both override `info()` for specific details\n- Both inherit `start()` and `stop()` unchanged\n- Each adds unique methods (honk vs wheelie)",
+      "output": "=== Creating Vehicles ===\n2023 Toyota Camry - 4-door car (stopped)\n2022 Harley Davidson motorcycle (stopped)\n2021 Ural motorcycle with sidecar (stopped)\n\n=== Starting Vehicles (Inherited Method) ===\nToyota Camry started. Vroom!\nHarley Davidson started. Vroom!\nUral started. Vroom!\n\n=== Vehicle-Specific Methods ===\nToyota Camry: BEEP BEEP!\nHarley Davidson is doing a wheelie! 🏍️\n\n=== Current Status ===\n2023 Toyota Camry - 4-door car (running)\n2022 Harley Davidson motorcycle (running)\n\n=== Stopping Vehicles ===\nToyota Camry stopped\nHarley Davidson stopped\n\n=== Inheritance Check ===\nIs car a Vehicle? True\nIs car a Car? True\nIs car a Motorcycle? False\nIs Car a subclass of Vehicle? True\nIs Motorcycle a subclass of Vehicle? True",
+      "common_mistakes": [
+        "Forgetting to call super().__init__() in child class",
+        "Calling super() without parentheses: super instead of super()",
+        "Not passing required arguments to parent's __init__",
+        "Confusing isinstance() and issubclass()",
+        "Trying to access child attributes from parent class"
+      ]
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Inheritance creates 'is-a' relationships** - Dog is an Animal",
+        "**Syntax: class Child(Parent):** - Inherit from parent class",
+        "**super() calls parent methods** - Especially __init__()",
+        "**Children inherit all parent attributes/methods** - No rewriting needed",
+        "**Override methods by redefining them** - Same name, new implementation",
+        "**Use isinstance(obj, Class)** - Check if object is instance of class",
+        "**Use issubclass(Child, Parent)** - Check inheritance relationship",
+        "**DRY principle** - Don't Repeat Yourself, use inheritance"
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "What does inheritance allow a child class to do?",
+        "options": [
+          "Delete parent class methods",
+          "Use attributes and methods from the parent class",
+          "Prevent the parent class from running",
+          "Create multiple parent classes automatically"
+        ],
+        "correct_answer": 1,
+        "explanation": "Inheritance allows a child class to use (inherit) all attributes and methods from its parent class, promoting code reuse."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "What is the purpose of super().__init__()?",
+        "options": [
+          "To delete the parent class",
+          "To call the parent class's __init__ method",
+          "To override the parent's constructor",
+          "To create a new parent class"
+        ],
+        "correct_answer": 1,
+        "explanation": "super().__init__() calls the parent class's constructor, allowing the child to initialize parent attributes before adding its own."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "What is method overriding?",
+        "options": [
+          "Deleting a method from the parent class",
+          "Redefining a parent class method in the child class with the same name",
+          "Calling multiple methods at once",
+          "Creating a new method with a different name"
+        ],
+        "correct_answer": 1,
+        "explanation": "Method overriding is when a child class provides its own implementation of a method that already exists in the parent class."
+      }
+    ]
+  }
+}
