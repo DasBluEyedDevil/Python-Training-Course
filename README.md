@@ -1,7 +1,7 @@
 # 🐍 Python Learning Platform
 ## From Zero to Full-Stack Developer
 
-A comprehensive, interactive Python course built with **Flask 3.1.2** and **Python 3.14**, designed to take absolute beginners to job-ready full-stack developers.
+A comprehensive, interactive Python course built with **Flask 3.0+** and **Python 3.12+**, designed to take absolute beginners to job-ready full-stack developers.
 
 ---
 
@@ -19,33 +19,24 @@ A comprehensive, interactive Python course built with **Flask 3.1.2** and **Pyth
 
 ## 📋 Course Structure
 
-### **Module 1: The Absolute Basics** ✅ COMPLETE
-- Lesson 1: What is Programming, Really?
-- Lesson 2: Your First Python Playground
-- Lesson 3: Making the Computer Talk
-- Lesson 4: Listening to the User
-- Lesson 5: Mini-Project: A Conversation Program
-- **Quiz: Module 1 Assessment**
+### ✅ **ALL 14 MODULES COMPLETE** - 73 Lessons + 14 Quizzes
 
-### **Module 2: Storing & Using Information** 🔨 IN PROGRESS
-- Lesson 1: The Labeled Box (Variables Explained) ✅
-- Lessons 2-5: Data types, operators, type conversion
-- **Quiz: Module 2 Assessment**
+**Module 1: The Absolute Basics** - 5 lessons + quiz
+**Module 2: Storing & Using Information** - 5 lessons + quiz
+**Module 3: Making Decisions** - 6 lessons + quiz
+**Module 4: Repeating Actions** - 5 lessons + quiz
+**Module 5: Grouping Information** - 6 lessons + quiz
+**Module 6: Creating Reusable Tools (Functions)** - 6 lessons + quiz
+**Module 7: Handling Mistakes (Error Handling)** - 6 lessons + quiz
+**Module 8: Blueprints for Code (OOP)** - 6 lessons + quiz
+**Module 9: Working with the Real World (File I/O)** - 6 lessons + quiz
+**Module 10: Modules & Packages** - 6 lessons + quiz
+**Module 11: Object-Oriented Programming** - 6 lessons + quiz
+**Module 12: Advanced Topics (Decorators, Generators, etc.)** - 6 lessons + quiz
+**Module 13: Web Development & APIs** - 6 lessons + quiz
+**Module 14: Sharing Your Work (Git, Testing, Deployment)** - 5 lessons + quiz
 
-### **Modules 3-14** 📝 READY FOR CONTENT
-Structure and templates are in place for:
-- Module 3: Making Decisions (if/elif/else)
-- Module 4: Repeating Actions (Loops)
-- Module 5: Grouping Information (Lists, Dicts)
-- Module 6: Creating Reusable Tools (Functions)
-- Module 7: Handling Mistakes (Try/Except)
-- Module 8: Blueprints for Code (OOP)
-- Module 9: Working with the Real World (Files, Libraries)
-- Module 10: Building for the Web (Flask)
-- Module 11: Storing Data (Databases, SQLAlchemy)
-- Module 12: Building for the User (HTML/CSS/JS Basics)
-- Module 13: Tying It All Together (Full Stack)
-- Module 14: Sharing Your Work (Git, Deployment)
+**Total:** 73 lessons across 14 modules, each with comprehensive quizzes
 
 ---
 
@@ -53,7 +44,7 @@ Structure and templates are in place for:
 
 ### Prerequisites
 
-- **Python 3.14+** (or Python 3.10+)
+- **Python 3.12+** (or Python 3.10+)
 - **pip** (Python package manager)
 - A modern web browser
 

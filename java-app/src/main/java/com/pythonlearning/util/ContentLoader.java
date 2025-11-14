@@ -30,11 +30,11 @@ public class ContentLoader {
         // Initialize the course structure
         COURSE_MODULES.add(new Module(1, "The Absolute Basics", "The 'What'", 5, "🎯"));
         COURSE_MODULES.add(new Module(2, "Storing & Using Information", "The 'Boxes'", 5, "📦"));
-        COURSE_MODULES.add(new Module(3, "Making Decisions", "The 'Forks in the Road'", 5, "🔀"));
+        COURSE_MODULES.add(new Module(3, "Making Decisions", "The 'Forks in the Road'", 6, "🔀"));
         COURSE_MODULES.add(new Module(4, "Repeating Actions", "The 'Loops'", 5, "🔁"));
         COURSE_MODULES.add(new Module(5, "Grouping Information", "The 'Containers'", 6, "🗂️"));
-        COURSE_MODULES.add(new Module(6, "Creating Reusable Tools", "The 'Recipes'", 5, "🧰"));
-        COURSE_MODULES.add(new Module(7, "Handling Mistakes", "The 'Safety Nets'", 5, "🛡️"));
+        COURSE_MODULES.add(new Module(6, "Creating Reusable Tools", "The 'Recipes'", 6, "🧰"));
+        COURSE_MODULES.add(new Module(7, "Handling Mistakes", "The 'Safety Nets'", 6, "🛡️"));
         COURSE_MODULES.add(new Module(8, "Blueprints for Code", "Object-Oriented Programming", 6, "🏗️"));
         COURSE_MODULES.add(new Module(9, "Working with the Real World", "Files & Libraries", 6, "🌍"));
         COURSE_MODULES.add(new Module(10, "Building for the Web", "Back-End", 6, "🌐"));
