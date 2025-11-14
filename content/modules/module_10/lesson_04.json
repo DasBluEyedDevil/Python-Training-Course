@@ -1,0 +1,105 @@
+{
+  "lesson_id": "10_04",
+  "title": "pip and Virtual Environments - Managing Dependencies",
+  "module_id": 10,
+  "order_index": 4,
+  "description": "Master pip (Python package installer) and virtual environments. Learn to install third-party packages, manage dependencies, and isolate project environments.",
+  "estimated_minutes": 30,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: Your Project's Toolbox",
+      "content": "**pip = Package Installer for Python**\n\nThink of pip like an app store for Python. Instead of downloading and installing packages manually, pip does it for you!\n\n**PyPI (Python Package Index)** = The app store\n- 400,000+ packages available\n- Free, open-source libraries\n- Install with one command\n\n**Virtual Environments** = Separate toolboxes for each project\n\nImagine you have two projects:\n- **Project A** needs requests version 2.0\n- **Project B** needs requests version 3.0\n\nWithout virtual environments: **CONFLICT!**\nWith virtual environments: Each project has its own isolated packages.\n\n**Real-world analogy:**\n- **No venv:** Like one shared toolbox for all projects (conflicts!)\n- **With venv:** Each project has its own toolbox (no conflicts!)\n\n**Why virtual environments:**\n1. **Isolation** - Projects don't interfere\n2. **Reproducibility** - Track exact versions\n3. **Clean system** - Don't pollute global Python\n4. **Easy deployment** - Share requirements.txt"
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Using pip",
+      "code": "import subprocess\nimport sys\n\nprint(\"=== pip Commands (demonstration) ===\")\n\n# Note: In real terminal, use these commands:\nprint(\"\"\"\nCommon pip commands:\n\n# Install a package\npip install requests\npip install pandas==1.5.0  # Specific version\n\n# Install multiple packages\npip install requests pandas numpy\n\n# Upgrade a package\npip install --upgrade requests\n\n# Uninstall a package\npip uninstall requests\n\n# List installed packages\npip list\n\n# Show package info\npip show requests\n\n# Install from requirements.txt\npip install -r requirements.txt\n\n# Create requirements.txt\npip freeze > requirements.txt\n\"\"\")\n\nprint(\"\\n=== Checking Installed Packages ===\")\n\n# List some common packages (if installed)\ntry:\n    import json\n    print(f\"✓ json (built-in)\")\nexcept:\n    pass\n\ntry:\n    import csv\n    print(f\"✓ csv (built-in)\")\nexcept:\n    pass\n\n# Check Python version\nprint(f\"\\nPython version: {sys.version.split()[0]}\")\nprint(f\"Python executable: {sys.executable}\")\n\nprint(\"\\n=== requirements.txt Example ===\")\nrequirements = \"\"\"\nrequests==2.31.0\npandas>=1.5.0\nnumpy<2.0.0\nflask~=2.3.0\n\"\"\"\nprint(\"Example requirements.txt:\")\nprint(requirements)\n\nprint(\"Version specifiers:\")\nprint(\"  == : Exact version (requests==2.31.0)\")\nprint(\"  >= : Minimum version (pandas>=1.5.0)\")\nprint(\"  <  : Below version (numpy<2.0.0)\")\nprint(\"  ~= : Compatible version (flask~=2.3.0 means >=2.3.0,<2.4.0)\")",
+      "explanation": "**Key pip commands:**\n- `pip install package` - Install\n- `pip list` - Show all installed\n- `pip freeze > requirements.txt` - Save current packages\n- `pip install -r requirements.txt` - Install from file\n\n**requirements.txt = Project's shopping list**\nLists all packages and versions needed",
+      "output": "=== pip Commands (demonstration) ===\n\nCommon pip commands:\n\n# Install a package\npip install requests\npip install pandas==1.5.0  # Specific version\n\n# Install multiple packages\npip install requests pandas numpy\n\n# Upgrade a package\npip install --upgrade requests\n\n# Uninstall a package\npip uninstall requests\n\n# List installed packages\npip list\n\n# Show package info\npip show requests\n\n# Install from requirements.txt\npip install -r requirements.txt\n\n# Create requirements.txt\npip freeze > requirements.txt\n\n=== Checking Installed Packages ===\n✓ json (built-in)\n✓ csv (built-in)\n\nPython version: 3.11.0\nPython executable: /usr/bin/python3\n\n=== requirements.txt Example ===\nExample requirements.txt:\nrequests==2.31.0\npandas>=1.5.0\nnumpy<2.0.0\nflask~=2.3.0\n\nVersion specifiers:\n  == : Exact version (requests==2.31.0)\n  >= : Minimum version (pandas>=1.5.0)\n  <  : Below version (numpy<2.0.0)\n  ~= : Compatible version (flask~=2.3.0 means >=2.3.0,<2.4.0)"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown",
+      "content": "**Creating virtual environment:**\n```bash\n# Create venv\npython -m venv myenv\n\n# Activate (Linux/Mac)\nsource myenv/bin/activate\n\n# Activate (Windows)\nmyenv\\Scripts\\activate\n\n# Deactivate\ndeactivate\n```\n\n**Installing packages:**\n```bash\n# Single package\npip install requests\n\n# Specific version\npip install requests==2.31.0\n\n# From requirements.txt\npip install -r requirements.txt\n\n# Multiple packages\npip install requests pandas numpy\n```\n\n**Managing packages:**\n```bash\n# List installed\npip list\n\n# Show package details\npip show requests\n\n# Freeze to requirements.txt\npip freeze > requirements.txt\n\n# Upgrade package\npip install --upgrade requests\n\n# Uninstall\npip uninstall requests\n```\n\n**Project workflow:**\n```bash\n# 1. Create project\nmkdir my_project\ncd my_project\n\n# 2. Create virtual environment\npython -m venv venv\n\n# 3. Activate\nsource venv/bin/activate  # or venv\\Scripts\\activate on Windows\n\n# 4. Install packages\npip install requests pandas\n\n# 5. Save dependencies\npip freeze > requirements.txt\n\n# 6. Work on project...\n\n# 7. Deactivate when done\ndeactivate\n```"
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise",
+      "instruction": "Create a requirements.txt file for a web scraping project that needs:\n- requests (for HTTP)\n- beautifulsoup4 (for parsing HTML)\n- pandas (for data analysis)\n\n**Starter code:**",
+      "starter_code": "# TODO: Create requirements.txt content\nrequirements = \"\"\"\n# Add packages here\n\"\"\"\n\n# Save to file\nfrom pathlib import Path\nPath('requirements.txt').write_text(requirements)\nprint(\"✓ Created requirements.txt\")\nprint(requirements)",
+      "hint": "List one package per line. Can specify versions with ==, >=, etc."
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution",
+      "solution_code": "from pathlib import Path\n\n# Create requirements.txt for web scraping project\nrequirements = \"\"\"\n# Web scraping project dependencies\nrequests==2.31.0\nbeautifulsoup4==4.12.0\npandas>=1.5.0\n\n# Optional: additional useful packages\nlxml>=4.9.0  # XML parser for BeautifulSoup\nopenpyxl>=3.1.0  # For Excel export\n\"\"\"\n\n# Save to file\nPath('requirements.txt').write_text(requirements.strip())\n\nprint(\"✓ Created requirements.txt\\n\")\nprint(\"Contents:\")\nprint(requirements)\n\nprint(\"\\n=== How to use ===\")\nprint(\"1. Create virtual environment: python -m venv venv\")\nprint(\"2. Activate: source venv/bin/activate (Linux/Mac)\")\nprint(\"           or venv\\\\Scripts\\\\activate (Windows)\")\nprint(\"3. Install packages: pip install -r requirements.txt\")\nprint(\"4. Start scraping!\")",
+      "explanation": "Complete requirements.txt with:\n- Core packages for web scraping\n- Version pinning for reproducibility  \n- Comments for organization\n- Optional packages for extended functionality",
+      "output": "✓ Created requirements.txt\n\nContents:\n# Web scraping project dependencies\nrequests==2.31.0\nbeautifulsoup4==4.12.0\npandas>=1.5.0\n\n# Optional: additional useful packages\nlxml>=4.9.0  # XML parser for BeautifulSoup\nopenpyxl>=3.1.0  # For Excel export\n\n=== How to use ===\n1. Create virtual environment: python -m venv venv\n2. Activate: source venv/bin/activate (Linux/Mac)\n           or venv\\Scripts\\activate (Windows)\n3. Install packages: pip install -r requirements.txt\n4. Start scraping!",
+      "common_mistakes": [
+        {
+          "mistake": "Installing packages globally instead of in venv",
+          "wrong_code": "pip install requests  # In global Python!",
+          "correct_code": "python -m venv venv\nsource venv/bin/activate\npip install requests  # In venv",
+          "explanation": "Always use virtual environments! Global installs cause conflicts between projects."
+        }
+      ]
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**pip = Python package installer.** Installs from PyPI (Python Package Index).",
+        "**Virtual environments isolate projects.** Each project gets its own packages.",
+        "**Create venv:** `python -m venv venv`",
+        "**Activate venv:** `source venv/bin/activate` (Linux/Mac) or `venv\\\\Scripts\\\\activate` (Windows)",
+        "**requirements.txt** lists project dependencies. Create with `pip freeze > requirements.txt`",
+        "**Install from requirements.txt:** `pip install -r requirements.txt`",
+        "**Always use virtual environments!** Prevents version conflicts between projects."
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "What command creates a virtual environment?",
+        "options": [
+          "pip install venv",
+          "python -m venv myenv",
+          "create venv myenv",
+          "virtualenv myenv"
+        ],
+        "correct_answer": 1,
+        "explanation": "python -m venv myenv creates a virtual environment. -m venv means 'run the venv module'."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "What does 'pip freeze > requirements.txt' do?",
+        "options": [
+          "Installs packages",
+          "Saves currently installed packages and versions to requirements.txt",
+          "Freezes Python interpreter",
+          "Updates all packages"
+        ],
+        "correct_answer": 1,
+        "explanation": "pip freeze lists all installed packages with versions. > requirements.txt saves this list to a file for sharing or deployment."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "Why use virtual environments?",
+        "options": [
+          "They make Python faster",
+          "They isolate project dependencies to avoid version conflicts",
+          "They're required by Python",
+          "They reduce disk space"
+        ],
+        "correct_answer": 1,
+        "explanation": "Virtual environments isolate each project's packages. Project A can use Django 3.0, Project B can use Django 4.0 - no conflicts!"
+      }
+    ]
+  }
+}

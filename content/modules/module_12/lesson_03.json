@@ -1,0 +1,112 @@
+{
+  "lesson_id": "12_03",
+  "title": "Context Managers",
+  "module_id": 12,
+  "order_index": 3,
+  "description": "Master context managers for resource management. Learn the with statement, __enter__/__exit__ methods, and the @contextmanager decorator for clean, safe resource handling.",
+  "estimated_minutes": 35,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: Automatic Cleanup",
+      "content": "**Context Managers = Guaranteed cleanup**\n\n**Think of borrowing a library book:**\n- ❌ **Without context manager:**\n  ```\n  1. Check out book\n  2. Read it\n  3. Forget to return it!\n  4. Get fined\n  ```\n\n- ✅ **With context manager:**\n  ```\n  1. Auto check-out when you enter library\n  2. Read\n  3. Auto return when you leave\n  4. No fines!\n  ```\n\n**The problem they solve:**\n```python\n# Easy to forget cleanup!\nfile = open('data.txt')\ndata = file.read()\n# Oops, forgot file.close()!\n# File handle stays open\n```\n\n```python\n# Context manager guarantees cleanup\nwith open('data.txt') as file:\n    data = file.read()\n# File automatically closed, even if error!\n```\n\n**Common use cases:**\n1. **File handling** 📁 - Auto close files\n2. **Database connections** 🗄️ - Auto close connections\n3. **Locks** 🔒 - Auto release locks\n4. **Transactions** 💳 - Auto commit/rollback\n5. **Temporary state** ⏱️ - Auto restore state\n\n**Key benefit:** Cleanup happens EVEN IF ERRORS OCCUR!"
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Understanding with Statement",
+      "code": "print(\"=== Without Context Manager ===\")\n\n# Manual resource management (error-prone)\ndef read_file_manual(filename):\n    file = None\n    try:\n        file = open(filename, 'r')\n        content = file.read()\n        return content\n    except Exception as e:\n        print(f\"Error: {e}\")\n        return None\n    finally:\n        if file:\n            file.close()\n            print(\"File closed manually\")\n\n# Create test file\nwith open('test.txt', 'w') as f:\n    f.write('Hello, World!')\n\nresult = read_file_manual('test.txt')\nprint(f\"Content: {result}\\n\")\n\nprint(\"=== With Context Manager ===\")\n\n# Clean and simple\ndef read_file_context(filename):\n    with open(filename, 'r') as file:\n        content = file.read()\n        return content\n    # File automatically closed here!\n\nresult = read_file_context('test.txt')\nprint(f\"Content: {result}\")\nprint(\"File automatically closed\\n\")\n\nprint(\"=== Context Manager with Error ===\")\n\ntry:\n    with open('test.txt', 'r') as file:\n        content = file.read()\n        print(f\"Read: {content}\")\n        raise ValueError(\"Simulated error!\")\n        print(\"This never executes\")\nexcept ValueError as e:\n    print(f\"Caught: {e}\")\n    print(\"File was still closed automatically!\\n\")\n\nprint(\"=== Multiple Context Managers ===\")\n\n# Create two files\nwith open('input.txt', 'w') as f:\n    f.write('Line 1\\nLine 2\\nLine 3')\n\n# Use multiple context managers\nwith open('input.txt', 'r') as infile, open('output.txt', 'w') as outfile:\n    for line in infile:\n        outfile.write(line.upper())\n    print(\"Copied and uppercased to output.txt\")\n# Both files automatically closed\n\nwith open('output.txt', 'r') as f:\n    print(f\"Output: {f.read()}\")\n\nprint(\"\\n=== What Happens Behind the Scenes ===\")\n\nclass FileSimulator:\n    \"\"\"Simulates what happens with context manager\"\"\"\n    def __init__(self, filename):\n        self.filename = filename\n        self.file = None\n    \n    def __enter__(self):\n        print(f\"  __enter__ called: Opening {self.filename}\")\n        self.file = open(self.filename, 'r')\n        return self.file\n    \n    def __exit__(self, exc_type, exc_val, exc_tb):\n        print(f\"  __exit__ called: Closing {self.filename}\")\n        if self.file:\n            self.file.close()\n        if exc_type:\n            print(f\"  Exception occurred: {exc_type.__name__}: {exc_val}\")\n        return False  # Don't suppress exceptions\n\nprint(\"Using custom FileSimulator:\")\nwith FileSimulator('test.txt') as f:\n    content = f.read()\n    print(f\"  Read content: {content}\")\nprint(\"  Back outside context\\n\")\n\nimport os\nfor filename in ['test.txt', 'input.txt', 'output.txt']:\n    if os.path.exists(filename):\n        os.remove(filename)",
+      "explanation": "**The `with` statement:**\n\n1. **Calls `__enter__()`:**\n   - Runs setup code\n   - Returns resource (file object)\n\n2. **Executes code block:**\n   - Your code runs\n   - Uses the resource\n\n3. **Calls `__exit__()`:**\n   - Runs cleanup code\n   - ALWAYS executes, even on errors\n   - Receives exception info if error occurred\n\n**Multiple context managers:**\n```python\n# Old way\nwith open('a.txt') as f1:\n    with open('b.txt') as f2:\n        ...\n\n# Modern way (Python 3.1+)\nwith open('a.txt') as f1, open('b.txt') as f2:\n    ...\n```",
+      "output": "=== Without Context Manager ===\nFile closed manually\nContent: Hello, World!\n\n=== With Context Manager ===\nContent: Hello, World!\nFile automatically closed\n\n=== Context Manager with Error ===\nRead: Hello, World!\nCaught: Simulated error!\nFile was still closed automatically!\n\n=== Multiple Context Managers ===\nCopied and uppercased to output.txt\nOutput: LINE 1\nLINE 2\nLINE 3\n\n=== What Happens Behind the Scenes ===\nUsing custom FileSimulator:\n  __enter__ called: Opening test.txt\n  Read content: Hello, World!\n  __exit__ called: Closing test.txt\n  Back outside context"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown",
+      "content": "**Basic context manager usage:**\n```python\nwith expression as variable:\n    # Use variable\n    pass\n# Cleanup happened automatically\n```\n\n**Creating context manager (class-based):**\n```python\nclass MyContext:\n    def __enter__(self):\n        # Setup\n        return resource\n    \n    def __exit__(self, exc_type, exc_val, exc_tb):\n        # Cleanup\n        return False  # Don't suppress exceptions\n\nwith MyContext() as resource:\n    # Use resource\n    pass\n```\n\n**__exit__ parameters:**\n- `exc_type`: Exception class (or None)\n- `exc_val`: Exception instance (or None)\n- `exc_tb`: Traceback (or None)\n- Return True to suppress exception\n- Return False/None to propagate exception\n\n**Multiple managers:**\n```python\nwith context1() as c1, context2() as c2:\n    # Use both\n    pass\n```"
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Custom Context Managers",
+      "code": "import time\nfrom contextlib import contextmanager\n\nprint(\"=== Class-Based Context Manager ===\")\n\nclass Timer:\n    \"\"\"Context manager for timing code blocks\"\"\"\n    \n    def __init__(self, name=\"Code block\"):\n        self.name = name\n        self.start_time = None\n        self.elapsed = None\n    \n    def __enter__(self):\n        print(f\"Starting timer: {self.name}\")\n        self.start_time = time.time()\n        return self\n    \n    def __exit__(self, exc_type, exc_val, exc_tb):\n        self.elapsed = time.time() - self.start_time\n        print(f\"Finished: {self.name} took {self.elapsed:.4f}s\")\n        return False\n\nwith Timer(\"Sleep test\"):\n    time.sleep(0.1)\n\nprint()\n\nclass DatabaseConnection:\n    \"\"\"Simulates database connection manager\"\"\"\n    \n    def __init__(self, db_name):\n        self.db_name = db_name\n        self.connected = False\n    \n    def __enter__(self):\n        print(f\"  Connecting to {self.db_name}...\")\n        self.connected = True\n        print(f\"  Connected!\")\n        return self\n    \n    def __exit__(self, exc_type, exc_val, exc_tb):\n        if exc_type:\n            print(f\"  Rolling back due to error: {exc_val}\")\n        else:\n            print(f\"  Committing changes...\")\n        print(f\"  Closing connection to {self.db_name}\")\n        self.connected = False\n        return False\n    \n    def execute(self, query):\n        if not self.connected:\n            raise RuntimeError(\"Not connected!\")\n        print(f\"  Executing: {query}\")\n        return \"Success\"\n\nprint(\"\\nSuccessful transaction:\")\nwith DatabaseConnection(\"users.db\") as db:\n    db.execute(\"SELECT * FROM users\")\n    db.execute(\"UPDATE users SET active=1\")\n\nprint(\"\\nTransaction with error:\")\ntry:\n    with DatabaseConnection(\"users.db\") as db:\n        db.execute(\"SELECT * FROM users\")\n        raise ValueError(\"Something went wrong!\")\n        db.execute(\"This never runs\")\nexcept ValueError:\n    print(\"  Error handled\\n\")\n\nprint(\"=== Function-Based with @contextmanager ===\")\n\n@contextmanager\ndef timer(name):\n    \"\"\"Function-based timer context manager\"\"\"\n    print(f\"Starting: {name}\")\n    start = time.time()\n    try:\n        yield  # Code block runs here\n    finally:\n        elapsed = time.time() - start\n        print(f\"Finished: {name} took {elapsed:.4f}s\")\n\nwith timer(\"Quick operation\"):\n    time.sleep(0.05)\n    print(\"  Doing work...\")\n\nprint()\n\n@contextmanager\ndef temporary_directory_change(path):\n    \"\"\"Temporarily change directory\"\"\"\n    import os\n    original = os.getcwd()\n    print(f\"  Changing to: {path}\")\n    os.chdir(path)\n    try:\n        yield original\n    finally:\n        print(f\"  Restoring to: {original}\")\n        os.chdir(original)\n\nprint(\"Current directory example:\")\nimport os\nprint(f\"Before: {os.getcwd()}\")\nwith temporary_directory_change('/tmp'):\n    print(f\"Inside: {os.getcwd()}\")\nprint(f\"After: {os.getcwd()}\")\n\nprint(\"\\n=== Suppressing Exceptions ===\")\n\nclass IgnoreErrors:\n    \"\"\"Context manager that suppresses exceptions\"\"\"\n    \n    def __init__(self, *exception_types):\n        self.exception_types = exception_types or (Exception,)\n    \n    def __enter__(self):\n        return self\n    \n    def __exit__(self, exc_type, exc_val, exc_tb):\n        if exc_type and issubclass(exc_type, self.exception_types):\n            print(f\"  Suppressed: {exc_type.__name__}: {exc_val}\")\n            return True  # Suppress the exception\n        return False\n\nprint(\"Suppressing ValueError:\")\nwith IgnoreErrors(ValueError):\n    print(\"  Before error\")\n    raise ValueError(\"This will be suppressed\")\n    print(\"  This won't run\")\nprint(\"  Continued after context\\n\")\n\nprint(\"Not suppressing TypeError:\")\ntry:\n    with IgnoreErrors(ValueError):\n        print(\"  Before error\")\n        raise TypeError(\"This will NOT be suppressed\")\nexcept TypeError as e:\n    print(f\"  Caught: {e}\")",
+      "explanation": "**Two ways to create context managers:**\n\n**1. Class-based (more control):**\n```python\nclass MyContext:\n    def __enter__(self): ...\n    def __exit__(self, ...): ...\n```\n- More verbose\n- Full control over behavior\n- Can maintain complex state\n\n**2. Function-based with @contextmanager:**\n```python\n@contextmanager\ndef my_context():\n    # Setup\n    yield resource\n    # Cleanup\n```\n- Simpler syntax\n- Code before yield = __enter__\n- Code after yield = __exit__\n- Must use try/finally for proper cleanup\n\n**Suppressing exceptions:**\n- Return True from __exit__ to suppress\n- Use carefully - can hide bugs!",
+      "output": "=== Class-Based Context Manager ===\nStarting timer: Sleep test\nFinished: Sleep test took 0.1002s\n\nSuccessful transaction:\n  Connecting to users.db...\n  Connected!\n  Executing: SELECT * FROM users\n  Executing: UPDATE users SET active=1\n  Committing changes...\n  Closing connection to users.db\n\nTransaction with error:\n  Connecting to users.db...\n  Connected!\n  Executing: SELECT * FROM users\n  Rolling back due to error: Something went wrong!\n  Closing connection to users.db\n  Error handled\n\n=== Function-Based with @contextmanager ===\nStarting: Quick operation\n  Doing work...\nFinished: Quick operation took 0.0502s\n\nCurrent directory example:\nBefore: /home/user/Python-Training-Course\n  Changing to: /tmp\nInside: /tmp\n  Restoring to: /home/user/Python-Training-Course\nAfter: /home/user/Python-Training-Course\n\n=== Suppressing Exceptions ===\nSuppressing ValueError:\n  Before error\n  Suppressed: ValueError: This will be suppressed\n  Continued after context\n\nNot suppressing TypeError:\n  Before error\n  Caught: This will NOT be suppressed"
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise",
+      "instruction": "Create a ListModifier context manager that:\n- Accepts a list as input\n- Backs up the list on entry\n- Allows modifications in the context\n- Restores the original list if an exception occurs\n- Keeps modifications if no exception",
+      "starter_code": "from contextlib import contextmanager\n\n@contextmanager\ndef list_modifier(lst):\n    # TODO: Backup the list\n    # TODO: Yield to allow modifications\n    # TODO: If exception, restore backup\n    # TODO: If no exception, keep changes\n    pass\n\n# Test your context manager\nmy_list = [1, 2, 3]\n\nprint(f\"Original: {my_list}\")\n\n# Successful modification\nwith list_modifier(my_list):\n    my_list.append(4)\n    my_list.append(5)\n\nprint(f\"After success: {my_list}\")\n\n# Failed modification (should restore)\ntry:\n    with list_modifier(my_list):\n        my_list.append(6)\n        raise ValueError(\"Oops!\")\nexcept ValueError:\n    pass\n\nprint(f\"After failure: {my_list}\")",
+      "hint": "Use list.copy() to backup. In the except block, restore the list using list[:] = backup to modify in-place."
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution",
+      "solution_code": "from contextlib import contextmanager\n\n@contextmanager\ndef list_modifier(lst):\n    \"\"\"Context manager for safe list modifications\"\"\"\n    # Backup the original list\n    backup = lst.copy()\n    \n    try:\n        yield lst  # Allow modifications\n    except Exception as e:\n        # Restore original on error\n        lst[:] = backup\n        print(f\"  Error occurred, restored list: {e}\")\n        raise  # Re-raise the exception\n    else:\n        # Success - changes are kept\n        print(f\"  Changes committed\")\n\nprint(\"=== Testing List Modifier ===\")\n\nmy_list = [1, 2, 3]\nprint(f\"\\nOriginal: {my_list}\")\n\nprint(\"\\nSuccessful modification:\")\nwith list_modifier(my_list):\n    my_list.append(4)\n    my_list.append(5)\n    print(f\"  Inside context: {my_list}\")\n\nprint(f\"After success: {my_list}\")\n\nprint(\"\\nFailed modification (should restore):\")\ntry:\n    with list_modifier(my_list):\n        my_list.append(6)\n        my_list.append(7)\n        print(f\"  Inside context before error: {my_list}\")\n        raise ValueError(\"Simulated error!\")\nexcept ValueError:\n    print(f\"  Exception handled\")\n\nprint(f\"After failure: {my_list}\")\n\nprint(\"\\n=== More Practical Examples ===\")\n\n@contextmanager\ndef atomic_write(filename):\n    \"\"\"Write to temporary file, move on success\"\"\"\n    import os\n    temp_file = filename + '.tmp'\n    \n    try:\n        with open(temp_file, 'w') as f:\n            yield f\n        # Success - move temp to final\n        if os.path.exists(filename):\n            os.remove(filename)\n        os.rename(temp_file, filename)\n        print(f\"  Successfully wrote to {filename}\")\n    except Exception as e:\n        # Error - remove temp file\n        if os.path.exists(temp_file):\n            os.remove(temp_file)\n        print(f\"  Write failed, cleaned up temp file\")\n        raise\n\nprint(\"\\nAtomic file write:\")\nwith atomic_write('data.txt') as f:\n    f.write('Line 1\\n')\n    f.write('Line 2\\n')\n\nwith open('data.txt') as f:\n    print(f\"File contents:\\n{f.read()}\")\n\n@contextmanager\ndef timing_block(name):\n    \"\"\"Enhanced timer with detailed stats\"\"\"\n    import time\n    print(f\"\\n{'='*40}\")\n    print(f\"Starting: {name}\")\n    print('='*40)\n    start = time.time()\n    \n    try:\n        yield\n    finally:\n        elapsed = time.time() - start\n        print('='*40)\n        print(f\"Completed: {name}\")\n        print(f\"Time: {elapsed:.4f} seconds\")\n        print('='*40)\n\nwith timing_block(\"Data processing\"):\n    total = sum(range(1000000))\n    print(f\"  Calculated sum: {total}\")\n\n@contextmanager\ndef suppress_stdout():\n    \"\"\"Temporarily redirect stdout\"\"\"\n    import sys\n    from io import StringIO\n    \n    old_stdout = sys.stdout\n    sys.stdout = StringIO()\n    \n    try:\n        yield\n    finally:\n        sys.stdout = old_stdout\n\nprint(\"\\nSuppressing output:\")\nprint(\"Before suppression\")\nwith suppress_stdout():\n    print(\"This won't appear!\")\n    print(\"Neither will this!\")\nprint(\"After suppression\")\n\nimport os\nif os.path.exists('data.txt'):\n    os.remove('data.txt')",
+      "explanation": "**Complete context manager solution with:**\n\n**List modifier features:**\n- Backs up list with copy()\n- Uses try/except/else pattern\n- Restores on exception\n- Keeps changes on success\n- Re-raises exceptions\n\n**Advanced patterns:**\n\n**1. Atomic writes:**\n- Write to temp file\n- Move to final on success\n- Delete temp on error\n\n**2. Timing blocks:**\n- Detailed timing info\n- Always runs cleanup\n\n**3. State restoration:**\n- Backup original state\n- Restore on error\n\n**Best practices:**\n- Always use try/finally\n- Re-raise exceptions unless explicitly suppressing\n- Clean up resources even on error",
+      "output": "=== Testing List Modifier ===\n\nOriginal: [1, 2, 3]\n\nSuccessful modification:\n  Inside context: [1, 2, 3, 4, 5]\n  Changes committed\nAfter success: [1, 2, 3, 4, 5]\n\nFailed modification (should restore):\n  Inside context before error: [1, 2, 3, 4, 5, 6, 7]\n  Error occurred, restored list: Simulated error!\n  Exception handled\nAfter failure: [1, 2, 3, 4, 5]\n\n=== More Practical Examples ===\n\nAtomic file write:\n  Successfully wrote to data.txt\nFile contents:\nLine 1\nLine 2\n\n========================================\nStarting: Data processing\n========================================\n  Calculated sum: 499999500000\n========================================\nCompleted: Data processing\nTime: 0.0234 seconds\n========================================\n\nSuppressing output:\nBefore suppression\nAfter suppression",
+      "common_mistakes": [
+        "Forgetting to return False from __exit__ (accidentally suppresses exceptions)",
+        "Not using try/finally in @contextmanager decorators",
+        "Forgetting to yield in generator-based context managers",
+        "Not handling the case where __enter__ fails",
+        "Modifying mutable objects without backing up properly"
+      ]
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Context managers guarantee cleanup** - Even if exceptions occur",
+        "**with statement calls __enter__ and __exit__** - Automatic resource management",
+        "**Two ways to create:** Class-based or @contextmanager decorator",
+        "**@contextmanager is simpler** - Code before yield = setup, after = cleanup",
+        "**__exit__ receives exception info** - Can suppress by returning True",
+        "**Always use try/finally** - Ensures cleanup code runs",
+        "**Common uses:** files, database connections, locks, temporary state",
+        "**Multiple contexts:** with ctx1() as a, ctx2() as b: ..."
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "What is the main benefit of using context managers?",
+        "options": [
+          "They make code run faster",
+          "They guarantee cleanup code runs, even if exceptions occur",
+          "They prevent all errors",
+          "They automatically fix bugs"
+        ],
+        "correct_answer": 1,
+        "explanation": "Context managers guarantee that cleanup code (like closing files) runs even if an exception occurs, preventing resource leaks."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "What does the __exit__ method need to return to suppress an exception?",
+        "options": [
+          "None",
+          "False",
+          "True",
+          "The exception"
+        ],
+        "correct_answer": 2,
+        "explanation": "__exit__ must return True to suppress the exception. Returning False or None will propagate the exception normally."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "When using @contextmanager, where does the code block inside 'with' execute?",
+        "options": [
+          "Before the yield statement",
+          "After the yield statement",
+          "At the yield statement",
+          "In a separate thread"
+        ],
+        "correct_answer": 2,
+        "explanation": "With @contextmanager, code before yield is setup (__enter__), the block executes at yield, and code after yield is cleanup (__exit__)."
+      }
+    ]
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "lesson_id": "10_06",
+  "title": "Mini-Project: Python Project Initializer",
+  "module_id": 10,
+  "order_index": 6,
+  "description": "Build a complete project initializer that creates Python project structures, manages dependencies, and demonstrates proper module organization. Combines all Module 10 concepts into a practical tool.",
+  "estimated_minutes": 45,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "Project Overview",
+      "content": "**Build a Project Initializer Tool!**\n\nYou'll create a CLI tool that sets up new Python projects with:\n- Proper package structure\n- Custom modules\n- requirements.txt with popular packages\n- Virtual environment instructions\n- Example code using third-party libraries\n\n**What you'll practice:**\n- Creating packages with `__init__.py`\n- Writing reusable modules\n- Managing dependencies\n- Importing and using modules\n- Project organization best practices\n\n**Project Structure:**\n```\nproject_initializer/\n├── __init__.py\n├── templates/\n│   ├── __init__.py\n│   ├── web_template.py\n│   └── data_template.py\n├── utils/\n│   ├── __init__.py\n│   ├── file_utils.py\n│   └── package_checker.py\n└── main.py\n```\n\n**Features:**\n1. Choose project type (web, data science, general)\n2. Generate appropriate folder structure\n3. Create requirements.txt with relevant packages\n4. Generate sample code files\n5. Display setup instructions"
+    },
+    {
+      "type": "the_coder",
+      "title": "Step 1: File Utilities Module",
+      "code": "# project_initializer/utils/file_utils.py\n\"\"\"Utility functions for file and directory operations.\"\"\"\n\nfrom pathlib import Path\nimport json\n\ndef create_directory_structure(base_path, structure):\n    \"\"\"Create directories from a nested dictionary structure.\n    \n    Args:\n        base_path: Root directory path\n        structure: Dict representing folder structure\n    \n    Example:\n        structure = {\n            'src': {\n                'utils': {},\n                'models': {}\n            }\n        }\n    \"\"\"\n    base = Path(base_path)\n    base.mkdir(exist_ok=True)\n    \n    for name, subdirs in structure.items():\n        dir_path = base / name\n        dir_path.mkdir(exist_ok=True)\n        print(f\"✓ Created: {dir_path}\")\n        \n        if subdirs:\n            create_directory_structure(dir_path, subdirs)\n\ndef write_file(path, content):\n    \"\"\"Write content to a file.\"\"\"\n    file_path = Path(path)\n    file_path.parent.mkdir(parents=True, exist_ok=True)\n    file_path.write_text(content)\n    print(f\"✓ Created: {file_path}\")\n\ndef create_init_file(directory, content=\"\"):\n    \"\"\"Create __init__.py file in directory.\"\"\"\n    init_path = Path(directory) / \"__init__.py\"\n    init_path.write_text(content)\n    print(f\"✓ Created: {init_path}\")\n\nif __name__ == \"__main__\":\n    # Test the module\n    print(\"Testing file_utils module...\\n\")\n    \n    test_structure = {\n        'test_project': {\n            'src': {},\n            'tests': {}\n        }\n    }\n    \n    create_directory_structure('temp', test_structure)\n    print(\"\\n✓ Module works correctly!\")",
+      "explanation": "**file_utils.py** provides reusable file operations:\n- `create_directory_structure()`: Recursively creates folders\n- `write_file()`: Safely writes files\n- `create_init_file()`: Creates `__init__.py` files\n- Uses pathlib for cross-platform paths\n- `if __name__ == '__main__':` allows testing the module",
+      "output": "Testing file_utils module...\n\n✓ Created: temp/test_project\n✓ Created: temp/test_project/src\n✓ Created: temp/test_project/tests\n\n✓ Module works correctly!"
+    },
+    {
+      "type": "the_coder",
+      "title": "Step 2: Package Templates Module",
+      "code": "# project_initializer/templates/web_template.py\n\"\"\"Templates for web development projects.\"\"\"\n\nREQUIREMENTS = \"\"\"\n# Web Development Dependencies\nflask>=3.0.0\nrequests>=2.31.0\npython-dotenv>=1.0.0\npytest>=7.4.0\n\"\"\".strip()\n\nSTRUCTURE = {\n    'app': {\n        'routes': {},\n        'models': {},\n        'static': {\n            'css': {},\n            'js': {}\n        },\n        'templates': {}\n    },\n    'tests': {}\n}\n\nMAIN_CODE = '''\nfrom flask import Flask, jsonify\nfrom dotenv import load_dotenv\nimport os\n\nload_dotenv()\n\napp = Flask(__name__)\napp.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-key-change-this')\n\n@app.route('/')\ndef home():\n    return jsonify({\n        'message': 'Welcome to your Flask API!',\n        'status': 'running'\n    })\n\n@app.route('/api/health')\ndef health():\n    return jsonify({'status': 'healthy'})\n\nif __name__ == '__main__':\n    app.run(debug=True, port=5000)\n'''\n\nENV_TEMPLATE = \"\"\"\n# Environment Variables\nSECRET_KEY=your-secret-key-here\nDATABASE_URL=sqlite:///app.db\nDEBUG=True\n\"\"\".strip()\n\ndef get_template():\n    \"\"\"Return complete web project template.\"\"\"\n    return {\n        'requirements': REQUIREMENTS,\n        'structure': STRUCTURE,\n        'main_code': MAIN_CODE,\n        'env': ENV_TEMPLATE,\n        'description': 'Flask web application with API endpoints'\n    }\n\n# project_initializer/templates/data_template.py\n\"\"\"Templates for data science projects.\"\"\"\n\nREQUIREMENTS = \"\"\"\n# Data Science Dependencies\npandas>=2.0.0\nnumpy>=1.24.0\nmatplotlib>=3.7.0\nseaborn>=0.12.0\njupyter>=1.0.0\npytest>=7.4.0\n\"\"\".strip()\n\nSTRUCTURE = {\n    'data': {\n        'raw': {},\n        'processed': {}\n    },\n    'notebooks': {},\n    'src': {\n        'analysis': {},\n        'visualization': {}\n    },\n    'tests': {}\n}\n\nMAIN_CODE = '''\nimport pandas as pd\nimport matplotlib.pyplot as plt\nfrom pathlib import Path\n\ndef load_data(filepath):\n    \"\"\"Load data from CSV file.\"\"\"\n    return pd.read_csv(filepath)\n\ndef analyze_data(df):\n    \"\"\"Perform basic data analysis.\"\"\"\n    print(\"Dataset Info:\")\n    print(f\"Rows: {len(df)}\")\n    print(f\"Columns: {len(df.columns)}\")\n    print(\"\\nSummary Statistics:\")\n    print(df.describe())\n    return df.describe()\n\ndef visualize_data(df, column):\n    \"\"\"Create visualization for a column.\"\"\"\n    plt.figure(figsize=(10, 6))\n    df[column].hist(bins=30)\n    plt.title(f'Distribution of {column}')\n    plt.xlabel(column)\n    plt.ylabel('Frequency')\n    plt.savefig(f'output_{column}.png')\n    print(f\"✓ Saved visualization: output_{column}.png\")\n\nif __name__ == '__main__':\n    print(\"Data Analysis Pipeline Ready!\")\n    print(\"Place your CSV files in the data/raw/ directory\")\n'''\n\ndef get_template():\n    \"\"\"Return complete data science project template.\"\"\"\n    return {\n        'requirements': REQUIREMENTS,\n        'structure': STRUCTURE,\n        'main_code': MAIN_CODE,\n        'description': 'Data science project with pandas and visualization'\n    }",
+      "explanation": "**Template modules** define project blueprints:\n- Each template is a separate module\n- Exports: requirements, folder structure, starter code\n- `get_template()` function returns complete configuration\n- Demonstrates module organization and reusability",
+      "output": "(Module definitions - no output when imported)"
+    },
+    {
+      "type": "the_coder",
+      "title": "Step 3: Package Initialization Files",
+      "code": "# project_initializer/__init__.py\n\"\"\"Python Project Initializer Package.\n\nA tool for quickly setting up new Python projects with proper structure,\ndependencies, and example code.\n\"\"\"\n\n__version__ = '1.0.0'\n__author__ = 'Your Name'\n\n# Import main functionality\nfrom .utils.file_utils import create_directory_structure, write_file\nfrom .templates import web_template, data_template\n\n# Define what gets imported with 'from project_initializer import *'\n__all__ = [\n    'create_directory_structure',\n    'write_file',\n    'web_template',\n    'data_template',\n    'create_project'\n]\n\ndef create_project(project_name, project_type='general'):\n    \"\"\"Convenience function to create a new project.\"\"\"\n    print(f\"Creating {project_type} project: {project_name}\")\n    # Implementation in main.py\n\nprint(f\"Project Initializer v{__version__} loaded\")\n\n# project_initializer/utils/__init__.py\n\"\"\"Utility modules for project initialization.\"\"\"\n\nfrom .file_utils import (\n    create_directory_structure,\n    write_file,\n    create_init_file\n)\n\n__all__ = ['create_directory_structure', 'write_file', 'create_init_file']\n\n# project_initializer/templates/__init__.py\n\"\"\"Project templates for different types of Python projects.\"\"\"\n\nfrom . import web_template\nfrom . import data_template\n\nTEMPLATES = {\n    'web': web_template,\n    'data': data_template\n}\n\ndef get_available_templates():\n    \"\"\"Return list of available project templates.\"\"\"\n    return list(TEMPLATES.keys())\n\ndef get_template(template_type):\n    \"\"\"Get template configuration by type.\"\"\"\n    if template_type in TEMPLATES:\n        return TEMPLATES[template_type].get_template()\n    raise ValueError(f\"Unknown template: {template_type}\")\n\n__all__ = ['TEMPLATES', 'get_available_templates', 'get_template']",
+      "explanation": "**__init__.py files** define package interfaces:\n- Main `__init__.py`: Package metadata, version, convenient imports\n- `utils/__init__.py`: Exports utility functions\n- `templates/__init__.py`: Template registry and getter functions\n- `__all__` controls what's exported\n- Runs initialization code when package is imported",
+      "output": "Project Initializer v1.0.0 loaded"
+    },
+    {
+      "type": "the_coder",
+      "title": "Step 4: Main Application",
+      "code": "# project_initializer/main.py\n\"\"\"Main entry point for project initializer.\"\"\"\n\nfrom pathlib import Path\nimport sys\n\n# Import from our package\nfrom utils.file_utils import create_directory_structure, write_file, create_init_file\nfrom templates import get_available_templates, get_template\n\ndef create_project(project_name, template_type='web'):\n    \"\"\"Create a new Python project from template.\n    \n    Args:\n        project_name: Name of the project\n        template_type: Type of template ('web' or 'data')\n    \"\"\"\n    print(f\"\\n{'='*50}\")\n    print(f\"Creating {template_type.upper()} project: {project_name}\")\n    print('='*50 + '\\n')\n    \n    # Get template configuration\n    try:\n        template = get_template(template_type)\n    except ValueError as e:\n        print(f\"Error: {e}\")\n        print(f\"Available templates: {', '.join(get_available_templates())}\")\n        return\n    \n    # Create base directory\n    project_path = Path(project_name)\n    if project_path.exists():\n        print(f\"Error: Directory '{project_name}' already exists!\")\n        return\n    \n    project_path.mkdir()\n    print(f\"✓ Created project directory: {project_name}\\n\")\n    \n    # Create folder structure\n    print(\"Creating directory structure...\")\n    create_directory_structure(project_path, template['structure'])\n    \n    # Create __init__.py files for Python packages\n    print(\"\\nCreating package files...\")\n    for folder in ['app', 'src', 'tests'] if template_type == 'web' else ['src', 'tests']:\n        folder_path = project_path / folder\n        if folder_path.exists():\n            create_init_file(folder_path)\n    \n    # Write main application file\n    print(\"\\nCreating main application...\")\n    main_file = project_path / ('app.py' if template_type == 'web' else 'main.py')\n    write_file(main_file, template['main_code'])\n    \n    # Write requirements.txt\n    print(\"\\nCreating requirements.txt...\")\n    write_file(project_path / 'requirements.txt', template['requirements'])\n    \n    # Write .env file for web projects\n    if template_type == 'web' and 'env' in template:\n        print(\"Creating .env template...\")\n        write_file(project_path / '.env.example', template['env'])\n    \n    # Create README\n    readme_content = f\"\"\"# {project_name}\n\n{template['description']}\n\n## Setup\n\n1. Create virtual environment:\n   ```bash\n   python -m venv venv\n   source venv/bin/activate  # On Windows: venv\\\\Scripts\\\\activate\n   ```\n\n2. Install dependencies:\n   ```bash\n   pip install -r requirements.txt\n   ```\n\n3. Run the application:\n   ```bash\n   python {'app.py' if template_type == 'web' else 'main.py'}\n   ```\n\n## Project Structure\n\nGenerated using Python Project Initializer.\n\"\"\"\n    write_file(project_path / 'README.md', readme_content)\n    \n    # Success message\n    print(\"\\n\" + \"=\"*50)\n    print(\"✓ Project created successfully!\")\n    print(\"=\"*50)\n    print(f\"\\nNext steps:\")\n    print(f\"1. cd {project_name}\")\n    print(f\"2. python -m venv venv\")\n    print(f\"3. source venv/bin/activate\")\n    print(f\"4. pip install -r requirements.txt\")\n    print(f\"5. python {'app.py' if template_type == 'web' else 'main.py'}\")\n    print(\"\\nHappy coding! 🚀\\n\")\n\ndef main():\n    \"\"\"Main CLI interface.\"\"\"\n    print(\"\\n\" + \"=\"*50)\n    print(\"Python Project Initializer\")\n    print(\"=\"*50)\n    \n    # Get project name\n    if len(sys.argv) > 1:\n        project_name = sys.argv[1]\n    else:\n        project_name = input(\"\\nProject name: \").strip()\n    \n    if not project_name:\n        print(\"Error: Project name required!\")\n        return\n    \n    # Get project type\n    print(f\"\\nAvailable templates: {', '.join(get_available_templates())}\")\n    if len(sys.argv) > 2:\n        template_type = sys.argv[2]\n    else:\n        template_type = input(\"Template type (web/data) [web]: \").strip() or 'web'\n    \n    # Create the project\n    create_project(project_name, template_type)\n\nif __name__ == '__main__':\n    main()",
+      "explanation": "**Main application** ties everything together:\n- Imports from our custom packages\n- Uses template modules to get configurations\n- Uses file_utils to create structure\n- Demonstrates practical module usage\n- CLI interface with `if __name__ == '__main__':`\n- Can be run as script or imported as module",
+      "output": "==================================================\nPython Project Initializer\n==================================================\n\nProject name: my_web_app\n\nAvailable templates: web, data\nTemplate type (web/data) [web]: web\n\n==================================================\nCreating WEB project: my_web_app\n==================================================\n\n✓ Created project directory: my_web_app\n\nCreating directory structure...\n✓ Created: my_web_app/app\n✓ Created: my_web_app/app/routes\n✓ Created: my_web_app/app/models\n✓ Created: my_web_app/app/static\n✓ Created: my_web_app/app/static/css\n✓ Created: my_web_app/app/static/js\n✓ Created: my_web_app/app/templates\n✓ Created: my_web_app/tests\n\nCreating package files...\n✓ Created: my_web_app/app/__init__.py\n✓ Created: my_web_app/tests/__init__.py\n\nCreating main application...\n✓ Created: my_web_app/app.py\n\nCreating requirements.txt...\n✓ Created: my_web_app/requirements.txt\n\nCreating .env template...\n✓ Created: my_web_app/.env.example\n✓ Created: my_web_app/README.md\n\n==================================================\n✓ Project created successfully!\n==================================================\n\nNext steps:\n1. cd my_web_app\n2. python -m venv venv\n3. source venv/bin/activate\n4. pip install -r requirements.txt\n5. python app.py\n\nHappy coding! 🚀"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "How It All Works Together",
+      "content": "**Module Organization:**\n\n```\nproject_initializer/          # Main package\n├── __init__.py              # Package interface, metadata\n├── main.py                  # Entry point (can run standalone)\n├── utils/                   # Utilities package\n│   ├── __init__.py         # Exports utility functions\n│   └── file_utils.py       # File operations module\n└── templates/               # Templates package\n    ├── __init__.py         # Template registry\n    ├── web_template.py     # Web project template\n    └── data_template.py    # Data science template\n```\n\n**Import Chain:**\n1. `main.py` imports from `utils` and `templates`\n2. `utils/__init__.py` imports from `file_utils.py`\n3. `templates/__init__.py` imports from template modules\n4. Each `__init__.py` exposes clean API via `__all__`\n\n**Running the Project:**\n```bash\n# As a script\npython project_initializer/main.py my_project web\n\n# Or import as package\npython -c \"from project_initializer import create_project; create_project('test', 'data')\"\n```\n\n**Key Concepts Demonstrated:**\n- ✓ Package structure with `__init__.py`\n- ✓ Relative imports within package\n- ✓ Module reusability\n- ✓ `if __name__ == '__main__':` pattern\n- ✓ Dependency management (requirements.txt)\n- ✓ Virtual environment workflow"
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Packages = directories with __init__.py** - Organize related modules together",
+        "**__init__.py controls package interface** - Use __all__ to define public API",
+        "**Modules are reusable** - Write once, import anywhere in your package",
+        "**if __name__ == '__main__':' is essential** - Test modules independently",
+        "**requirements.txt manages dependencies** - Document what packages your project needs",
+        "**Virtual environments isolate projects** - Each project gets its own package versions",
+        "**Proper structure scales** - Start organized, stay organized as project grows",
+        "**Import from packages with dot notation** - from .module import function for relative imports"
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "What makes a directory a Python package?",
+        "options": [
+          "Having .py files in it",
+          "Having an __init__.py file",
+          "Being named 'package'",
+          "Containing modules"
+        ],
+        "correct_answer": 1,
+        "explanation": "A directory becomes a Python package when it contains an __init__.py file. This file can be empty or contain initialization code."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "In the project structure, what does 'from .utils import file_utils' mean?",
+        "options": [
+          "Import from the current directory",
+          "Import from the utils package in the same parent package",
+          "Import from a global utils package",
+          "Import everything from utils"
+        ],
+        "correct_answer": 1,
+        "explanation": "The dot (.) indicates a relative import from the current package. 'from .utils' imports from the utils subpackage within the same parent package."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "Why use virtual environments for projects?",
+        "options": [
+          "To make code run faster",
+          "To isolate project dependencies",
+          "To share code with others",
+          "To create backups"
+        ],
+        "correct_answer": 1,
+        "explanation": "Virtual environments isolate each project's dependencies, preventing version conflicts between projects. Each project can have its own package versions."
+      }
+    ]
+  }
+}

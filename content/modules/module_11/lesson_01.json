@@ -1,0 +1,104 @@
+{
+  "lesson_id": "11_01",
+  "title": "Introduction to Classes and Objects",
+  "module_id": 11,
+  "order_index": 1,
+  "description": "Learn the fundamentals of object-oriented programming. Understand what classes and objects are, why they're useful, and how to create your first class.",
+  "estimated_minutes": 25,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: Blueprint vs. House",
+      "content": "**Think of it like houses:**\n\n- **Class** = Blueprint 📋\n  - The design/template\n  - Defines what a house should have (rooms, doors, windows)\n  - You can't live in a blueprint!\n\n- **Object** = Actual House 🏠\n  - Built from the blueprint\n  - Each house can have different colors, sizes, furniture\n  - You can have many houses from one blueprint\n\n**Example:**\n- **Class: Dog** (blueprint)\n  - All dogs have: name, age, breed\n  - All dogs can: bark, eat, sleep\n\n- **Objects: Actual dogs** (instances)\n  - Buddy (3 years old, Golden Retriever)\n  - Max (5 years old, Beagle)\n  - Luna (2 years old, Husky)\n\n**Why use classes?**\n1. **Organization** - Group related data and functions\n2. **Reusability** - Create multiple objects from one class\n3. **Modeling** - Represent real-world things in code\n4. **Maintenance** - Change blueprint, all objects benefit"
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Your First Class",
+      "code": "# Define a class (blueprint)\nclass Dog:\n    # Constructor - runs when creating a new dog\n    def __init__(self, name, age, breed):\n        # Instance attributes (each dog has their own)\n        self.name = name\n        self.age = age\n        self.breed = breed\n    \n    # Instance method (behavior)\n    def bark(self):\n        return f\"{self.name} says: Woof! Woof!\"\n    \n    def birthday(self):\n        self.age += 1\n        return f\"Happy birthday {self.name}! Now {self.age} years old.\"\n    \n    def info(self):\n        return f\"{self.name} is a {self.age}-year-old {self.breed}\"\n\n# Create objects (actual dogs)\ndog1 = Dog(\"Buddy\", 3, \"Golden Retriever\")\ndog2 = Dog(\"Max\", 5, \"Beagle\")\ndog3 = Dog(\"Luna\", 2, \"Husky\")\n\nprint(\"=== Dog Objects ===\")\nprint(dog1.info())\nprint(dog2.info())\nprint(dog3.info())\n\nprint(\"\\n=== Dogs Barking ===\")\nprint(dog1.bark())\nprint(dog2.bark())\nprint(dog3.bark())\n\nprint(\"\\n=== Birthday Time ===\")\nprint(dog1.birthday())\nprint(f\"Updated info: {dog1.info()}\")\n\n# Accessing attributes\nprint(\"\\n=== Accessing Attributes ===\")\nprint(f\"Dog 2's name: {dog2.name}\")\nprint(f\"Dog 3's age: {dog3.age}\")\n\n# Modifying attributes\ndog2.breed = \"Beagle Mix\"\nprint(f\"Updated: {dog2.info()}\")",
+      "explanation": "**Key components:**\n- `class Dog:` - Defines the class (blueprint)\n- `__init__()` - Constructor, runs when creating object\n- `self` - Refers to the current object instance\n- `self.name` - Instance attribute (unique to each object)\n- Methods - Functions inside a class\n- `Dog(...)` - Creates a new object (instance)\n\n**The `self` parameter:**\n- First parameter of every instance method\n- Python automatically passes it\n- Refers to the specific object calling the method",
+      "output": "=== Dog Objects ===\nBuddy is a 3-year-old Golden Retriever\nMax is a 5-year-old Beagle\nLuna is a 2-year-old Husky\n\n=== Dogs Barking ===\nBuddy says: Woof! Woof!\nMax says: Woof! Woof!\nLuna says: Woof! Woof!\n\n=== Birthday Time ===\nHappy birthday Buddy! Now 4 years old.\nUpdated info: Buddy is a 4-year-old Golden Retriever\n\n=== Accessing Attributes ===\nDog 2's name: Max\nDog 3's age: 2\nUpdated: Max is a 5-year-old Beagle Mix"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown",
+      "content": "**Class definition:**\n```python\nclass ClassName:\n    def __init__(self, parameters):\n        self.attribute = value\n    \n    def method_name(self):\n        # do something\n        return result\n```\n\n**Creating objects:**\n```python\nobj = ClassName(arguments)\n```\n\n**Key terms:**\n- **Class** - The blueprint/template\n- **Object/Instance** - Specific creation from the class\n- **`__init__()`** - Constructor method (initializer)\n- **`self`** - Reference to the current instance\n- **Attribute** - Variable belonging to object (self.name)\n- **Method** - Function belonging to class\n\n**Naming conventions:**\n- Classes: `CapitalCase` (Dog, BankAccount)\n- Methods: `snake_case` (bark, get_balance)\n- Attributes: `snake_case` (name, account_number)"
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise",
+      "instruction": "Create a BankAccount class with:\n- Attributes: account_holder, balance\n- Methods: deposit, withdraw, get_balance\n- Create two account objects and perform transactions",
+      "starter_code": "class BankAccount:\n    def __init__(self, account_holder, initial_balance=0):\n        # TODO: Set account_holder and balance attributes\n        pass\n    \n    def deposit(self, amount):\n        # TODO: Add amount to balance\n        pass\n    \n    def withdraw(self, amount):\n        # TODO: Subtract amount if sufficient balance\n        # Return True if successful, False if insufficient funds\n        pass\n    \n    def get_balance(self):\n        # TODO: Return current balance\n        pass\n\n# TODO: Create two accounts\n# TODO: Perform deposits and withdrawals\n# TODO: Print balances",
+      "hint": "Remember to use self.attribute_name to access instance attributes. Check if balance is sufficient before withdrawing."
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution",
+      "solution_code": "class BankAccount:\n    def __init__(self, account_holder, initial_balance=0):\n        self.account_holder = account_holder\n        self.balance = initial_balance\n        print(f\"Account created for {account_holder} with ${initial_balance}\")\n    \n    def deposit(self, amount):\n        if amount > 0:\n            self.balance += amount\n            print(f\"{self.account_holder} deposited ${amount}. New balance: ${self.balance}\")\n        else:\n            print(\"Deposit amount must be positive\")\n    \n    def withdraw(self, amount):\n        if amount <= 0:\n            print(\"Withdrawal amount must be positive\")\n            return False\n        \n        if amount <= self.balance:\n            self.balance -= amount\n            print(f\"{self.account_holder} withdrew ${amount}. New balance: ${self.balance}\")\n            return True\n        else:\n            print(f\"Insufficient funds! Balance: ${self.balance}, Requested: ${amount}\")\n            return False\n    \n    def get_balance(self):\n        return self.balance\n    \n    def __str__(self):\n        return f\"Account({self.account_holder}): ${self.balance}\"\n\n# Create accounts\nprint(\"=== Creating Accounts ===\")\nalice = BankAccount(\"Alice\", 1000)\nbob = BankAccount(\"Bob\", 500)\n\nprint(\"\\n=== Transactions ===\")\nalice.deposit(500)\nbob.deposit(200)\n\nalice.withdraw(300)\nbob.withdraw(1000)  # Insufficient funds\n\nprint(\"\\n=== Final Balances ===\")\nprint(f\"Alice: ${alice.get_balance()}\")\nprint(f\"Bob: ${bob.get_balance()}\")\n\nprint(\"\\n=== Using __str__ method ===\")\nprint(alice)\nprint(bob)",
+      "explanation": "**Complete BankAccount class with:**\n- `__init__`: Initializes account holder and balance\n- `deposit`: Adds to balance with validation\n- `withdraw`: Removes from balance if sufficient funds\n- `get_balance`: Returns current balance\n- `__str__`: Special method for string representation\n\n**Key points:**\n- Use `self.` to access instance attributes\n- Validate inputs (positive amounts, sufficient balance)\n- Return values from methods for success/failure\n- `__str__` method customizes how object prints",
+      "output": "=== Creating Accounts ===\nAccount created for Alice with $1000\nAccount created for Bob with $500\n\n=== Transactions ===\nAlice deposited $500. New balance: $1500\nBob deposited $200. New balance: $700\nAlice withdrew $300. New balance: $1200\nInsufficient funds! Balance: $700, Requested: $1000\n\n=== Final Balances ===\nAlice: $1200\nBob: $700\n\n=== Using __str__ method ===\nAccount(Alice): $1200\nAccount(Bob): $700",
+      "common_mistakes": [
+        "Forgetting 'self' parameter in methods",
+        "Forgetting 'self.' when accessing attributes",
+        "Trying to access attributes outside methods without object reference",
+        "Not returning values from methods that should return something"
+      ]
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Class = Blueprint, Object = Instance** - One class, many objects",
+        "**__init__() is the constructor** - Runs when creating new object",
+        "**self refers to the current instance** - Must be first parameter",
+        "**Attributes store data** (self.name) - Each object has its own",
+        "**Methods define behavior** - Functions inside classes",
+        "**Create objects with ClassName(args)** - Calls __init__()",
+        "**Access with dot notation** - obj.attribute, obj.method()",
+        "**Classes organize related code** - Data + behavior together"
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "What is the difference between a class and an object?",
+        "options": [
+          "There is no difference",
+          "A class is a blueprint, an object is an instance created from that blueprint",
+          "An object is a blueprint, a class is an instance",
+          "Classes are for data, objects are for functions"
+        ],
+        "correct_answer": 1,
+        "explanation": "A class is a blueprint or template that defines structure and behavior. An object is a specific instance created from that class, with its own data."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "What is the purpose of the __init__ method?",
+        "options": [
+          "To delete an object",
+          "To initialize object attributes when creating a new instance",
+          "To start the program",
+          "To import modules"
+        ],
+        "correct_answer": 1,
+        "explanation": "__init__ is the constructor method that runs automatically when creating a new object. It initializes the object's attributes with starting values."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "What does 'self' represent in a class method?",
+        "options": [
+          "The class itself",
+          "The current instance of the object",
+          "All instances of the class",
+          "The method name"
+        ],
+        "correct_answer": 1,
+        "explanation": "'self' refers to the specific instance of the object that called the method. It allows each object to access its own attributes and methods."
+      }
+    ]
+  }
+}

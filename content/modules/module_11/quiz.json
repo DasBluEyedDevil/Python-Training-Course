@@ -1,0 +1,269 @@
+{
+  "quiz_id": 11,
+  "module_id": 11,
+  "title": "Module 11: Object-Oriented Programming - Comprehensive Quiz",
+  "description": "Test your understanding of OOP concepts: classes, objects, inheritance, polymorphism, encapsulation, and properties. 70% required to pass.",
+  "passing_score": 70,
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": "What is a class in object-oriented programming?",
+      "options": [
+        "A specific instance of an object",
+        "A blueprint or template for creating objects",
+        "A collection of functions",
+        "A type of variable"
+      ],
+      "correct_answer": 1,
+      "explanation": "A class is a blueprint or template that defines the structure and behavior of objects. You create multiple objects (instances) from one class."
+    },
+    {
+      "id": 2,
+      "type": "multiple_choice",
+      "question": "What does the __init__ method do?",
+      "options": [
+        "Deletes an object",
+        "Initializes a new object's attributes when it's created",
+        "Ends a program",
+        "Imports modules"
+      ],
+      "correct_answer": 1,
+      "explanation": "__init__ is the constructor method that runs automatically when creating a new object. It initializes the object's attributes with starting values."
+    },
+    {
+      "id": 3,
+      "type": "multiple_choice",
+      "question": "What does 'self' represent in a class method?",
+      "options": [
+        "The class itself",
+        "The specific instance of the object",
+        "All instances of the class",
+        "The parent class"
+      ],
+      "correct_answer": 1,
+      "explanation": "'self' refers to the specific instance of the object. It allows each object to access its own attributes and methods."
+    },
+    {
+      "id": 4,
+      "type": "multiple_choice",
+      "question": "What's the difference between instance and class attributes?",
+      "options": [
+        "No difference",
+        "Instance attributes are unique to each object, class attributes are shared by all",
+        "Class attributes are unique, instance attributes are shared",
+        "Instance attributes are faster"
+      ],
+      "correct_answer": 1,
+      "explanation": "Instance attributes (self.x) are unique to each object and set in __init__. Class attributes are defined in the class body and shared by all instances."
+    },
+    {
+      "id": 5,
+      "type": "multiple_choice",
+      "question": "What is a class method and how is it defined?",
+      "options": [
+        "Any method in a class",
+        "A method decorated with @classmethod that receives cls instead of self",
+        "A method that creates classes",
+        "A private method"
+      ],
+      "correct_answer": 1,
+      "explanation": "A class method is decorated with @classmethod and receives 'cls' (the class) as its first parameter instead of 'self'. Often used for alternative constructors."
+    },
+    {
+      "id": 6,
+      "type": "multiple_choice",
+      "question": "What is a static method?",
+      "options": [
+        "A method that never changes",
+        "A method decorated with @staticmethod that doesn't receive self or cls",
+        "A method that can only be called once",
+        "A class attribute"
+      ],
+      "correct_answer": 1,
+      "explanation": "Static methods are decorated with @staticmethod and don't receive self or cls. They're utility functions organized within a class but don't access instance or class data."
+    },
+    {
+      "id": 7,
+      "type": "multiple_choice",
+      "question": "How do you create inheritance in Python?",
+      "options": [
+        "class Child inherits Parent:",
+        "class Child(Parent):",
+        "class Child extends Parent:",
+        "class Child from Parent:"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use 'class Child(Parent):' to create inheritance. The child class inherits all attributes and methods from the parent class."
+    },
+    {
+      "id": 8,
+      "type": "multiple_choice",
+      "question": "What does super().__init__() do?",
+      "options": [
+        "Deletes the parent class",
+        "Calls the parent class's __init__ method",
+        "Creates a new parent class",
+        "Overrides the parent's constructor"
+      ],
+      "correct_answer": 1,
+      "explanation": "super().__init__() calls the parent class's constructor, allowing the child to initialize parent attributes before adding its own."
+    },
+    {
+      "id": 9,
+      "type": "multiple_choice",
+      "question": "What is method overriding?",
+      "options": [
+        "Calling multiple methods at once",
+        "Redefining a parent class method in the child class",
+        "Deleting a parent method",
+        "Creating duplicate methods"
+      ],
+      "correct_answer": 1,
+      "explanation": "Method overriding is when a child class provides its own implementation of a method that exists in the parent class, replacing the parent's version."
+    },
+    {
+      "id": 10,
+      "type": "multiple_choice",
+      "question": "What does isinstance(obj, ClassName) check?",
+      "options": [
+        "If obj is exactly ClassName",
+        "If obj is an instance of ClassName or its subclasses",
+        "If obj and ClassName are the same",
+        "If obj is a class"
+      ],
+      "correct_answer": 1,
+      "explanation": "isinstance(obj, ClassName) returns True if obj is an instance of ClassName or any of its subclasses."
+    },
+    {
+      "id": 11,
+      "type": "multiple_choice",
+      "question": "What is polymorphism?",
+      "options": [
+        "Having multiple classes",
+        "The ability to treat different objects with the same interface uniformly",
+        "Creating many objects",
+        "Multiple inheritance"
+      ],
+      "correct_answer": 1,
+      "explanation": "Polymorphism means 'many forms' - different objects can be treated uniformly when they share a common interface, even if implementations differ."
+    },
+    {
+      "id": 12,
+      "type": "multiple_choice",
+      "question": "What is duck typing in Python?",
+      "options": [
+        "A type of inheritance",
+        "If an object has the required methods, it can be used regardless of its type",
+        "Checking types before use",
+        "A way to create duck objects"
+      ],
+      "correct_answer": 1,
+      "explanation": "Duck typing: 'If it walks like a duck and quacks like a duck, it's a duck.' If an object has the methods you need, use it regardless of its actual type."
+    },
+    {
+      "id": 13,
+      "type": "multiple_choice",
+      "question": "Why raise NotImplementedError in a base class method?",
+      "options": [
+        "To delete the method",
+        "To force subclasses to implement the method",
+        "To prevent the method from running",
+        "To create an error message"
+      ],
+      "correct_answer": 1,
+      "explanation": "Raising NotImplementedError in a base class signals that subclasses must override this method. It creates an interface that children must implement."
+    },
+    {
+      "id": 14,
+      "type": "multiple_choice",
+      "question": "What does the @property decorator do?",
+      "options": [
+        "Creates a class attribute",
+        "Makes a method accessible like an attribute",
+        "Makes an attribute private",
+        "Creates multiple properties"
+      ],
+      "correct_answer": 1,
+      "explanation": "@property makes a method accessible like an attribute. You call obj.method instead of obj.method(), enabling getters/setters."
+    },
+    {
+      "id": 15,
+      "type": "multiple_choice",
+      "question": "What does double underscore (__) before an attribute name do?",
+      "options": [
+        "Makes it completely inaccessible",
+        "Triggers name mangling (_ClassName__attribute)",
+        "Makes it a class variable",
+        "Nothing special"
+      ],
+      "correct_answer": 1,
+      "explanation": "Double underscore triggers name mangling - Python renames it to _ClassName__attribute. It's not truly private but discourages direct access."
+    },
+    {
+      "id": 16,
+      "type": "multiple_choice",
+      "question": "What's the difference between _attribute and __attribute?",
+      "options": [
+        "No difference",
+        "_attribute is a convention (protected), __attribute uses name mangling (private)",
+        "__attribute is public, _attribute is private",
+        "_attribute is faster"
+      ],
+      "correct_answer": 1,
+      "explanation": "Single underscore (_) is a convention meaning 'internal use, please don't touch.' Double underscore (__) triggers name mangling for stronger privacy."
+    },
+    {
+      "id": 17,
+      "type": "multiple_choice",
+      "question": "How do you create a property with both getter and setter?",
+      "options": [
+        "Use two @property decorators",
+        "Use @property for getter and @property_name.setter for setter",
+        "Use @getter and @setter",
+        "Properties are always read-only"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use @property for the getter method, then @property_name.setter for the setter method. They must have the same name."
+    },
+    {
+      "id": 18,
+      "type": "multiple_choice",
+      "question": "Why use property setters?",
+      "options": [
+        "To make code faster",
+        "To validate data before setting an attribute",
+        "To create multiple attributes",
+        "To inherit from parent"
+      ],
+      "correct_answer": 1,
+      "explanation": "Property setters allow validation and control over how attributes are set. You can check ranges, types, and enforce business rules."
+    },
+    {
+      "id": 19,
+      "type": "multiple_choice",
+      "question": "What is encapsulation?",
+      "options": [
+        "Creating multiple classes",
+        "Bundling data with methods and restricting direct access",
+        "Inheriting from parent classes",
+        "Using many objects"
+      ],
+      "correct_answer": 1,
+      "explanation": "Encapsulation means bundling data (attributes) with methods that operate on that data, and controlling access through an interface."
+    },
+    {
+      "id": 20,
+      "type": "multiple_choice",
+      "question": "In the RPG project, why does each character class override special_attack()?",
+      "options": [
+        "To delete the parent's method",
+        "To provide class-specific implementations while maintaining a common interface",
+        "Because they must have different method names",
+        "To prevent other classes from using it"
+      ],
+      "correct_answer": 1,
+      "explanation": "Each class overrides special_attack() to provide unique behavior (Berserker Rage, Fireball, Backstab) while maintaining the same method signature for polymorphism."
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "lesson_id": "10_03",
+  "title": "Packages and Project Structure",
+  "module_id": 10,
+  "order_index": 3,
+  "description": "Master Python packages - collections of modules organized in directories. Learn __init__.py, package hierarchies, and professional project structure.",
+  "estimated_minutes": 25,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: Organizing Your Library",
+      "content": "**Module = single file. Package = folder of modules.**\n\nImagine a library:\n- **Module** = single book\n- **Package** = bookshelf with related books organized together\n\n**Package structure:**\n```\nmy_package/\n  __init__.py       ← Makes it a package!\n  module1.py\n  module2.py\n  sub_package/\n    __init__.py\n    module3.py\n```\n\n**Real example - web framework:**\n```\nflask/\n  __init__.py\n  app.py\n  routing.py\n  templating/\n    __init__.py\n    jinja.py\n```\n\n**The magic __init__.py:**\n- Empty file that tells Python \"this directory is a package\"\n- Can contain initialization code\n- Controls what `from package import *` imports"
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Creating a Package",
+      "code": "from pathlib import Path\n\n# Create package structure\nprint(\"=== Creating Package Structure ===\")\n\nbase = Path('my_tools')\nbase.mkdir(exist_ok=True)\n\n# Create __init__.py (makes it a package)\n(base / '__init__.py').write_text('''\n\"\"\"My Tools Package - Utility functions.\"\"\"\n\nfrom .string_ops import reverse, uppercase\nfrom .math_ops import add, multiply\n\n__version__ = '1.0.0'\n__all__ = ['reverse', 'uppercase', 'add', 'multiply']\n''')\n\n# Create string_ops.py module\n(base / 'string_ops.py').write_text('''\ndef reverse(text):\n    return text[::-1]\n\ndef uppercase(text):\n    return text.upper()\n\ndef lowercase(text):  # Not exported by default\n    return text.lower()\n''')\n\n# Create math_ops.py module\n(base / 'math_ops.py').write_text('''\ndef add(a, b):\n    return a + b\n\ndef multiply(a, b):\n    return a * b\n\ndef subtract(a, b):  # Not exported by default\n    return a - b\n''')\n\nprint(\"✓ Created my_tools package\")\nprint(\"  - my_tools/__init__.py\")\nprint(\"  - my_tools/string_ops.py\")\nprint(\"  - my_tools/math_ops.py\\n\")\n\n# Import and use the package\nprint(\"=== Using the Package ===\")\n\nimport my_tools\n\nprint(f\"Version: {my_tools.__version__}\")\nprint(f\"Reverse 'hello': {my_tools.reverse('hello')}\")\nprint(f\"Uppercase 'world': {my_tools.uppercase('world')}\")\nprint(f\"Add 5 + 3: {my_tools.add(5, 3)}\")\nprint(f\"Multiply 4 * 7: {my_tools.multiply(4, 7)}\\n\")\n\n# Import specific module\nfrom my_tools import string_ops\n\nprint(\"=== Using Specific Module ===\")\nprint(f\"Lowercase (direct): {string_ops.lowercase('HELLO')}\")\n\n# Nested package\nprint(\"\\n=== Creating Nested Package ===\")\n\nutils = base / 'utils'\nutils.mkdir(exist_ok=True)\n(utils / '__init__.py').write_text('\"\"\"Utility subpackage.\"\"\"')\n(utils / 'file_ops.py').write_text('''\ndef read_file(path):\n    with open(path) as f:\n        return f.read()\n''')\n\nprint(\"✓ Created nested package: my_tools/utils/\")\n\n# Use nested package\nfrom my_tools.utils import file_ops\nprint(\"✓ Can import: from my_tools.utils import file_ops\")",
+      "explanation": "**Key points:**\n1. __init__.py makes directory a package\n2. Can import from __init__.py for convenience\n3. __all__ controls what `from package import *` imports\n4. Packages can be nested (sub-packages)\n5. Use relative imports (from .module) inside packages",
+      "output": "=== Creating Package Structure ===\n✓ Created my_tools package\n  - my_tools/__init__.py\n  - my_tools/string_ops.py\n  - my_tools/math_ops.py\n\n=== Using the Package ===\nVersion: 1.0.0\nReverse 'hello': olleh\nUppercase 'world': WORLD\nAdd 5 + 3: 8\nMultiply 4 * 7: 28\n\n=== Using Specific Module ===\nLowercase (direct): hello\n\n=== Creating Nested Package ===\n✓ Created nested package: my_tools/utils/\n✓ Can import: from my_tools.utils import file_ops"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown",
+      "content": "**Package structure:**\n```\nmy_package/\n  __init__.py      ← Required! Makes it a package\n  module1.py\n  module2.py\n```\n\n**Basic __init__.py:**\n```python\n# my_package/__init__.py\n\"\"\"Package docstring.\"\"\"\n\n# Import for convenience\nfrom .module1 import function1\nfrom .module2 import function2\n\n__version__ = '1.0.0'\n```\n\n**Importing from packages:**\n```python\n# Import package\nimport my_package\nmy_package.function1()\n\n# Import module from package\nfrom my_package import module1\nmodule1.function1()\n\n# Import function directly\nfrom my_package.module1 import function1\nfunction1()\n```\n\n**Relative imports (inside package):**\n```python\n# In my_package/module1.py\nfrom . import module2  # Same package\nfrom .module2 import function  # Specific import\nfrom ..other_package import something  # Parent package\n```"
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise",
+      "instruction": "Create a package structure:\n```\nutils/\n  __init__.py\n  text.py      (capitalize, reverse)\n  numbers.py   (is_even, is_prime)\n```",
+      "starter_code": "from pathlib import Path\n\n# TODO: Create utils directory\n\n# TODO: Create __init__.py\n\n# TODO: Create text.py with capitalize and reverse\n\n# TODO: Create numbers.py with is_even and is_prime\n\n# TODO: Import and test",
+      "hint": "Use Path('utils').mkdir(), write_text() for files, import utils to test."
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution",
+      "solution_code": "from pathlib import Path\n\n# Create package directory\nutils = Path('utils')\nutils.mkdir(exist_ok=True)\n\n# Create __init__.py\n(utils / '__init__.py').write_text('''\n\"\"\"Utils package.\"\"\"\nfrom .text import capitalize, reverse\nfrom .numbers import is_even, is_prime\n''')\n\n# Create text.py\n(utils / 'text.py').write_text('''\ndef capitalize(text):\n    return text.upper()\n\ndef reverse(text):\n    return text[::-1]\n''')\n\n# Create numbers.py\n(utils / 'numbers.py').write_text('''\ndef is_even(n):\n    return n % 2 == 0\n\ndef is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, int(n**0.5) + 1):\n        if n % i == 0:\n            return False\n    return True\n''')\n\nprint(\"✓ Created utils package\\n\")\n\n# Test the package\nimport utils\n\nprint(\"=== Testing Package ===\")\nprint(f\"Capitalize 'hello': {utils.capitalize('hello')}\")\nprint(f\"Reverse 'world': {utils.reverse('world')}\")\nprint(f\"Is 4 even? {utils.is_even(4)}\")\nprint(f\"Is 7 prime? {utils.is_prime(7)}\")",
+      "explanation": "Complete package with organized modules. __init__.py imports functions for easy access.",
+      "output": "✓ Created utils package\n\n=== Testing Package ===\nCapitalize 'hello': HELLO\nReverse 'world': dlrow\nIs 4 even? True\nIs 7 prime? True",
+      "common_mistakes": [
+        {
+          "mistake": "Forgetting __init__.py",
+          "wrong_code": "my_package/\n  module.py  # No __init__.py!",
+          "correct_code": "my_package/\n  __init__.py  # Required!\n  module.py",
+          "explanation": "Without __init__.py, Python doesn't recognize directory as package. Always include it (can be empty)."
+        }
+      ]
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Package = directory with __init__.py** (collection of modules)",
+        "**__init__.py required** to make directory a package (can be empty)",
+        "**Import from package:** `from package.module import function`",
+        "**Relative imports:** `from .module import function` (inside package)",
+        "**__all__ in __init__.py** controls what `import *` imports",
+        "**Nested packages allowed** for organizing large projects"
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "What makes a directory a Python package?",
+        "options": [
+          "Just being a directory",
+          "Having an __init__.py file",
+          "Having .py files in it",
+          "Being named 'package'"
+        ],
+        "correct_answer": 1,
+        "explanation": "A directory becomes a package when it contains an __init__.py file. This file can be empty or contain initialization code."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "What does 'from .module import function' mean inside a package?",
+        "options": [
+          "Import from root directory",
+          "Relative import from same package",
+          "It's invalid syntax",
+          "Import from parent directory"
+        ],
+        "correct_answer": 1,
+        "explanation": "The dot (.) means relative import from the same package. This is used inside packages to import from sibling modules."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "Can __init__.py be empty?",
+        "options": [
+          "No, it must have code",
+          "Yes, it can be empty - just marks directory as package",
+          "Only in Python 2",
+          "No, it's optional"
+        ],
+        "correct_answer": 1,
+        "explanation": "__init__.py can be completely empty. Its presence alone tells Python the directory is a package. You can add code to it for initialization or convenience imports."
+      }
+    ]
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "lesson_id": "11_04",
+  "title": "Polymorphism",
+  "module_id": 11,
+  "order_index": 4,
+  "description": "Understand polymorphism and how it allows treating different objects uniformly. Learn about duck typing, method overriding in action, and interface-like behavior.",
+  "estimated_minutes": 30,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: Many Forms, Same Interface",
+      "content": "**Polymorphism** = \"Many forms\"\n\n**Think of it like a TV remote:**\n- Same button (\"Play\") works on:\n  - DVD player → plays DVD\n  - Streaming box → plays stream\n  - Game console → starts game\n- **Same interface, different behavior**\n\n**In Python:**\n```\nSame method name, different implementations:\n\ndog.speak() → \"Woof!\"\ncat.speak() → \"Meow!\"\nbird.speak() → \"Chirp!\"\n\nAll respond to speak(), each does it differently\n```\n\n**Two types of polymorphism:**\n\n**1. Method Overriding** (inheritance-based)\n- Child classes override parent method\n- Same method name, different implementation\n```python\nclass Animal:\n    def speak(self): pass\n\nclass Dog(Animal):\n    def speak(self): return \"Woof\"\n\nclass Cat(Animal):\n    def speak(self): return \"Meow\"\n```\n\n**2. Duck Typing** (\"If it walks like a duck...\")\n- Don't check type, check behavior\n- If it has the method, use it!\n```python\n# Don't care about type, just that it has speak()\nfor animal in animals:\n    print(animal.speak())  # Works for any object with speak()\n```\n\n**Benefits:**\n- Write generic code\n- Easy to extend\n- Flexible and reusable"
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Polymorphism in Action",
+      "code": "# Base class with common interface\nclass Shape:\n    def __init__(self, name):\n        self.name = name\n    \n    def area(self):\n        raise NotImplementedError(\"Subclass must implement area()\")\n    \n    def perimeter(self):\n        raise NotImplementedError(\"Subclass must implement perimeter()\")\n    \n    def describe(self):\n        return f\"{self.name}: Area = {self.area()}, Perimeter = {self.perimeter()}\"\n\n# Different shapes, same interface\nclass Circle(Shape):\n    def __init__(self, radius):\n        super().__init__(\"Circle\")\n        self.radius = radius\n    \n    def area(self):\n        return 3.14159 * self.radius ** 2\n    \n    def perimeter(self):\n        return 2 * 3.14159 * self.radius\n\nclass Rectangle(Shape):\n    def __init__(self, width, height):\n        super().__init__(\"Rectangle\")\n        self.width = width\n        self.height = height\n    \n    def area(self):\n        return self.width * self.height\n    \n    def perimeter(self):\n        return 2 * (self.width + self.height)\n\nclass Triangle(Shape):\n    def __init__(self, base, height, side1, side2, side3):\n        super().__init__(\"Triangle\")\n        self.base = base\n        self.height = height\n        self.sides = [side1, side2, side3]\n    \n    def area(self):\n        return 0.5 * self.base * self.height\n    \n    def perimeter(self):\n        return sum(self.sides)\n\n# Polymorphic function - works with any Shape\ndef print_shape_info(shape):\n    \"\"\"Works with any object that has area() and perimeter()\"\"\"\n    print(f\"{shape.name}:\")\n    print(f\"  Area: {shape.area():.2f}\")\n    print(f\"  Perimeter: {shape.perimeter():.2f}\")\n    print()\n\ndef calculate_total_area(shapes):\n    \"\"\"Works with list of any shapes\"\"\"\n    total = sum(shape.area() for shape in shapes)\n    return total\n\n# Create different shapes\nprint(\"=== Creating Shapes ===\")\ncircle = Circle(5)\nrectangle = Rectangle(4, 6)\ntriangle = Triangle(base=3, height=4, side1=3, side2=4, side3=5)\n\n# Polymorphism: same method, different behavior\nprint(\"\\n=== Polymorphism: Each shape implements methods differently ===\")\nprint_shape_info(circle)\nprint_shape_info(rectangle)\nprint_shape_info(triangle)\n\n# Polymorphism: treating different types uniformly\nprint(\"=== Treating Different Shapes Uniformly ===\")\nshapes = [circle, rectangle, triangle]\n\nfor shape in shapes:\n    print(shape.describe())\n\nprint(f\"\\nTotal area of all shapes: {calculate_total_area(shapes):.2f}\")\n\n# Duck typing: if it has the methods, it works!\nprint(\"\\n=== Duck Typing ===\")\n\nclass Square:  # Doesn't inherit from Shape!\n    def __init__(self, side):\n        self.name = \"Square\"\n        self.side = side\n    \n    def area(self):\n        return self.side ** 2\n    \n    def perimeter(self):\n        return 4 * self.side\n\nsquare = Square(5)\nprint_shape_info(square)  # Works! Has area() and perimeter()\n\n# Add to shapes list\nshapes.append(square)\nprint(f\"Total area including square: {calculate_total_area(shapes):.2f}\")",
+      "explanation": "**Polymorphism demonstrated:**\n\n**1. Method Overriding:**\n- Each shape implements `area()` and `perimeter()` differently\n- Same method names, different calculations\n\n**2. Uniform Interface:**\n- `print_shape_info()` works with any shape\n- Doesn't care about specific type\n- Just calls `area()` and `perimeter()`\n\n**3. Duck Typing:**\n- `Square` doesn't inherit from `Shape`\n- But has required methods\n- Works perfectly with polymorphic functions!\n\n**Key insight:** Code to interfaces, not implementations",
+      "output": "=== Creating Shapes ===\n\n=== Polymorphism: Each shape implements methods differently ===\nCircle:\n  Area: 78.54\n  Perimeter: 31.42\n\nRectangle:\n  Area: 24.00\n  Perimeter: 20.00\n\nTriangle:\n  Area: 6.00\n  Perimeter: 12.00\n\n=== Treating Different Shapes Uniformly ===\nCircle: Area = 78.53981633974483, Perimeter = 31.4159\nRectangle: Area = 24, Perimeter = 20\nTriangle: Area = 6.0, Perimeter = 12\n\nTotal area of all shapes: 108.54\n\n=== Duck Typing ===\nSquare:\n  Area: 25.00\n  Perimeter: 20.00\n\nTotal area including square: 133.54"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown",
+      "content": "**Creating polymorphic behavior:**\n\n**Step 1: Define common interface**\n```python\nclass Base:\n    def method(self):\n        raise NotImplementedError(\"Must override\")\n```\n\n**Step 2: Override in children**\n```python\nclass Child1(Base):\n    def method(self):\n        return \"Child1 implementation\"\n\nclass Child2(Base):\n    def method(self):\n        return \"Child2 implementation\"\n```\n\n**Step 3: Use polymorphically**\n```python\ndef process(obj):\n    return obj.method()  # Works with any child!\n\nprocess(Child1())  # → \"Child1 implementation\"\nprocess(Child2())  # → \"Child2 implementation\"\n```\n\n**Duck typing:**\n```python\ndef process(obj):\n    # Don't check type, just call method\n    return obj.method()  # Works with ANY object that has method()\n```\n\n**Key pattern:**\n```python\n# Instead of this (bad):\nif isinstance(obj, Dog):\n    obj.bark()\nelif isinstance(obj, Cat):\n    obj.meow()\n\n# Do this (good):\nobj.speak()  # All have speak(), different implementations\n```"
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise",
+      "instruction": "Create a payment processing system:\n- Payment base class with pay() method\n- CreditCard, PayPal, Bitcoin subclasses\n- process_payment() function that works with any payment type\n- Each payment type implements pay() differently",
+      "starter_code": "class Payment:\n    def __init__(self, amount):\n        self.amount = amount\n    \n    def pay(self):\n        # TODO: Raise NotImplementedError\n        pass\n\nclass CreditCard(Payment):\n    def __init__(self, amount, card_number):\n        # TODO: Call parent init and store card_number\n        pass\n    \n    def pay(self):\n        # TODO: Return payment message\n        pass\n\nclass PayPal(Payment):\n    def __init__(self, amount, email):\n        # TODO: Call parent init and store email\n        pass\n    \n    def pay(self):\n        # TODO: Return payment message\n        pass\n\nclass Bitcoin(Payment):\n    def __init__(self, amount, wallet_address):\n        # TODO: Call parent init and store wallet_address\n        pass\n    \n    def pay(self):\n        # TODO: Return payment message\n        pass\n\ndef process_payment(payment):\n    # TODO: Process any payment type\n    pass\n\n# TODO: Create different payment types and process them",
+      "hint": "Each pay() method should return a string describing the payment. process_payment() should work with any Payment object."
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution",
+      "solution_code": "class Payment:\n    \"\"\"Base payment class\"\"\"\n    \n    def __init__(self, amount):\n        self.amount = amount\n        self.processed = False\n    \n    def pay(self):\n        raise NotImplementedError(\"Subclass must implement pay()\")\n    \n    def receipt(self):\n        status = \"Processed\" if self.processed else \"Pending\"\n        return f\"Payment of ${self.amount:.2f} - {status}\"\n\nclass CreditCard(Payment):\n    def __init__(self, amount, card_number):\n        super().__init__(amount)\n        self.card_number = card_number\n        self.last_four = card_number[-4:]\n    \n    def pay(self):\n        self.processed = True\n        return f\"Charged ${self.amount:.2f} to card ending in {self.last_four}\"\n\nclass PayPal(Payment):\n    def __init__(self, amount, email):\n        super().__init__(amount)\n        self.email = email\n    \n    def pay(self):\n        self.processed = True\n        return f\"Processed ${self.amount:.2f} via PayPal ({self.email})\"\n\nclass Bitcoin(Payment):\n    def __init__(self, amount, wallet_address):\n        super().__init__(amount)\n        self.wallet_address = wallet_address\n        self.short_address = wallet_address[:8] + \"...\"\n    \n    def pay(self):\n        self.processed = True\n        return f\"Transferred ${self.amount:.2f} worth of BTC to {self.short_address}\"\n\n# Polymorphic function\ndef process_payment(payment):\n    \"\"\"Process any type of payment\"\"\"\n    print(f\"Processing payment of ${payment.amount:.2f}...\")\n    result = payment.pay()  # Polymorphic call!\n    print(f\"✓ {result}\")\n    return payment\n\ndef process_multiple_payments(payments):\n    \"\"\"Process a list of different payment types\"\"\"\n    total = 0\n    for payment in payments:\n        process_payment(payment)\n        total += payment.amount\n    return total\n\n# Create different payment types\nprint(\"=== Creating Payments ===\")\ncc_payment = CreditCard(99.99, \"4532123456789012\")\npp_payment = PayPal(49.50, \"user@email.com\")\nbtc_payment = Bitcoin(199.00, \"1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa\")\n\nprint(\"\\n=== Processing Individual Payments ===\")\nprocess_payment(cc_payment)\nprocess_payment(pp_payment)\nprocess_payment(btc_payment)\n\nprint(\"\\n=== Receipts ===\")\nfor payment in [cc_payment, pp_payment, btc_payment]:\n    print(payment.receipt())\n\nprint(\"\\n=== Processing Multiple Payments ===\")\nnew_payments = [\n    CreditCard(25.00, \"5555555555554444\"),\n    PayPal(15.99, \"another@user.com\"),\n    Bitcoin(50.00, \"3J98t1WpEZ73CNmYviecrnyiWrnqRhWNLy\")\n]\n\ntotal = process_multiple_payments(new_payments)\nprint(f\"\\nTotal processed: ${total:.2f}\")\n\nprint(\"\\n=== Duck Typing Example ===\")\n\n# New payment type - doesn't inherit from Payment!\nclass Cash:\n    def __init__(self, amount):\n        self.amount = amount\n    \n    def pay(self):\n        return f\"Received ${self.amount:.2f} in cash\"\n\ncash_payment = Cash(20.00)\nprocess_payment(cash_payment)  # Works! Has required methods",
+      "explanation": "**Polymorphism in payment system:**\n\n**1. Common Interface:**\n- All payment types have `pay()` method\n- All inherit from Payment (except Cash - duck typing!)\n\n**2. Different Implementations:**\n- CreditCard: charges card\n- PayPal: processes via email\n- Bitcoin: transfers to wallet\n- Each returns different message\n\n**3. Polymorphic Usage:**\n- `process_payment()` works with any payment\n- Doesn't check type\n- Just calls `pay()` method\n\n**4. Duck Typing:**\n- Cash doesn't inherit from Payment\n- But has required methods\n- Works perfectly!\n\n**Real-world benefit:** Add new payment types without changing process_payment()",
+      "output": "=== Creating Payments ===\n\n=== Processing Individual Payments ===\nProcessing payment of $99.99...\n✓ Charged $99.99 to card ending in 9012\nProcessing payment of $49.50...\n✓ Processed $49.50 via PayPal (user@email.com)\nProcessing payment of $199.00...\n✓ Transferred $199.00 worth of BTC to 1A1zP1eP...\n\n=== Receipts ===\nPayment of $99.99 - Processed\nPayment of $49.50 - Processed\nPayment of $199.00 - Processed\n\n=== Processing Multiple Payments ===\nProcessing payment of $25.00...\n✓ Charged $25.00 to card ending in 4444\nProcessing payment of $15.99...\n✓ Processed $15.99 via PayPal (another@user.com)\nProcessing payment of $50.00...\n✓ Transferred $50.00 worth of BTC to 3J98t1Wp...\n\nTotal processed: $90.99\n\n=== Duck Typing Example ===\nProcessing payment of $20.00...\n✓ Received $20.00 in cash",
+      "common_mistakes": [
+        "Checking object type instead of using polymorphism",
+        "Not implementing all required methods in subclasses",
+        "Forgetting that Python uses duck typing - inheritance not always required",
+        "Not raising NotImplementedError in base class methods"
+      ]
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Polymorphism = 'many forms'** - Same interface, different implementations",
+        "**Method overriding enables polymorphism** - Children override parent methods",
+        "**Write code to interfaces** - Don't check types, call methods",
+        "**Duck typing: 'If it walks like a duck...'** - Behavior matters, not type",
+        "**Polymorphic functions work with any compatible type** - Very flexible",
+        "**Add new types without changing existing code** - Open/Closed Principle",
+        "**NotImplementedError in base class** - Forces children to implement",
+        "**Python doesn't require inheritance for polymorphism** - Just matching methods"
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "What is polymorphism in object-oriented programming?",
+        "options": [
+          "Having multiple constructors",
+          "The ability to treat different objects with the same interface uniformly",
+          "Creating many objects from one class",
+          "Using multiple inheritance"
+        ],
+        "correct_answer": 1,
+        "explanation": "Polymorphism is the ability to treat different objects uniformly when they share a common interface, even if their implementations differ."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "What is duck typing in Python?",
+        "options": [
+          "A special type of inheritance",
+          "Checking object types before using them",
+          "If an object has the required methods, it can be used regardless of its type",
+          "A way to create duck objects"
+        ],
+        "correct_answer": 2,
+        "explanation": "Duck typing means 'if it walks like a duck and quacks like a duck, it's a duck' - if an object has the methods you need, you can use it regardless of its actual type."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "Why is polymorphism useful?",
+        "options": [
+          "It makes code faster",
+          "It allows writing generic code that works with multiple types",
+          "It reduces memory usage",
+          "It prevents bugs"
+        ],
+        "correct_answer": 1,
+        "explanation": "Polymorphism allows writing generic, flexible code that works with any object sharing a common interface, making code more reusable and extensible."
+      }
+    ]
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "lesson_id": "12_01",
+  "title": "Decorators",
+  "module_id": 12,
+  "order_index": 1,
+  "description": "Learn how to use and create decorators to modify function behavior. Understand @decorator syntax, function wrappers, and practical decorator patterns.",
+  "estimated_minutes": 35,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: Gift Wrapping Functions",
+      "content": "**Decorators = Function wrappers**\n\n**Think of gift wrapping:**\n- You have a gift (function)\n- You wrap it in fancy paper (decorator)\n- The gift is the same, but now it's enhanced!\n\n**What decorators do:**\n- Add functionality to existing functions\n- Without modifying the original function\n- Reusable across multiple functions\n\n**Common uses:**\n1. **Logging** 📝 - Track when functions are called\n2. **Timing** ⏱️ - Measure execution time\n3. **Authentication** 🔐 - Check permissions\n4. **Validation** ✅ - Verify inputs\n5. **Caching** 💾 - Store results\n\n**Basic syntax:**\n```python\n@decorator_name\ndef my_function():\n    pass\n\n# Same as:\nmy_function = decorator_name(my_function)\n```\n\n**Key insight:**\nDecorators are functions that take a function and return a wrapped version."
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Understanding Decorators",
+      "code": "import time\nfrom functools import wraps\n\n# Simple decorator without arguments\ndef timer_decorator(func):\n    \"\"\"Measures function execution time\"\"\"\n    @wraps(func)  # Preserves original function metadata\n    def wrapper(*args, **kwargs):\n        start = time.time()\n        result = func(*args, **kwargs)\n        end = time.time()\n        print(f\"{func.__name__} took {end - start:.4f} seconds\")\n        return result\n    return wrapper\n\ndef log_decorator(func):\n    \"\"\"Logs function calls\"\"\"\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__} with args={args}, kwargs={kwargs}\")\n        result = func(*args, **kwargs)\n        print(f\"{func.__name__} returned: {result}\")\n        return result\n    return wrapper\n\ndef validate_positive(func):\n    \"\"\"Validates that all arguments are positive numbers\"\"\"\n    @wraps(func)\n    def wrapper(*args, **kwargs):\n        for arg in args:\n            if isinstance(arg, (int, float)) and arg < 0:\n                raise ValueError(f\"All arguments must be positive, got {arg}\")\n        return func(*args, **kwargs)\n    return wrapper\n\n# Using decorators\nprint(\"=== Timer Decorator ===\")\n\n@timer_decorator\ndef slow_function():\n    \"\"\"Simulates slow operation\"\"\"\n    time.sleep(0.1)\n    return \"Done!\"\n\nresult = slow_function()\nprint(f\"Result: {result}\\n\")\n\nprint(\"=== Log Decorator ===\")\n\n@log_decorator\ndef add(a, b):\n    return a + b\n\nresult = add(5, 3)\nprint()\n\nprint(\"=== Validation Decorator ===\")\n\n@validate_positive\ndef calculate_area(width, height):\n    return width * height\n\nprint(f\"Area (5, 10): {calculate_area(5, 10)}\")\n\ntry:\n    calculate_area(-5, 10)\nexcept ValueError as e:\n    print(f\"Error: {e}\")\n\nprint(\"\\n=== Stacking Decorators ===\")\n\n@timer_decorator\n@log_decorator\n@validate_positive\ndef multiply(a, b):\n    return a * b\n\nprint(\"Calling multiply(4, 7):\")\nresult = multiply(4, 7)\n\nprint(\"\\n=== Without Decorator Syntax ===\")\ndef divide(a, b):\n    return a / b\n\n# Manual decoration (equivalent to @decorator)\ndivide_logged = log_decorator(divide)\nresult = divide_logged(10, 2)",
+      "explanation": "**How decorators work:**\n\n1. **Decorator function:**\n```python\ndef my_decorator(func):\n    def wrapper(*args, **kwargs):\n        # Before function call\n        result = func(*args, **kwargs)\n        # After function call\n        return result\n    return wrapper\n```\n\n2. **@ syntax:**\n```python\n@my_decorator\ndef my_func():\n    pass\n```\n\n3. **Stacking:**\n- Applied bottom-to-top\n- `@timer @log @validate` means: validate → log → timer\n\n4. **@wraps(func):**\n- Preserves original function's name, docstring\n- From functools module",
+      "output": "=== Timer Decorator ===\nslow_function took 0.1002 seconds\nResult: Done!\n\n=== Log Decorator ===\nCalling add with args=(5, 3), kwargs={}\nadd returned: 8\n\n=== Validation Decorator ===\nArea (5, 10): 50\nError: All arguments must be positive, got -5\n\n=== Stacking Decorators ===\nCalling multiply(4, 7):\nCalling multiply with args=(4, 7), kwargs={}\nmultiply returned: 28\nmultiply took 0.0001 seconds\n\n=== Without Decorator Syntax ===\nCalling divide with args=(10, 2), kwargs={}\ndivide returned: 5.0"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown",
+      "content": "**Basic decorator pattern:**\n```python\ndef decorator(func):\n    def wrapper(*args, **kwargs):\n        # Do something before\n        result = func(*args, **kwargs)\n        # Do something after\n        return result\n    return wrapper\n\n@decorator\ndef my_function():\n    pass\n```\n\n**Decorator with arguments:**\n```python\ndef repeat(times):\n    def decorator(func):\n        def wrapper(*args, **kwargs):\n            for _ in range(times):\n                result = func(*args, **kwargs)\n            return result\n        return wrapper\n    return decorator\n\n@repeat(3)\ndef greet():\n    print(\"Hello!\")\n```\n\n**Class as decorator:**\n```python\nclass CountCalls:\n    def __init__(self, func):\n        self.func = func\n        self.count = 0\n    \n    def __call__(self, *args, **kwargs):\n        self.count += 1\n        print(f\"Call {self.count}\")\n        return self.func(*args, **kwargs)\n\n@CountCalls\ndef function():\n    pass\n```"
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Decorators with Arguments",
+      "code": "from functools import wraps\nimport time\n\n# Decorator factory (takes arguments)\ndef repeat(times):\n    \"\"\"Repeats function execution N times\"\"\"\n    def decorator(func):\n        @wraps(func)\n        def wrapper(*args, **kwargs):\n            result = None\n            for i in range(times):\n                print(f\"  Execution {i+1}/{times}\")\n                result = func(*args, **kwargs)\n            return result\n        return wrapper\n    return decorator\n\ndef retry(max_attempts=3, delay=1):\n    \"\"\"Retries function on exception\"\"\"\n    def decorator(func):\n        @wraps(func)\n        def wrapper(*args, **kwargs):\n            for attempt in range(max_attempts):\n                try:\n                    return func(*args, **kwargs)\n                except Exception as e:\n                    if attempt == max_attempts - 1:\n                        raise\n                    print(f\"Attempt {attempt + 1} failed: {e}. Retrying in {delay}s...\")\n                    time.sleep(delay)\n        return wrapper\n    return decorator\n\ndef cache_result(func):\n    \"\"\"Simple caching decorator\"\"\"\n    cached = {}\n    @wraps(func)\n    def wrapper(*args):\n        if args in cached:\n            print(f\"  Cache hit for {args}\")\n            return cached[args]\n        print(f\"  Computing for {args}\")\n        result = func(*args)\n        cached[args] = result\n        return result\n    return wrapper\n\nprint(\"=== Repeat Decorator ===\")\n\n@repeat(times=3)\ndef greet(name):\n    print(f\"  Hello, {name}!\")\n\ngreet(\"Alice\")\n\nprint(\"\\n=== Retry Decorator ===\")\n\nattempt_count = 0\n\n@retry(max_attempts=3, delay=0.5)\ndef unreliable_function():\n    global attempt_count\n    attempt_count += 1\n    if attempt_count < 3:\n        raise ConnectionError(\"Network error\")\n    return \"Success!\"\n\nresult = unreliable_function()\nprint(f\"Final result: {result}\")\n\nprint(\"\\n=== Cache Decorator ===\")\n\n@cache_result\ndef fibonacci(n):\n    if n < 2:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)\n\nprint(\"First call:\")\nresult = fibonacci(5)\nprint(f\"fibonacci(5) = {result}\")\n\nprint(\"\\nSecond call (should use cache):\")\nresult = fibonacci(5)\nprint(f\"fibonacci(5) = {result}\")\n\nprint(\"\\n=== Class-Based Decorator ===\")\n\nclass CountCalls:\n    \"\"\"Decorator that counts function calls\"\"\"\n    def __init__(self, func):\n        self.func = func\n        self.count = 0\n        self.__name__ = func.__name__\n    \n    def __call__(self, *args, **kwargs):\n        self.count += 1\n        print(f\"[Call #{self.count}] {self.func.__name__}\")\n        return self.func(*args, **kwargs)\n    \n    def reset_count(self):\n        self.count = 0\n\n@CountCalls\ndef process_data(data):\n    return f\"Processed: {data}\"\n\nprocess_data(\"A\")\nprocess_data(\"B\")\nprocess_data(\"C\")\nprint(f\"Total calls: {process_data.count}\")",
+      "explanation": "**Decorator with arguments pattern:**\n\n```python\ndef decorator_with_args(arg1, arg2):\n    def decorator(func):\n        def wrapper(*args, **kwargs):\n            # Use arg1, arg2 here\n            return func(*args, **kwargs)\n        return wrapper\n    return decorator\n```\n\n**Three levels:**\n1. Outer function: takes decorator arguments\n2. Middle function: takes the function to decorate\n3. Inner wrapper: the actual wrapper\n\n**Class-based decorators:**\n- Use `__init__` to receive function\n- Use `__call__` to make instance callable\n- Can maintain state (like call count)",
+      "output": "=== Repeat Decorator ===\n  Execution 1/3\n  Hello, Alice!\n  Execution 2/3\n  Hello, Alice!\n  Execution 3/3\n  Hello, Alice!\n\n=== Retry Decorator ===\nAttempt 1 failed: Network error. Retrying in 0.5s...\nAttempt 2 failed: Network error. Retrying in 0.5s...\nFinal result: Success!\n\n=== Cache Decorator ===\nFirst call:\n  Computing for (5,)\n  Computing for (4,)\n  Computing for (3,)\n  Computing for (2,)\n  Computing for (1,)\n  Computing for (0,)\n  Cache hit for (1,)\n  Cache hit for (2,)\n  Cache hit for (3,)\n  Cache hit for (4,)\nfibonacci(5) = 5\n\nSecond call (should use cache):\n  Cache hit for (5,)\nfibonacci(5) = 5\n\n=== Class-Based Decorator ===\n[Call #1] process_data\n[Call #2] process_data\n[Call #3] process_data\nTotal calls: 3"
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise",
+      "instruction": "Create a @benchmark decorator that:\n- Measures execution time\n- Counts function calls\n- Prints results in a formatted way\n- Works with any function",
+      "starter_code": "from functools import wraps\nimport time\n\nclass benchmark:\n    # TODO: Implement __init__ to receive function\n    # TODO: Track call_count and total_time\n    \n    def __init__(self, func):\n        pass\n    \n    # TODO: Implement __call__ to wrap function\n    def __call__(self, *args, **kwargs):\n        pass\n    \n    # TODO: Add method to print stats\n    def print_stats(self):\n        pass\n\n# Test the decorator\n@benchmark\ndef calculate(n):\n    total = sum(range(n))\n    return total\n\n# TODO: Call function multiple times\n# TODO: Print statistics",
+      "hint": "Use time.time() to measure execution time. Track count in __call__. Store cumulative time."
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution",
+      "solution_code": "from functools import wraps\nimport time\n\nclass benchmark:\n    \"\"\"Decorator for benchmarking functions\"\"\"\n    \n    def __init__(self, func):\n        self.func = func\n        self.call_count = 0\n        self.total_time = 0\n        self.min_time = float('inf')\n        self.max_time = 0\n        self.__name__ = func.__name__\n    \n    def __call__(self, *args, **kwargs):\n        start = time.time()\n        result = self.func(*args, **kwargs)\n        elapsed = time.time() - start\n        \n        # Update statistics\n        self.call_count += 1\n        self.total_time += elapsed\n        self.min_time = min(self.min_time, elapsed)\n        self.max_time = max(self.max_time, elapsed)\n        \n        return result\n    \n    def print_stats(self):\n        \"\"\"Print benchmark statistics\"\"\"\n        if self.call_count == 0:\n            print(f\"{self.func.__name__}: No calls yet\")\n            return\n        \n        avg_time = self.total_time / self.call_count\n        print(f\"\\n{'='*50}\")\n        print(f\"Benchmark: {self.func.__name__}\")\n        print(f\"{'='*50}\")\n        print(f\"Calls:      {self.call_count}\")\n        print(f\"Total time: {self.total_time:.6f}s\")\n        print(f\"Average:    {avg_time:.6f}s\")\n        print(f\"Min time:   {self.min_time:.6f}s\")\n        print(f\"Max time:   {self.max_time:.6f}s\")\n        print(f\"{'='*50}\\n\")\n    \n    def reset(self):\n        \"\"\"Reset statistics\"\"\"\n        self.call_count = 0\n        self.total_time = 0\n        self.min_time = float('inf')\n        self.max_time = 0\n\nprint(\"=== Testing Benchmark Decorator ===\")\n\n@benchmark\ndef calculate_sum(n):\n    \"\"\"Calculate sum of numbers\"\"\"\n    return sum(range(n))\n\n@benchmark\ndef calculate_squares(n):\n    \"\"\"Calculate sum of squares\"\"\"\n    return sum(i**2 for i in range(n))\n\n# Call functions multiple times\nprint(\"Calling calculate_sum...\")\nfor i in range(5):\n    result = calculate_sum(100000)\n    print(f\"  Call {i+1}: result = {result}\")\n\ncalculate_sum.print_stats()\n\nprint(\"Calling calculate_squares...\")\nfor i in range(3):\n    result = calculate_squares(50000)\n    print(f\"  Call {i+1}: result = {result}\")\n\ncalculate_squares.print_stats()\n\nprint(\"=== Practical Example: API Function ===\")\n\n@benchmark\ndef fetch_data(user_id):\n    \"\"\"Simulates API call\"\"\"\n    time.sleep(0.1)  # Simulate network delay\n    return {\"user_id\": user_id, \"name\": f\"User {user_id}\"}\n\nfor user_id in [1, 2, 3]:\n    data = fetch_data(user_id)\n    print(f\"Fetched: {data}\")\n\nfetch_data.print_stats()",
+      "explanation": "**Complete benchmark decorator with:**\n\n**Class-based approach:**\n- `__init__`: Initialize statistics\n- `__call__`: Measure and track each call\n- `print_stats()`: Display formatted results\n\n**Statistics tracked:**\n- Total calls\n- Total time\n- Average time\n- Min/max time\n\n**Benefits:**\n- Reusable across any function\n- Non-invasive (doesn't change function)\n- Provides valuable performance data\n- Can track multiple functions independently",
+      "output": "=== Testing Benchmark Decorator ===\nCalling calculate_sum...\n  Call 1: result = 4999950000\n  Call 2: result = 4999950000\n  Call 3: result = 4999950000\n  Call 4: result = 4999950000\n  Call 5: result = 4999950000\n\n==================================================\nBenchmark: calculate_sum\n==================================================\nCalls:      5\nTotal time: 0.012345s\nAverage:    0.002469s\nMin time:   0.002401s\nMax time:   0.002598s\n==================================================\n\nCalling calculate_squares...\n  Call 1: result = 41662541666625000\n  Call 2: result = 41662541666625000\n  Call 3: result = 41662541666625000\n\n==================================================\nBenchmark: calculate_squares\n==================================================\nCalls:      3\nTotal time: 0.015234s\nAverage:    0.005078s\nMin time:   0.004989s\nMax time:   0.005234s\n==================================================\n\n=== Practical Example: API Function ===\nFetched: {'user_id': 1, 'name': 'User 1'}\nFetched: {'user_id': 2, 'name': 'User 2'}\nFetched: {'user_id': 3, 'name': 'User 3'}\n\n==================================================\nBenchmark: fetch_data\n==================================================\nCalls:      3\nTotal time: 0.300567s\nAverage:    0.100189s\nMin time:   0.100123s\nMax time:   0.100234s\n==================================================",
+      "common_mistakes": [
+        "Forgetting to return the result from wrapper function",
+        "Not using *args, **kwargs to accept any arguments",
+        "Forgetting @wraps(func) - loses function metadata",
+        "Confusing decorator with arguments vs without",
+        "Not returning the wrapper function from decorator"
+      ]
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Decorators wrap functions** to add functionality without modifying them",
+        "**@decorator syntax** is shorthand for `func = decorator(func)`",
+        "**Use @wraps(func)** from functools to preserve function metadata",
+        "**Pattern: def decorator(func): def wrapper(): return wrapper**",
+        "**Decorators with arguments** require an extra level (factory pattern)",
+        "**Stack decorators** by using multiple @ - applied bottom to top",
+        "**Class-based decorators** use __init__ and __call__",
+        "**Common uses:** logging, timing, validation, caching, authentication"
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "What does a decorator do?",
+        "options": [
+          "Deletes a function",
+          "Wraps a function to add functionality without modifying it",
+          "Creates multiple copies of a function",
+          "Compiles the function"
+        ],
+        "correct_answer": 1,
+        "explanation": "A decorator wraps a function to add additional functionality (like logging, timing, validation) without modifying the original function's code."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "What does @wraps(func) from functools do?",
+        "options": [
+          "Wraps the function in a try-except",
+          "Preserves the original function's name and docstring",
+          "Makes the function faster",
+          "Adds error handling"
+        ],
+        "correct_answer": 1,
+        "explanation": "@wraps(func) preserves the original function's metadata (name, docstring, etc.) in the decorated version, which is important for debugging and documentation."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "When stacking decorators, what order are they applied?",
+        "options": [
+          "Top to bottom",
+          "Bottom to top",
+          "Random order",
+          "All at once"
+        ],
+        "correct_answer": 1,
+        "explanation": "Decorators are applied bottom to top. If you have @A @B @C def func(): the order is C(B(A(func)))."
+      }
+    ]
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "lesson_id": "12_02",
+  "title": "Generators and Iterators",
+  "module_id": 12,
+  "order_index": 2,
+  "description": "Master generators using yield, understand iterators, and learn generator expressions. Discover how to process large datasets efficiently without loading everything into memory.",
+  "estimated_minutes": 35,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: One Item at a Time",
+      "content": "**Generators = Lazy iterators**\n\n**Think of a streaming service:**\n- **List approach:** Download entire movie first, then watch\n  - Uses lots of memory\n  - Have to wait for full download\n\n- **Generator approach:** Stream one frame at a time\n  - Minimal memory\n  - Start watching immediately\n  - Only load what you need\n\n**Why use generators?**\n\n1. **Memory Efficient** 💾\n   - Don't store all values\n   - Generate on-demand\n   - Perfect for large datasets\n\n2. **Lazy Evaluation** 😴\n   - Only compute when needed\n   - Can represent infinite sequences\n\n3. **Pipeline Processing** ⚡\n   - Chain operations efficiently\n   - Process streams of data\n\n**Key difference:**\n```python\n# List - all at once\ndef get_numbers():\n    return [1, 2, 3, 4, 5]  # All in memory\n\n# Generator - one at a time\ndef get_numbers():\n    yield 1\n    yield 2\n    yield 3\n    yield 4\n    yield 5  # Generated on demand\n```"
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Generators with yield",
+      "code": "# Regular function returns list (all at once)\ndef count_up_to_list(n):\n    \"\"\"Returns list of numbers - uses memory\"\"\"\n    result = []\n    for i in range(1, n + 1):\n        result.append(i)\n    return result\n\n# Generator function uses yield (one at a time)\ndef count_up_to_generator(n):\n    \"\"\"Yields numbers one by one - memory efficient\"\"\"\n    for i in range(1, n + 1):\n        print(f\"  Generating {i}\")\n        yield i\n\nprint(\"=== List vs Generator ===\")\nprint(\"\\nList (all at once):\")\nlist_result = count_up_to_list(5)\nprint(f\"Type: {type(list_result)}\")\nprint(f\"Values: {list_result}\")\nprint(f\"Can iterate again: {list(list_result)}\")\n\nprint(\"\\nGenerator (one at a time):\")\ngen_result = count_up_to_generator(5)\nprint(f\"Type: {type(gen_result)}\")\nprint(\"Iterating through generator:\")\nfor num in gen_result:\n    print(f\"    Got: {num}\")\n\nprint(\"\\nTrying to iterate again (generator exhausted):\")\nprint(f\"List: {list(gen_result)}\")\n\nprint(\"\\n=== Practical Example: Reading Large File ===\")\n\ndef read_file_list(filename):\n    \"\"\"Reads entire file into memory\"\"\"\n    with open(filename) as f:\n        return f.readlines()  # All lines at once\n\ndef read_file_generator(filename):\n    \"\"\"Yields lines one at a time\"\"\"\n    with open(filename) as f:\n        for line in f:\n            yield line.strip()\n\n# Create test file\nwith open('test.txt', 'w') as f:\n    for i in range(5):\n        f.write(f\"Line {i + 1}\\n\")\n\nprint(\"\\nUsing generator to read file:\")\nfor line in read_file_generator('test.txt'):\n    print(f\"  {line}\")\n\nprint(\"\\n=== Generator with State ===\")\n\ndef fibonacci_generator(limit):\n    \"\"\"Generate Fibonacci sequence\"\"\"\n    a, b = 0, 1\n    count = 0\n    while count < limit:\n        yield a\n        a, b = b, a + b\n        count += 1\n\nprint(\"Fibonacci numbers:\")\nfor num in fibonacci_generator(10):\n    print(num, end=\" \")\nprint()\n\nprint(\"\\n=== Infinite Generator ===\")\n\ndef infinite_counter(start=0):\n    \"\"\"Infinite sequence - only possible with generators!\"\"\"\n    while True:\n        yield start\n        start += 1\n\nprint(\"First 10 from infinite counter:\")\ncounter = infinite_counter(100)\nfor _ in range(10):\n    print(next(counter), end=\" \")\nprint()\n\nprint(\"\\n=== Generator with Send ===\")\n\ndef echo_generator():\n    \"\"\"Generator that can receive values\"\"\"\n    while True:\n        received = yield\n        if received:\n            print(f\"  Received: {received}\")\n            yield f\"Echo: {received}\"\n\necho = echo_generator()\nnext(echo)  # Prime the generator\nresponse = echo.send(\"Hello\")\nprint(f\"  {response}\")\nnext(echo)\nresponse = echo.send(\"World\")\nprint(f\"  {response}\")\n\nimport os\nos.remove('test.txt')",
+      "explanation": "**yield keyword:**\n- Pauses function execution\n- Returns value to caller\n- Remembers state\n- Resumes on next iteration\n\n**Generator features:**\n- `next(gen)`: Get next value\n- `gen.send(value)`: Send value to generator\n- `gen.close()`: Stop generator\n- One-time use (exhausted after iteration)\n\n**Memory comparison:**\n```python\nlist(range(1000000))      # 8MB+ memory\n(x for x in range(1000000))  # ~128 bytes\n```",
+      "output": "=== List vs Generator ===\n\nList (all at once):\nType: <class 'list'>\nValues: [1, 2, 3, 4, 5]\nCan iterate again: [1, 2, 3, 4, 5]\n\nGenerator (one at a time):\nType: <class 'generator'>\nIterating through generator:\n  Generating 1\n    Got: 1\n  Generating 2\n    Got: 2\n  Generating 3\n    Got: 3\n  Generating 4\n    Got: 4\n  Generating 5\n    Got: 5\n\nTrying to iterate again (generator exhausted):\nList: []\n\n=== Practical Example: Reading Large File ===\n\nUsing generator to read file:\n  Line 1\n  Line 2\n  Line 3\n  Line 4\n  Line 5\n\n=== Generator with State ===\nFibonacci numbers:\n0 1 1 2 3 5 8 13 21 34 \n\n=== Infinite Generator ===\nFirst 10 from infinite counter:\n100 101 102 103 104 105 106 107 108 109 \n\n=== Generator with Send ===\n  Received: Hello\n  Echo: Hello\n  Received: World\n  Echo: World"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown",
+      "content": "**Generator function:**\n```python\ndef my_generator():\n    yield 1\n    yield 2\n    yield 3\n\ngen = my_generator()  # Creates generator object\nprint(next(gen))      # 1\nprint(next(gen))      # 2\n```\n\n**Generator expression:**\n```python\n# List comprehension (all at once)\nsquares_list = [x**2 for x in range(10)]\n\n# Generator expression (lazy)\nsquares_gen = (x**2 for x in range(10))\n```\n\n**Iterator protocol:**\n```python\nclass MyIterator:\n    def __iter__(self):\n        return self\n    \n    def __next__(self):\n        # Return next value or raise StopIteration\n        pass\n```\n\n**Using generators:**\n```python\n# In for loop\nfor item in my_generator():\n    print(item)\n\n# With next()\ngen = my_generator()\nvalue = next(gen)\n\n# Convert to list (caution: loads all into memory)\nall_values = list(my_generator())\n```"
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Generator Expressions and Pipelines",
+      "code": "print(\"=== Generator Expression vs List Comprehension ===\")\n\nimport sys\n\n# List comprehension - creates full list\nsquares_list = [x**2 for x in range(1000)]\nprint(f\"List size: {sys.getsizeof(squares_list)} bytes\")\n\n# Generator expression - lazy evaluation\nsquares_gen = (x**2 for x in range(1000))\nprint(f\"Generator size: {sys.getsizeof(squares_gen)} bytes\")\nprint(f\"Memory savings: {sys.getsizeof(squares_list) / sys.getsizeof(squares_gen):.1f}x\\n\")\n\nprint(\"=== Generator Pipeline ===\")\n\ndef read_numbers():\n    \"\"\"Simulate reading data\"\"\"\n    for i in range(1, 11):\n        print(f\"  Reading: {i}\")\n        yield i\n\ndef square(numbers):\n    \"\"\"Square each number\"\"\"\n    for n in numbers:\n        print(f\"  Squaring: {n}\")\n        yield n ** 2\n\ndef filter_large(numbers, threshold=50):\n    \"\"\"Filter numbers above threshold\"\"\"\n    for n in numbers:\n        if n > threshold:\n            print(f\"  Filtering: {n} (kept)\")\n            yield n\n        else:\n            print(f\"  Filtering: {n} (dropped)\")\n\n# Build pipeline (no execution yet!)\nprint(\"Building pipeline (lazy - nothing happens yet)...\")\npipeline = filter_large(square(read_numbers()), threshold=50)\nprint(f\"Pipeline created: {pipeline}\\n\")\n\nprint(\"Executing pipeline (pulling values)...\")\nresults = list(pipeline)\nprint(f\"\\nFinal results: {results}\")\n\nprint(\"\\n=== Practical Example: Data Processing ===\")\n\ndef read_log_lines(filename):\n    \"\"\"Read log file line by line\"\"\"\n    with open(filename) as f:\n        for line in f:\n            yield line.strip()\n\ndef parse_log_line(lines):\n    \"\"\"Parse log lines into structured data\"\"\"\n    for line in lines:\n        parts = line.split('|')\n        if len(parts) >= 3:\n            yield {\n                'timestamp': parts[0],\n                'level': parts[1],\n                'message': parts[2]\n            }\n\ndef filter_errors(logs):\n    \"\"\"Filter only ERROR level logs\"\"\"\n    for log in logs:\n        if log['level'] == 'ERROR':\n            yield log\n\n# Create sample log file\nwith open('app.log', 'w') as f:\n    f.write('2024-01-01 10:00|INFO|Application started\\n')\n    f.write('2024-01-01 10:05|ERROR|Database connection failed\\n')\n    f.write('2024-01-01 10:10|INFO|Retrying connection\\n')\n    f.write('2024-01-01 10:15|ERROR|Authentication failed\\n')\n    f.write('2024-01-01 10:20|INFO|Application stopped\\n')\n\nprint(\"Processing logs (memory efficient):\")\nlog_pipeline = filter_errors(parse_log_line(read_log_lines('app.log')))\n\nfor error in log_pipeline:\n    print(f\"  ERROR at {error['timestamp']}: {error['message']}\")\n\nprint(\"\\n=== Generator with Cleanup ===\")\n\ndef managed_resource():\n    \"\"\"Generator with setup and teardown\"\"\"\n    print(\"  Setting up resource...\")\n    resource = \"Database Connection\"\n    try:\n        for i in range(3):\n            print(f\"  Using resource: {i}\")\n            yield resource\n    finally:\n        print(\"  Cleaning up resource...\")\n\nprint(\"Using generator with cleanup:\")\nfor item in managed_resource():\n    print(f\"  Got: {item}\")\n\nimport os\nos.remove('app.log')",
+      "explanation": "**Generator expressions:**\n- Syntax: `(expression for item in iterable)`\n- Like list comprehension but with ()\n- Lazy evaluation\n- Much more memory efficient\n\n**Generator pipelines:**\n- Chain generators together\n- Each stage processes one item at a time\n- Very efficient for large datasets\n- Data flows through on demand\n\n**Benefits:**\n```python\n# Instead of:\ndata = read_all()           # 1GB in memory\nfiltered = filter_data(data) # 2GB in memory\nresult = process(filtered)   # 3GB in memory\n\n# Do this:\nresult = process(filter_data(read_all()))\n# Only processes one item at a time!\n```",
+      "output": "=== Generator Expression vs List Comprehension ===\nList size: 8856 bytes\nGenerator size: 112 bytes\nMemory savings: 79.1x\n\n=== Generator Pipeline ===\nBuilding pipeline (lazy - nothing happens yet)...\nPipeline created: <generator object filter_large at 0x...>\n\nExecuting pipeline (pulling values)...\n  Reading: 1\n  Squaring: 1\n  Filtering: 1 (dropped)\n  Reading: 2\n  Squaring: 2\n  Filtering: 4 (dropped)\n  Reading: 3\n  Squaring: 3\n  Filtering: 9 (dropped)\n  Reading: 4\n  Squaring: 4\n  Filtering: 16 (dropped)\n  Reading: 5\n  Squaring: 5\n  Filtering: 25 (dropped)\n  Reading: 6\n  Squaring: 6\n  Filtering: 36 (dropped)\n  Reading: 7\n  Squaring: 7\n  Filtering: 49 (dropped)\n  Reading: 8\n  Squaring: 8\n  Filtering: 64 (kept)\n  Reading: 9\n  Squaring: 9\n  Filtering: 81 (kept)\n  Reading: 10\n  Squaring: 10\n  Filtering: 100 (kept)\n\nFinal results: [64, 81, 100]\n\n=== Practical Example: Data Processing ===\nProcessing logs (memory efficient):\n  ERROR at 2024-01-01 10:05: Database connection failed\n  ERROR at 2024-01-01 10:15: Authentication failed\n\n=== Generator with Cleanup ===\nUsing generator with cleanup:\n  Setting up resource...\n  Using resource: 0\n  Got: Database Connection\n  Using resource: 1\n  Got: Database Connection\n  Using resource: 2\n  Got: Database Connection\n  Cleaning up resource..."
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise",
+      "instruction": "Create a batched_reader generator that:\n- Reads numbers from 1 to N\n- Yields them in batches of specified size\n- Example: batched_reader(10, batch_size=3) yields [1,2,3], [4,5,6], [7,8,9], [10]",
+      "starter_code": "def batched_reader(n, batch_size=10):\n    \"\"\"Yield numbers in batches\"\"\"\n    # TODO: Implement generator that yields batches\n    pass\n\n# Test your generator\nfor batch in batched_reader(25, batch_size=7):\n    print(f\"Batch: {batch}\")",
+      "hint": "Use a loop with range(1, n+1). Accumulate items in a list, yield when batch is full, and don't forget the final partial batch."
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution",
+      "solution_code": "def batched_reader(n, batch_size=10):\n    \"\"\"Yield numbers in batches\"\"\"\n    batch = []\n    for i in range(1, n + 1):\n        batch.append(i)\n        if len(batch) == batch_size:\n            yield batch\n            batch = []\n    \n    # Yield remaining items\n    if batch:\n        yield batch\n\ndef chunked_file_reader(filename, chunk_size=1024):\n    \"\"\"Read file in chunks (memory efficient for large files)\"\"\"\n    with open(filename, 'r') as f:\n        while True:\n            chunk = f.read(chunk_size)\n            if not chunk:\n                break\n            yield chunk\n\ndef sliding_window(iterable, window_size=3):\n    \"\"\"Create sliding window over iterable\"\"\"\n    iterator = iter(iterable)\n    window = []\n    \n    # Fill initial window\n    for _ in range(window_size):\n        try:\n            window.append(next(iterator))\n        except StopIteration:\n            return\n    \n    yield list(window)\n    \n    # Slide the window\n    for item in iterator:\n        window.pop(0)\n        window.append(item)\n        yield list(window)\n\nprint(\"=== Batched Reader ===\")\nfor batch in batched_reader(25, batch_size=7):\n    print(f\"Batch: {batch}\")\n\nprint(\"\\n=== Chunked File Reader ===\")\n# Create test file\nwith open('large_file.txt', 'w') as f:\n    f.write('A' * 100)\n\nprint(\"Reading file in 30-byte chunks:\")\nfor i, chunk in enumerate(chunked_file_reader('large_file.txt', chunk_size=30), 1):\n    print(f\"  Chunk {i}: {len(chunk)} bytes\")\n\nprint(\"\\n=== Sliding Window ===\")\ndata = [1, 2, 3, 4, 5, 6, 7, 8]\nprint(f\"Data: {data}\")\nprint(\"\\nSliding window (size=3):\")\nfor window in sliding_window(data, window_size=3):\n    print(f\"  {window}\")\n\nprint(\"\\n=== Practical: Moving Average ===\")\n\ndef moving_average(numbers, window_size=3):\n    \"\"\"Calculate moving average using sliding window\"\"\"\n    for window in sliding_window(numbers, window_size):\n        avg = sum(window) / len(window)\n        yield avg\n\nprices = [10, 12, 15, 14, 13, 16, 18, 17, 20, 22]\nprint(f\"Prices: {prices}\")\nprint(\"\\n3-day moving average:\")\nfor i, avg in enumerate(moving_average(prices, window_size=3), 1):\n    print(f\"  Day {i}: ${avg:.2f}\")\n\nprint(\"\\n=== Generator Composition ===\")\n\ndef even_numbers(limit):\n    \"\"\"Generate even numbers\"\"\"\n    for i in range(0, limit, 2):\n        yield i\n\ndef square(numbers):\n    \"\"\"Square each number\"\"\"\n    for n in numbers:\n        yield n ** 2\n\ndef sum_generator(numbers):\n    \"\"\"Calculate running sum\"\"\"\n    total = 0\n    for n in numbers:\n        total += n\n        yield total\n\nprint(\"Composing generators: even -> square -> running sum\")\nresult = sum_generator(square(even_numbers(10)))\nprint(f\"Results: {list(result)}\")\n\nimport os\nos.remove('large_file.txt')",
+      "explanation": "**Advanced generator patterns:**\n\n**1. Batching:**\n- Accumulate items\n- Yield when batch full\n- Don't forget final partial batch\n\n**2. Sliding window:**\n- Maintain window of N items\n- Slide by removing first, adding new\n- Useful for moving averages, smoothing\n\n**3. Generator composition:**\n- Chain multiple generators\n- Each processes one item at a time\n- Very memory efficient\n\n**When to use generators:**\n- Large datasets\n- Streaming data\n- Pipeline processing\n- Infinite sequences\n- When you don't need random access",
+      "output": "=== Batched Reader ===\nBatch: [1, 2, 3, 4, 5, 6, 7]\nBatch: [8, 9, 10, 11, 12, 13, 14]\nBatch: [15, 16, 17, 18, 19, 20, 21]\nBatch: [22, 23, 24, 25]\n\n=== Chunked File Reader ===\nReading file in 30-byte chunks:\n  Chunk 1: 30 bytes\n  Chunk 2: 30 bytes\n  Chunk 3: 30 bytes\n  Chunk 4: 10 bytes\n\n=== Sliding Window ===\nData: [1, 2, 3, 4, 5, 6, 7, 8]\n\nSliding window (size=3):\n  [1, 2, 3]\n  [2, 3, 4]\n  [3, 4, 5]\n  [4, 5, 6]\n  [5, 6, 7]\n  [6, 7, 8]\n\n=== Practical: Moving Average ===\nPrices: [10, 12, 15, 14, 13, 16, 18, 17, 20, 22]\n\n3-day moving average:\n  Day 1: $12.33\n  Day 2: $13.67\n  Day 3: $14.00\n  Day 4: $14.33\n  Day 5: $15.67\n  Day 6: $17.00\n  Day 7: $18.33\n  Day 8: $19.67\n\n=== Generator Composition ===\nComposing generators: even -> square -> running sum\nResults: [0, 4, 20, 56, 116]",
+      "common_mistakes": [
+        "Forgetting generators are one-time use (exhausted after iteration)",
+        "Trying to use len() on generators (not supported)",
+        "Converting large generator to list (defeats the purpose)",
+        "Not yielding the final partial batch in batching logic",
+        "Using return instead of yield (ends the generator)"
+      ]
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Generators use yield instead of return** - pause and resume execution",
+        "**Memory efficient** - generate values on demand, don't store all",
+        "**One-time use** - exhausted after iteration, can't reuse",
+        "**Generator expressions:** (x for x in iterable) - like list comp with ()",
+        "**Perfect for large datasets** - process millions of items with minimal memory",
+        "**Pipeline processing** - chain generators for efficient data transformation",
+        "**Infinite sequences possible** - while True: yield x",
+        "**Use next(gen) to get next value** - for loops call this automatically"
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "What's the main advantage of generators over lists?",
+        "options": [
+          "Generators are faster",
+          "Generators are memory efficient - values generated on demand",
+          "Generators can be sorted",
+          "Generators are easier to write"
+        ],
+        "correct_answer": 1,
+        "explanation": "Generators are memory efficient because they generate values on demand rather than storing all values in memory at once. Perfect for large datasets."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "What happens when you iterate through a generator twice?",
+        "options": [
+          "You get the same values both times",
+          "The second iteration returns nothing (generator is exhausted)",
+          "An error is raised",
+          "The generator resets automatically"
+        ],
+        "correct_answer": 1,
+        "explanation": "Generators are one-time use. After iterating through all values, the generator is exhausted and subsequent iterations yield nothing."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "What's the difference between [x**2 for x in range(10)] and (x**2 for x in range(10))?",
+        "options": [
+          "No difference",
+          "[] creates a list immediately, () creates a generator expression (lazy)",
+          "() is faster",
+          "[] is for tuples"
+        ],
+        "correct_answer": 1,
+        "explanation": "Square brackets [] create a list comprehension (evaluates immediately). Parentheses () create a generator expression (lazy evaluation)."
+      }
+    ]
+  }
+}
