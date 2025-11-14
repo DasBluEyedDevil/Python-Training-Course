@@ -1,0 +1,112 @@
+{
+  "lesson_id": "12_05",
+  "title": "Type Hints and Annotations",
+  "module_id": 12,
+  "order_index": 5,
+  "description": "Learn to use type hints for better code documentation and error prevention. Understand basic types, Optional, Union, generic types, and how type checkers improve code quality.",
+  "estimated_minutes": 30,
+  "content_blocks": [
+    {
+      "type": "the_simplifier",
+      "title": "The Concept: Documentation in Code",
+      "content": "**Type Hints = Code documentation + Error prevention**\n\n**Think of labeled containers:**\n\n❌ **Without type hints:**\n```python\ndef process(data, flag):\n    # What type is data? String? List?\n    # What's flag? Boolean? String?\n    pass\n```\n\n✅ **With type hints:**\n```python\ndef process(data: list[str], flag: bool) -> None:\n    # Clear! data is list of strings\n    # flag is boolean\n    # Returns nothing\n    pass\n```\n\n**Benefits:**\n\n1. **Better documentation** 📖\n   - See expected types at a glance\n   - No need to guess\n\n2. **IDE support** 🚀\n   - Better autocomplete\n   - Catch errors before running\n\n3. **Error prevention** 🛡️\n   - Type checkers find bugs\n   - Before code runs!\n\n4. **Code maintainability** 🔧\n   - Easier for others to understand\n   - Refactoring is safer\n\n**Important:** Type hints are **optional** and **not enforced at runtime**!\n- Python doesn't check types when running\n- Use tools like mypy for type checking\n- Mainly for development/tooling\n\n**Common types:**\n- `int`, `float`, `str`, `bool`\n- `list`, `dict`, `set`, `tuple`\n- `Optional[type]` - can be None\n- `Union[type1, type2]` - can be either\n- `Any` - any type"
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Basic Type Hints",
+      "code": "print(\"=== Basic Type Hints ===\")\n\n# Simple function with type hints\ndef greet(name: str) -> str:\n    \"\"\"Return a greeting message\"\"\"\n    return f\"Hello, {name}!\"\n\nresult = greet(\"Alice\")\nprint(result)\n\n# Multiple parameters\ndef add_numbers(a: int, b: int) -> int:\n    \"\"\"Add two integers\"\"\"\n    return a + b\n\nprint(f\"Sum: {add_numbers(5, 3)}\")\n\n# Default values with type hints\ndef create_user(name: str, age: int = 18, active: bool = True) -> dict:\n    \"\"\"Create user dictionary\"\"\"\n    return {'name': name, 'age': age, 'active': active}\n\nuser = create_user(\"Bob\", 25)\nprint(f\"User: {user}\")\n\nprint(\"\\n=== Collection Type Hints ===\")\n\n# List of specific type\ndef process_names(names: list[str]) -> list[str]:\n    \"\"\"Convert names to uppercase\"\"\"\n    return [name.upper() for name in names]\n\nnames = [\"alice\", \"bob\", \"charlie\"]\nprint(f\"Uppercase: {process_names(names)}\")\n\n# Dictionary with type hints\ndef count_words(text: str) -> dict[str, int]:\n    \"\"\"Count word frequency\"\"\"\n    words = text.split()\n    return {word: words.count(word) for word in set(words)}\n\nresult = count_words(\"hello world hello\")\nprint(f\"Word count: {result}\")\n\n# Tuple with specific types\ndef get_user_info(user_id: int) -> tuple[str, int, str]:\n    \"\"\"Return (name, age, email)\"\"\"\n    return (\"Alice\", 25, \"alice@example.com\")\n\nname, age, email = get_user_info(1)\nprint(f\"User: {name}, {age}, {email}\")\n\nprint(\"\\n=== Optional and None ===\")\n\nfrom typing import Optional\n\n# Optional means \"can be None\"\ndef find_user(user_id: int) -> Optional[dict]:\n    \"\"\"Find user by ID, return None if not found\"\"\"\n    if user_id == 1:\n        return {'id': 1, 'name': 'Alice'}\n    return None\n\nuser = find_user(1)\nprint(f\"Found: {user}\")\n\nuser = find_user(999)\nprint(f\"Not found: {user}\")\n\n# Modern Python 3.10+ can use | None\ndef find_product(product_id: int) -> dict | None:\n    \"\"\"Find product, None if not found\"\"\"\n    return None\n\nprint(\"\\n=== Union Types ===\")\n\nfrom typing import Union\n\n# Can be multiple types\ndef process_id(user_id: Union[int, str]) -> str:\n    \"\"\"Accept int or string ID\"\"\"\n    return f\"ID: {user_id}\"\n\nprint(process_id(123))\nprint(process_id(\"ABC123\"))\n\n# Modern Python 3.10+ can use |\ndef format_value(value: int | float | str) -> str:\n    \"\"\"Format any of these types\"\"\"\n    return f\"Value: {value}\"\n\nprint(format_value(42))\nprint(format_value(3.14))\nprint(format_value(\"text\"))\n\nprint(\"\\n=== Variable Annotations ===\")\n\n# Annotate variables\nname: str = \"Alice\"\nage: int = 25\nscores: list[int] = [85, 90, 92]\nconfig: dict[str, bool] = {'debug': True, 'verbose': False}\n\nprint(f\"Name: {name}, Age: {age}\")\nprint(f\"Scores: {scores}\")\nprint(f\"Config: {config}\")\n\n# Type hints don't prevent wrong types at runtime!\nname = 123  # No error! Type hints are not enforced\nprint(f\"Name is now: {name} (still works, but type checkers would complain)\")",
+      "explanation": "**Type hint syntax:**\n\n**Function annotations:**\n```python\ndef function(param: type) -> return_type:\n    pass\n```\n\n**Variable annotations:**\n```python\nvariable: type = value\n```\n\n**Important notes:**\n\n1. **Not enforced at runtime:**\n   ```python\n   def add(a: int, b: int) -> int:\n       return a + b\n   \n   add(\"hello\", \"world\")  # Works! No error at runtime\n   ```\n\n2. **Need type checker:**\n   - Use `mypy` or similar tool\n   - Checks types before running\n   - IDE integration\n\n3. **Modern syntax (Python 3.10+):**\n   ```python\n   # Old\n   Optional[str]  → str | None\n   Union[int, str] → int | str\n   ```",
+      "output": "=== Basic Type Hints ===\nHello, Alice!\nSum: 8\nUser: {'name': 'Bob', 'age': 25, 'active': True}\n\n=== Collection Type Hints ===\nUppercase: ['ALICE', 'BOB', 'CHARLIE']\nWord count: {'hello': 2, 'world': 1}\nUser: Alice, 25, alice@example.com\n\n=== Optional and None ===\nFound: {'id': 1, 'name': 'Alice'}\nNot found: None\n\n=== Union Types ===\nID: 123\nID: ABC123\nValue: 42\nValue: 3.14\nValue: text\n\n=== Variable Annotations ===\nName: Alice, Age: 25\nScores: [85, 90, 92]\nConfig: {'debug': True, 'verbose': False}\nName is now: 123 (still works, but type checkers would complain)"
+    },
+    {
+      "type": "the_simplifier",
+      "title": "Syntax Breakdown",
+      "content": "**Basic types:**\n```python\ndef func(x: int, y: str, z: bool) -> float:\n    pass\n```\n\n**Collections:**\n```python\n# Old style (typing module)\nfrom typing import List, Dict, Set, Tuple\nlist[str]     # Python 3.9+\nList[str]     # Older, still works\n\ndict[str, int]\nDict[str, int]\n\nset[int]\nSet[int]\n\ntuple[str, int, bool]  # Fixed size\nTuple[str, int, bool]\n```\n\n**Optional and Union:**\n```python\nfrom typing import Optional, Union\n\n# Can be None\nOptional[str]  # Same as Union[str, None]\nstr | None     # Python 3.10+\n\n# Multiple types\nUnion[int, str]\nint | str      # Python 3.10+\n```\n\n**Any and None:**\n```python\nfrom typing import Any\n\nAny          # Any type allowed\nNone         # Returns nothing\nvoid         # NOT valid in Python, use None\n```\n\n**Callable (function types):**\n```python\nfrom typing import Callable\n\n# Function that takes (int, str) and returns bool\nCallable[[int, str], bool]\n```"
+    },
+    {
+      "type": "the_coder",
+      "title": "Code Example: Advanced Type Hints",
+      "code": "from typing import Any, Callable, TypeVar, Generic\n\nprint(\"=== Any Type ===\")\n\ndef process_data(data: Any) -> Any:\n    \"\"\"Accept and return any type\"\"\"\n    return data\n\nprint(process_data(123))\nprint(process_data(\"text\"))\nprint(process_data([1, 2, 3]))\n\nprint(\"\\n=== Callable (Function) Types ===\")\n\ndef apply_operation(value: int, operation: Callable[[int], int]) -> int:\n    \"\"\"Apply a function to a value\"\"\"\n    return operation(value)\n\ndef double(x: int) -> int:\n    return x * 2\n\ndef square(x: int) -> int:\n    return x ** 2\n\nprint(f\"Double 5: {apply_operation(5, double)}\")\nprint(f\"Square 5: {apply_operation(5, square)}\")\n\n# Lambda with type hints (in context)\nresult = apply_operation(10, lambda x: x + 1)\nprint(f\"Add 1 to 10: {result}\")\n\nprint(\"\\n=== Type Aliases ===\")\n\n# Create type aliases for complex types\nVector = list[float]\nMatrix = list[list[float]]\nJSONDict = dict[str, Any]\n\ndef add_vectors(v1: Vector, v2: Vector) -> Vector:\n    \"\"\"Add two vectors\"\"\"\n    return [a + b for a, b in zip(v1, v2)]\n\nvec1: Vector = [1.0, 2.0, 3.0]\nvec2: Vector = [4.0, 5.0, 6.0]\nresult = add_vectors(vec1, vec2)\nprint(f\"Vector sum: {result}\")\n\nprint(\"\\n=== Class Type Hints ===\")\n\nclass User:\n    def __init__(self, name: str, age: int):\n        self.name: str = name\n        self.age: int = age\n    \n    def get_info(self) -> str:\n        \"\"\"Return user info\"\"\"\n        return f\"{self.name} ({self.age})\"\n    \n    @classmethod\n    def from_dict(cls, data: dict[str, Any]) -> 'User':\n        \"\"\"Create User from dictionary\"\"\"\n        return cls(data['name'], data['age'])\n    \n    def is_adult(self) -> bool:\n        \"\"\"Check if user is adult\"\"\"\n        return self.age >= 18\n\nuser = User(\"Alice\", 25)\nprint(user.get_info())\n\nuser2 = User.from_dict({'name': 'Bob', 'age': 30})\nprint(f\"Is Bob adult? {user2.is_adult()}\")\n\nprint(\"\\n=== Generic Types ===\")\n\nT = TypeVar('T')  # Generic type variable\n\ndef get_first(items: list[T]) -> T | None:\n    \"\"\"Get first item from list\"\"\"\n    return items[0] if items else None\n\n# Works with any type\nprint(f\"First int: {get_first([1, 2, 3])}\")\nprint(f\"First str: {get_first(['a', 'b', 'c'])}\")\nprint(f\"Empty: {get_first([])}\")\n\ndef swap_pair(a: T, b: T) -> tuple[T, T]:\n    \"\"\"Swap two values of same type\"\"\"\n    return b, a\n\nprint(f\"Swap ints: {swap_pair(1, 2)}\")\nprint(f\"Swap strs: {swap_pair('hello', 'world')}\")\n\nprint(\"\\n=== Practical Example: Typed Data Processing ===\")\n\nfrom typing import Iterator\n\ndef read_numbers(filename: str) -> Iterator[int]:\n    \"\"\"Read numbers from file, one per line\"\"\"\n    with open(filename) as f:\n        for line in f:\n            yield int(line.strip())\n\ndef calculate_stats(numbers: list[int]) -> dict[str, float]:\n    \"\"\"Calculate statistics\"\"\"\n    return {\n        'mean': sum(numbers) / len(numbers),\n        'min': float(min(numbers)),\n        'max': float(max(numbers))\n    }\n\n# Create test file\nwith open('numbers.txt', 'w') as f:\n    f.write('10\\n20\\n30\\n40\\n50')\n\nnumbers = list(read_numbers('numbers.txt'))\nstats = calculate_stats(numbers)\nprint(f\"Numbers: {numbers}\")\nprint(f\"Stats: {stats}\")\n\nprint(\"\\n=== Type Checking Example ===\")\n\ndef process_config(config: dict[str, str | int | bool]) -> None:\n    \"\"\"Process configuration\"\"\"\n    for key, value in config.items():\n        print(f\"{key}: {value} ({type(value).__name__})\")\n\nconfig = {\n    'host': 'localhost',\n    'port': 8080,\n    'debug': True,\n    'timeout': 30\n}\n\nprocess_config(config)\n\nimport os\nif os.path.exists('numbers.txt'):\n    os.remove('numbers.txt')",
+      "explanation": "**Advanced type hint concepts:**\n\n**1. Any:**\n- Accepts any type\n- Opts out of type checking\n- Use sparingly\n\n**2. Callable:**\n```python\nCallable[[arg1_type, arg2_type], return_type]\nCallable[[], None]  # No args, no return\n```\n\n**3. Type aliases:**\n```python\nUserId = int\nUserDict = dict[str, Any]\n```\n\n**4. TypeVar (generics):**\n```python\nT = TypeVar('T')\ndef func(x: T) -> T:  # Same type in and out\n    return x\n```\n\n**5. Self-referencing:**\n```python\nclass Node:\n    def get_parent(self) -> 'Node | None':\n        ...\n```\nUse quotes for forward references\n\n**Type checking tools:**\n- mypy: `mypy script.py`\n- pyright: Built into VS Code\n- pyre: Facebook's type checker",
+      "output": "=== Any Type ===\n123\ntext\n[1, 2, 3]\n\n=== Callable (Function) Types ===\nDouble 5: 10\nSquare 5: 25\nAdd 1 to 10: 11\n\n=== Type Aliases ===\nVector sum: [5.0, 7.0, 9.0]\n\n=== Class Type Hints ===\nAlice (25)\nIs Bob adult? True\n\n=== Generic Types ===\nFirst int: 1\nFirst str: a\nEmpty: None\nSwap ints: (2, 1)\nSwap strs: ('world', 'hello')\n\n=== Practical Example: Typed Data Processing ===\nNumbers: [10, 20, 30, 40, 50]\nStats: {'mean': 30.0, 'min': 10.0, 'max': 50.0}\n\n=== Type Checking Example ===\nhost: localhost (str)\nport: 8080 (int)\ndebug: True (bool)\ntimeout: 30 (int)"
+    },
+    {
+      "type": "the_coder",
+      "title": "Interactive Exercise",
+      "instruction": "Add complete type hints to this function:\n- Parameter: list of dictionaries with 'name' (str) and 'score' (int)\n- Return: dictionary mapping names to scores, only for scores >= 70",
+      "starter_code": "def get_passing_students(students):\n    \"\"\"Return dict of students with passing scores\"\"\"\n    # TODO: Add type hints to function signature\n    return {s['name']: s['score'] for s in students if s['score'] >= 70}\n\n# Test\nstudents = [\n    {'name': 'Alice', 'score': 85},\n    {'name': 'Bob', 'score': 65},\n    {'name': 'Charlie', 'score': 92}\n]\n\nresult = get_passing_students(students)\nprint(result)",
+      "hint": "Parameter type: list[dict[str, int | str]]. Return type: dict[str, int]"
+    },
+    {
+      "type": "the_coder",
+      "title": "Solution",
+      "solution_code": "from typing import Any\n\n# Solution 1: Precise typing\ndef get_passing_students(students: list[dict[str, int | str]]) -> dict[str, int]:\n    \"\"\"Return dict of students with passing scores\"\"\"\n    return {s['name']: s['score'] \n            for s in students \n            if isinstance(s['score'], int) and s['score'] >= 70}\n\n# Solution 2: Using TypedDict for better structure\nfrom typing import TypedDict\n\nclass Student(TypedDict):\n    name: str\n    score: int\n\ndef get_passing_students_typed(students: list[Student]) -> dict[str, int]:\n    \"\"\"Return dict of students with passing scores (using TypedDict)\"\"\"\n    return {s['name']: s['score'] for s in students if s['score'] >= 70}\n\n# Solution 3: Complete type-safe version\ndef process_students(\n    students: list[dict[str, Any]], \n    passing_score: int = 70\n) -> tuple[dict[str, int], list[str]]:\n    \"\"\"Return passing students and list of failing student names\"\"\"\n    passing: dict[str, int] = {}\n    failing: list[str] = []\n    \n    for student in students:\n        name = str(student['name'])\n        score = int(student['score'])\n        \n        if score >= passing_score:\n            passing[name] = score\n        else:\n            failing.append(name)\n    \n    return passing, failing\n\nprint(\"=== Testing Solutions ===\")\n\nstudents = [\n    {'name': 'Alice', 'score': 85},\n    {'name': 'Bob', 'score': 65},\n    {'name': 'Charlie', 'score': 92},\n    {'name': 'David', 'score': 58},\n    {'name': 'Eve', 'score': 78}\n]\n\nprint(\"\\nSolution 1: Basic typing\")\nresult = get_passing_students(students)\nprint(f\"Passing: {result}\")\n\nprint(\"\\nSolution 2: Using TypedDict\")\nresult = get_passing_students_typed(students)  # type: ignore\nprint(f\"Passing: {result}\")\n\nprint(\"\\nSolution 3: Complete processing\")\npassing, failing = process_students(students)\nprint(f\"Passing: {passing}\")\nprint(f\"Failing: {failing}\")\n\nprint(\"\\n=== More Complete Example ===\")\n\nclass StudentRecord(TypedDict):\n    \"\"\"Type definition for student record\"\"\"\n    name: str\n    score: int\n    grade: str\n\ndef calculate_grade(score: int) -> str:\n    \"\"\"Calculate letter grade from score\"\"\"\n    if score >= 90:\n        return 'A'\n    elif score >= 80:\n        return 'B'\n    elif score >= 70:\n        return 'C'\n    elif score >= 60:\n        return 'D'\n    return 'F'\n\ndef create_student_records(\n    students: list[dict[str, Any]]\n) -> list[StudentRecord]:\n    \"\"\"Create typed student records with grades\"\"\"\n    records: list[StudentRecord] = []\n    \n    for student in students:\n        record: StudentRecord = {\n            'name': str(student['name']),\n            'score': int(student['score']),\n            'grade': calculate_grade(int(student['score']))\n        }\n        records.append(record)\n    \n    return records\n\ndef generate_report(records: list[StudentRecord]) -> None:\n    \"\"\"Print formatted report\"\"\"\n    print(\"\\nStudent Report:\")\n    print(\"-\" * 40)\n    for record in records:\n        print(f\"{record['name']:15} Score: {record['score']:3} Grade: {record['grade']}\")\n    print(\"-\" * 40)\n    \n    avg: float = sum(r['score'] for r in records) / len(records)\n    print(f\"Class Average: {avg:.1f}\")\n\nrecords = create_student_records(students)\ngenerate_report(records)",
+      "explanation": "**Complete solution with type hints:**\n\n**Basic approach:**\n```python\nlist[dict[str, int | str]] -> dict[str, int]\n```\nDictionaries can have mixed value types\n\n**TypedDict approach:**\n```python\nclass Student(TypedDict):\n    name: str\n    score: int\n\nlist[Student] -> dict[str, int]\n```\nMore precise, better IDE support\n\n**Benefits of type hints:**\n- IDE autocomplete knows exact structure\n- Type checkers catch mismatches\n- Self-documenting code\n- Refactoring confidence\n\n**Best practices:**\n- Use TypedDict for structured dicts\n- Type return values\n- Use type aliases for complex types\n- Don't overuse Any\n- Run type checker (mypy) regularly",
+      "output": "=== Testing Solutions ===\n\nSolution 1: Basic typing\nPassing: {'Alice': 85, 'Charlie': 92, 'Eve': 78}\n\nSolution 2: Using TypedDict\nPassing: {'Alice': 85, 'Charlie': 92, 'Eve': 78}\n\nSolution 3: Complete processing\nPassing: {'Alice': 85, 'Charlie': 92, 'Eve': 78}\nFailing: ['Bob', 'David']\n\n=== More Complete Example ===\n\nStudent Report:\n----------------------------------------\nAlice           Score:  85 Grade: B\nBob             Score:  65 Grade: D\nCharlie         Score:  92 Grade: A\nDavid           Score:  58 Grade: F\nEve             Score:  78 Grade: C\n----------------------------------------\nClass Average: 75.6",
+      "common_mistakes": [
+        "Thinking type hints are enforced at runtime (they're not!)",
+        "Using wrong quote style for forward references (use 'ClassName')",
+        "Forgetting to import from typing module",
+        "Making type hints too complex and hard to read",
+        "Using List instead of list on Python 3.9+ (use lowercase)"
+      ]
+    },
+    {
+      "type": "key_takeaways",
+      "title": "Key Takeaways",
+      "takeaways": [
+        "**Type hints are optional** - Not enforced at runtime, for tooling/documentation",
+        "**Syntax: param: type -> return_type** - Annotate parameters and return values",
+        "**Use type checkers** - mypy, pyright catch errors before running",
+        "**Optional[T] means T | None** - Can be the type or None",
+        "**Union[A, B] means A | B** - Can be either type (Python 3.10+)",
+        "**TypedDict for structured dicts** - Better than dict[str, Any]",
+        "**list[str], dict[str, int]** - Use lowercase on Python 3.9+",
+        "**Benefits: IDE support, documentation, error prevention** - Makes code more maintainable"
+      ]
+    }
+  ],
+  "checkpoint_quiz": {
+    "questions": [
+      {
+        "id": 1,
+        "type": "multiple_choice",
+        "question": "What happens if you pass the wrong type to a function with type hints?",
+        "options": [
+          "Python raises a TypeError immediately",
+          "Nothing - type hints aren't enforced at runtime",
+          "The program crashes",
+          "Python automatically converts the type"
+        ],
+        "correct_answer": 1,
+        "explanation": "Type hints are not enforced at runtime. They're for documentation and tooling (like mypy). Python will run the code with any type."
+      },
+      {
+        "id": 2,
+        "type": "multiple_choice",
+        "question": "What does Optional[str] mean?",
+        "options": [
+          "The parameter is optional (has default value)",
+          "The value can be str or None",
+          "The string can be empty",
+          "The type is uncertain"
+        ],
+        "correct_answer": 1,
+        "explanation": "Optional[str] means the value can be either a string or None. It's equivalent to Union[str, None] or str | None in Python 3.10+."
+      },
+      {
+        "id": 3,
+        "type": "multiple_choice",
+        "question": "What's the difference between list and List for type hints?",
+        "options": [
+          "No difference",
+          "list is built-in (Python 3.9+), List is from typing module (older)",
+          "List is faster",
+          "list doesn't support generic types"
+        ],
+        "correct_answer": 1,
+        "explanation": "Python 3.9+ allows using built-in list directly (list[str]). Older versions need typing.List. The lowercase version is now preferred."
+      }
+    ]
+  }
+}

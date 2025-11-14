@@ -1,0 +1,269 @@
+{
+  "quiz_id": 12,
+  "module_id": 12,
+  "title": "Module 12: Advanced Topics - Comprehensive Quiz",
+  "description": "Test your understanding of decorators, generators, context managers, comprehensions, type hints, and regular expressions. 70% required to pass.",
+  "passing_score": 70,
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": "What does a decorator do to a function?",
+      "options": [
+        "Deletes it",
+        "Wraps it to add functionality without modifying it",
+        "Makes it faster",
+        "Converts it to a class"
+      ],
+      "correct_answer": 1,
+      "explanation": "Decorators wrap functions to add additional behavior (logging, timing, validation) without changing the original function's code."
+    },
+    {
+      "id": 2,
+      "type": "multiple_choice",
+      "question": "When stacking decorators like @A @B @C, what order are they applied?",
+      "options": [
+        "A, B, C (top to bottom)",
+        "C, B, A (bottom to top)",
+        "All at once",
+        "Random order"
+      ],
+      "correct_answer": 1,
+      "explanation": "Decorators are applied bottom to top. @A @B @C def func() is equivalent to A(B(C(func)))."
+    },
+    {
+      "id": 3,
+      "type": "multiple_choice",
+      "question": "What's the main advantage of generators over lists?",
+      "options": [
+        "Generators are faster to create",
+        "Generators are memory efficient - values generated on demand",
+        "Generators can be sorted",
+        "Generators are easier to write"
+      ],
+      "correct_answer": 1,
+      "explanation": "Generators use yield to generate values on demand, avoiding storing all values in memory at once. Perfect for large datasets."
+    },
+    {
+      "id": 4,
+      "type": "multiple_choice",
+      "question": "What happens when you iterate through a generator twice?",
+      "options": [
+        "You get the same values both times",
+        "The second iteration returns nothing (generator exhausted)",
+        "An error is raised",
+        "The generator resets"
+      ],
+      "correct_answer": 1,
+      "explanation": "Generators are one-time use. After exhaustion, subsequent iterations yield nothing. You must create a new generator."
+    },
+    {
+      "id": 5,
+      "type": "multiple_choice",
+      "question": "What's the difference between (x**2 for x in range(10)) and [x**2 for x in range(10)]?",
+      "options": [
+        "No difference",
+        "() creates a generator (lazy), [] creates a list (immediate)",
+        "() is faster",
+        "[] uses more CPU"
+      ],
+      "correct_answer": 1,
+      "explanation": "Parentheses create a generator expression (lazy evaluation), square brackets create a list comprehension (evaluated immediately)."
+    },
+    {
+      "id": 6,
+      "type": "multiple_choice",
+      "question": "What is the main benefit of context managers?",
+      "options": [
+        "They make code faster",
+        "They guarantee cleanup code runs, even if exceptions occur",
+        "They prevent all errors",
+        "They compress files"
+      ],
+      "correct_answer": 1,
+      "explanation": "Context managers ensure cleanup code (like closing files) runs even if an exception occurs, preventing resource leaks."
+    },
+    {
+      "id": 7,
+      "type": "multiple_choice",
+      "question": "What does __exit__ need to return to suppress an exception?",
+      "options": [
+        "None",
+        "False",
+        "True",
+        "The exception object"
+      ],
+      "correct_answer": 2,
+      "explanation": "__exit__ must return True to suppress the exception. Returning False or None propagates the exception normally."
+    },
+    {
+      "id": 8,
+      "type": "multiple_choice",
+      "question": "With @contextmanager, where does the code block inside 'with' execute?",
+      "options": [
+        "Before the yield",
+        "After the yield",
+        "At the yield statement",
+        "Never"
+      ],
+      "correct_answer": 2,
+      "explanation": "Code before yield is setup (__enter__), the with block executes at yield, code after yield is cleanup (__exit__)."
+    },
+    {
+      "id": 9,
+      "type": "multiple_choice",
+      "question": "What's the difference between [x for x in items if x > 0] and [x if x > 0 else 0 for x in items]?",
+      "options": [
+        "No difference",
+        "First filters (excludes items), second transforms (keeps all items)",
+        "Second is invalid",
+        "First is faster"
+      ],
+      "correct_answer": 1,
+      "explanation": "The first filters out negative items. The second transforms all items - positive stay the same, others become 0."
+    },
+    {
+      "id": 10,
+      "type": "multiple_choice",
+      "question": "What does {x**2 for x in range(5)} create?",
+      "options": [
+        "A list",
+        "A set",
+        "A dictionary",
+        "A tuple"
+      ],
+      "correct_answer": 1,
+      "explanation": "Curly braces with a single expression create a set comprehension, which automatically keeps only unique values."
+    },
+    {
+      "id": 11,
+      "type": "multiple_choice",
+      "question": "When should you avoid using comprehensions?",
+      "options": [
+        "Never - always use them",
+        "When logic is complex or involves side effects",
+        "When iterating over lists",
+        "When you need performance"
+      ],
+      "correct_answer": 1,
+      "explanation": "Avoid comprehensions for complex logic (hard to read) or side effects (printing, file I/O). Use regular loops instead."
+    },
+    {
+      "id": 12,
+      "type": "multiple_choice",
+      "question": "What happens if you pass the wrong type to a function with type hints?",
+      "options": [
+        "Python raises a TypeError",
+        "Nothing - type hints aren't enforced at runtime",
+        "The program crashes",
+        "Python converts the type"
+      ],
+      "correct_answer": 1,
+      "explanation": "Type hints are not enforced at runtime. They're for documentation and tooling (mypy). Python runs with any type."
+    },
+    {
+      "id": 13,
+      "type": "multiple_choice",
+      "question": "What does Optional[str] mean?",
+      "options": [
+        "The parameter has a default value",
+        "The value can be str or None",
+        "The string can be empty",
+        "The type is uncertain"
+      ],
+      "correct_answer": 1,
+      "explanation": "Optional[str] means the value can be str or None. Equivalent to Union[str, None] or str | None (Python 3.10+)."
+    },
+    {
+      "id": 14,
+      "type": "multiple_choice",
+      "question": "What's the modern Python 3.10+ equivalent of Union[int, str]?",
+      "options": [
+        "int or str",
+        "int | str",
+        "int + str",
+        "int, str"
+      ],
+      "correct_answer": 1,
+      "explanation": "Python 3.10+ allows using the pipe operator: int | str instead of Union[int, str]."
+    },
+    {
+      "id": 15,
+      "type": "multiple_choice",
+      "question": "Why use raw strings (r'') for regex patterns?",
+      "options": [
+        "They make regex faster",
+        "They prevent backslash escaping issues",
+        "They're required by re module",
+        "They enable case-insensitive matching"
+      ],
+      "correct_answer": 1,
+      "explanation": "Raw strings treat backslashes literally. Without r'', you'd need '\\\\d' instead of r'\\d' for a digit pattern."
+    },
+    {
+      "id": 16,
+      "type": "multiple_choice",
+      "question": "What's the difference between re.match() and re.search()?",
+      "options": [
+        "No difference",
+        "match() only checks start of string, search() checks anywhere",
+        "search() is faster",
+        "match() is case-sensitive"
+      ],
+      "correct_answer": 1,
+      "explanation": "re.match() only matches at the start of the string, re.search() looks for a match anywhere in the string."
+    },
+    {
+      "id": 17,
+      "type": "multiple_choice",
+      "question": "What does the regex pattern \\d{3,5} match?",
+      "options": [
+        "Exactly 3 or 5 digits",
+        "Between 3 and 5 digits",
+        "3 digits followed by 5 digits",
+        "At most 5 digits"
+      ],
+      "correct_answer": 1,
+      "explanation": "{3,5} means between 3 and 5 occurrences. So \\d{3,5} matches 3, 4, or 5 consecutive digits."
+    },
+    {
+      "id": 18,
+      "type": "multiple_choice",
+      "question": "In regex, what does the ^ anchor match?",
+      "options": [
+        "Any character",
+        "Start of string",
+        "End of string",
+        "Word boundary"
+      ],
+      "correct_answer": 1,
+      "explanation": "^ matches the start of the string. Use with $ for full string matching: ^pattern$ matches only if entire string matches."
+    },
+    {
+      "id": 19,
+      "type": "multiple_choice",
+      "question": "What do capturing groups in regex do?",
+      "options": [
+        "Make patterns case-insensitive",
+        "Extract specific parts of the match",
+        "Speed up matching",
+        "Create character classes"
+      ],
+      "correct_answer": 1,
+      "explanation": "Capturing groups (parentheses) extract specific parts. Access with match.group(1), match.group(2), etc."
+    },
+    {
+      "id": 20,
+      "type": "multiple_choice",
+      "question": "Which decorator preserves the original function's metadata?",
+      "options": [
+        "@preserve",
+        "@wraps from functools",
+        "@metadata",
+        "@original"
+      ],
+      "correct_answer": 1,
+      "explanation": "@wraps(func) from functools preserves the original function's __name__, __doc__, and other metadata in the decorated version."
+    }
+  ]
+}
