@@ -1,6 +1,6 @@
 """
 Python Learning Platform - Main Application
-Built with Flask 3.1.2 for Python 3.14+
+Built with Flask 3.0+ for Python 3.12+
 An interactive, comprehensive course from beginner to full-stack developer
 """
 
@@ -40,7 +40,7 @@ COURSE_STRUCTURE = {
             "id": 3,
             "title": "Making Decisions",
             "subtitle": "The 'Forks in the Road'",
-            "lessons": 5,
+            "lessons": 6,
             "icon": "🔀"
         },
         {
@@ -61,14 +61,14 @@ COURSE_STRUCTURE = {
             "id": 6,
             "title": "Creating Reusable Tools",
             "subtitle": "The 'Recipes'",
-            "lessons": 5,
+            "lessons": 6,
             "icon": "🧰"
         },
         {
             "id": 7,
             "title": "Handling Mistakes",
             "subtitle": "The 'Safety Nets'",
-            "lessons": 5,
+            "lessons": 6,
             "icon": "🛡️"
         },
         {
