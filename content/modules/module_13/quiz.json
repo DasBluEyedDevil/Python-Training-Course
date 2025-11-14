@@ -1,0 +1,269 @@
+{
+  "quiz_id": 13,
+  "module_id": 13,
+  "title": "Module 13: Web Development & APIs - Comprehensive Quiz",
+  "description": "Test your understanding of HTTP, REST APIs, Flask, databases, authentication, security, and API testing. 70% required to pass.",
+  "passing_score": 70,
+  "questions": [
+    {
+      "id": 1,
+      "type": "multiple_choice",
+      "question": "What does REST stand for in REST API?",
+      "options": [
+        "Remote Execution Service Technology",
+        "Representational State Transfer",
+        "Request-Response State Transaction",
+        "Reusable External Service Template"
+      ],
+      "correct_answer": 1,
+      "explanation": "REST stands for Representational State Transfer. It's an architectural style for designing networked applications using standard HTTP methods."
+    },
+    {
+      "id": 2,
+      "type": "multiple_choice",
+      "question": "Which HTTP method should be used to update an existing resource?",
+      "options": [
+        "GET",
+        "POST",
+        "PUT or PATCH",
+        "DELETE"
+      ],
+      "correct_answer": 2,
+      "explanation": "PUT (full update) or PATCH (partial update) are used to modify existing resources. POST creates new resources, GET retrieves data, DELETE removes resources."
+    },
+    {
+      "id": 3,
+      "type": "multiple_choice",
+      "question": "What status code should an API return when a resource is successfully created?",
+      "options": [
+        "200 OK",
+        "201 Created",
+        "204 No Content",
+        "301 Moved Permanently"
+      ],
+      "correct_answer": 1,
+      "explanation": "201 Created indicates successful resource creation. 200 OK is for general success, 204 for successful deletion with no content, 301 for redirects."
+    },
+    {
+      "id": 4,
+      "type": "multiple_choice",
+      "question": "In the requests library, how do you send JSON data in a POST request?",
+      "options": [
+        "requests.post(url, data={'key': 'value'})",
+        "requests.post(url, json={'key': 'value'})",
+        "requests.post(url, body={'key': 'value'})",
+        "requests.post(url, payload={'key': 'value'})"
+      ],
+      "correct_answer": 1,
+      "explanation": "Use json={'key': 'value'} parameter. The requests library automatically serializes the dictionary to JSON and sets the Content-Type header."
+    },
+    {
+      "id": 5,
+      "type": "multiple_choice",
+      "question": "What is the purpose of response.raise_for_status() in the requests library?",
+      "options": [
+        "It returns the HTTP status code",
+        "It raises an exception if the request failed (4xx or 5xx status)",
+        "It checks if the response is valid JSON",
+        "It validates the response headers"
+      ],
+      "correct_answer": 1,
+      "explanation": "raise_for_status() raises an HTTPError exception if the status code indicates an error (400-599), making it easy to catch and handle API errors."
+    },
+    {
+      "id": 6,
+      "type": "multiple_choice",
+      "question": "In Flask, how do you define a route that handles POST requests?",
+      "options": [
+        "@app.route('/path', method='POST')",
+        "@app.route('/path', methods=['POST'])",
+        "@app.post('/path')",
+        "Both B and C are correct"
+      ],
+      "correct_answer": 3,
+      "explanation": "Both @app.route('/path', methods=['POST']) and @app.post('/path') work in Flask. The methods parameter accepts a list of HTTP methods."
+    },
+    {
+      "id": 7,
+      "type": "multiple_choice",
+      "question": "How do you get JSON data from a request in Flask?",
+      "options": [
+        "request.json()",
+        "request.get_json()",
+        "request.data.json()",
+        "request.json"
+      ],
+      "correct_answer": 1,
+      "explanation": "request.get_json() parses the request body as JSON and returns a Python dictionary. It returns None if the request doesn't contain valid JSON."
+    },
+    {
+      "id": 8,
+      "type": "multiple_choice",
+      "question": "What does the jsonify() function do in Flask?",
+      "options": [
+        "Converts a string to JSON",
+        "Creates a Response object with JSON data and proper Content-Type header",
+        "Validates JSON data",
+        "Parses incoming JSON requests"
+      ],
+      "correct_answer": 1,
+      "explanation": "jsonify() creates a Flask Response object with JSON-serialized data and sets Content-Type to application/json. It's the proper way to return JSON from Flask routes."
+    },
+    {
+      "id": 9,
+      "type": "multiple_choice",
+      "question": "What's the main advantage of using parameterized queries (? placeholders) in SQL?",
+      "options": [
+        "They make queries run faster",
+        "They prevent SQL injection attacks",
+        "They automatically validate data types",
+        "They allow you to reuse queries"
+      ],
+      "correct_answer": 1,
+      "explanation": "Parameterized queries prevent SQL injection by separating SQL code from data. The database engine treats parameters as data, not executable SQL code."
+    },
+    {
+      "id": 10,
+      "type": "multiple_choice",
+      "question": "What does sqlite3.Row as row_factory do?",
+      "options": [
+        "It speeds up query execution",
+        "It allows accessing columns by name (row['column']) instead of index",
+        "It automatically creates table rows",
+        "It validates row data before insertion"
+      ],
+      "correct_answer": 1,
+      "explanation": "Setting row_factory to sqlite3.Row allows you to access columns by name (like a dictionary) instead of by numeric index, making code more readable."
+    },
+    {
+      "id": 11,
+      "type": "multiple_choice",
+      "question": "What is the difference between authentication and authorization?",
+      "options": [
+        "They are the same thing",
+        "Authentication verifies who you are, authorization verifies what you can do",
+        "Authorization happens before authentication",
+        "Authentication is for APIs, authorization is for web pages"
+      ],
+      "correct_answer": 1,
+      "explanation": "Authentication verifies identity (who you are - login). Authorization verifies permissions (what you can do - access control). Authentication must happen first."
+    },
+    {
+      "id": 12,
+      "type": "multiple_choice",
+      "question": "Why should passwords be hashed using algorithms like PBKDF2 instead of SHA256?",
+      "options": [
+        "SHA256 is slower than PBKDF2",
+        "PBKDF2 includes a salt and multiple iterations, making it resistant to rainbow tables and brute force",
+        "PBKDF2 produces shorter hashes",
+        "SHA256 doesn't work with passwords"
+      ],
+      "correct_answer": 1,
+      "explanation": "PBKDF2 uses a random salt (prevents rainbow tables) and many iterations (100,000+) to slow down brute force attacks. Simple hashing like SHA256 is too fast."
+    },
+    {
+      "id": 13,
+      "type": "multiple_choice",
+      "question": "What are the three components of a JWT token?",
+      "options": [
+        "Username, password, timestamp",
+        "Header, payload, signature",
+        "Token, key, expiration",
+        "ID, data, hash"
+      ],
+      "correct_answer": 1,
+      "explanation": "JWT tokens have three parts: header (algorithm info), payload (claims/data), and signature (verification). They're separated by dots: header.payload.signature"
+    },
+    {
+      "id": 14,
+      "type": "multiple_choice",
+      "question": "What HTTP status code should be returned when authentication is missing or invalid?",
+      "options": [
+        "400 Bad Request",
+        "401 Unauthorized",
+        "403 Forbidden",
+        "404 Not Found"
+      ],
+      "correct_answer": 1,
+      "explanation": "401 Unauthorized means 'authentication required or failed'. 403 Forbidden means 'authenticated but not authorized'. 400 is for bad input, 404 for missing resources."
+    },
+    {
+      "id": 15,
+      "type": "multiple_choice",
+      "question": "When should you return 403 Forbidden instead of 401 Unauthorized?",
+      "options": [
+        "When the token is missing",
+        "When the token is expired",
+        "When the user is authenticated but not authorized to access the resource",
+        "When the request is invalid"
+      ],
+      "correct_answer": 2,
+      "explanation": "403 Forbidden means 'I know who you are (authenticated) but you don't have permission to do this'. 401 means 'I don't know who you are (not authenticated)'."
+    },
+    {
+      "id": 16,
+      "type": "multiple_choice",
+      "question": "What is the purpose of pytest fixtures?",
+      "options": [
+        "To make tests run faster",
+        "To provide reusable setup code with automatic cleanup",
+        "To generate random test data",
+        "To skip tests that might fail"
+      ],
+      "correct_answer": 1,
+      "explanation": "Fixtures provide reusable setup code and ensure cleanup happens even if tests fail. They're perfect for creating test databases, auth tokens, or sample data."
+    },
+    {
+      "id": 17,
+      "type": "multiple_choice",
+      "question": "In Flask testing, what does app.test_client() return?",
+      "options": [
+        "A database connection",
+        "An object that can make HTTP requests to your API without running a server",
+        "A mock user for authentication",
+        "A test configuration object"
+      ],
+      "correct_answer": 1,
+      "explanation": "test_client() returns a test client that can make HTTP requests (GET, POST, etc.) to your Flask app without starting a web server. Perfect for testing!"
+    },
+    {
+      "id": 18,
+      "type": "multiple_choice",
+      "question": "What does ON DELETE CASCADE do in a foreign key relationship?",
+      "options": [
+        "It prevents the parent record from being deleted",
+        "It automatically deletes child records when the parent is deleted",
+        "It cascades updates to all related tables",
+        "It creates a backup before deletion"
+      ],
+      "correct_answer": 1,
+      "explanation": "CASCADE means 'automatically delete related records'. When you delete a post, ON DELETE CASCADE automatically deletes all its comments, preventing orphaned data."
+    },
+    {
+      "id": 19,
+      "type": "multiple_choice",
+      "question": "Why use SQL JOINs instead of separate queries for related data?",
+      "options": [
+        "JOINs are easier to write",
+        "JOINs prevent the N+1 query problem and are much faster",
+        "JOINs are more secure",
+        "You should always use separate queries"
+      ],
+      "correct_answer": 1,
+      "explanation": "JOINs fetch related data in one query instead of N+1 queries. For 100 posts with authors: separate queries = 101 database calls, JOIN = 1 call. Much faster!"
+    },
+    {
+      "id": 20,
+      "type": "multiple_choice",
+      "question": "In a decorator stack like @app.route @token_required @is_author, what order are they applied?",
+      "options": [
+        "Top to bottom (route → token → author)",
+        "Bottom to top (author → token → route)",
+        "All at once",
+        "Random order"
+      ],
+      "correct_answer": 1,
+      "explanation": "Decorators are applied bottom to top. The route runs first, then token_required checks authentication, then is_author checks authorization, finally the function runs."
+    }
+  ]
+}
